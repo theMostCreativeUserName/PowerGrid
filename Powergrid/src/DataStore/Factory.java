@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface Factory {
     static Factory newFactory() {
+        //TODO: write code here
         return new NeutralFactory();
     };
 
