@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PowerGrid.iml" filepath="$PROJECT_DIR$/PowerGrid.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Powergrid/Powergrid.iml" filepath="$PROJECT_DIR$/Powergrid/Powergrid.iml" />
     </modules>
   </component>
 </project>
