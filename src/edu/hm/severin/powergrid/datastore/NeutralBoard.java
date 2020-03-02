@@ -99,102 +99,9 @@ public class NeutralBoard implements Board {
     }
 
     /**
-     * through Edition.getCitySpecifications connections are organized into Map<City, City>
-     *  Complexity: 6
-     * @return Map of all city connections
+     * connects all cities, creates these connections and cities
+     * complexity: 9
      */
-    private Map<City,City> getConnectionsFromEdition() {
-        List<String> citySpecs = getEdition().getCitySpecifications();
-        Map<City, City> cityConnections = null;
-        Set<City> allCities = getCities();
-        // go through every city of the city-set
-     /*   while(this.getCities().iterator().hasNext()){
-            getCities().forEach(city -> {
-                City toCity = null;
-                while(citySpecs.iterator().hasNext()){
-                    citySpecs.forEach(listElement ->{
-                        if (listElement.contains(city.getName())){
-                            String[] singleCityArray = listElement.split(" ");
-                            if(singleCityArray[0] == city.getName()){
-                                int index = 0;
-                                while (index < singleCityArray.length){
-                                    if(index%2==0){
-                                        toCity = findCity(singleCityArray[index]);
-
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-            });
-        }*/
-        for (City fromCity : getCities()) {
-            //goes through every string of citySpecifications
-
-            for (String SpecElement : citySpecs) {
-                if (SpecElement.contains(fromCity.getName())) {
-                    String[] singleCityArray = SpecElement.split(" ");
-                    if (singleCityArray[0] == fromCity.getName()) {
-                        int index = 0;
-                        while (index < singleCityArray.length) {
-                            if (index % 2 == 0 && index != 0) {
-                                 City toCity = findCity(singleCityArray[index]);
-                                cityConnections.put(fromCity, toCity);
-                            }
-                            index++;
-                        }
-                    } else {
-                        City toCity = findCity(singleCityArray[0]);
-                        cityConnections.put(fromCity, toCity);
-                    }
-                }
-            }
-        }
-        return cityConnections;
-    }
-
-    /**
-     * complexity: 7
-     * @param fromCity
-     * @return complete connections of one city
-     */
-    private Map<City, Integer> connectSingleCity(City fromCity) {
-        List<String> citySpecs = getEdition().getCitySpecifications();
-        String fromCityName = fromCity.getName();
-        Map<City,Integer> connections = null;
-        City toCity = new NeutralCity("n", 1);
-        int cost = 0;
-
-        for (String specElement : citySpecs) {
-            if (specElement.contains(fromCityName)) {
-                String[] specArray = specElement.split(" ");
-                // cityname is first element
-                if (specElement.startsWith(fromCityName)) {
-                    for (int index = 2; index < specArray.length; index += 2) {
-                        toCity = findCity(specArray[index]);
-                        if (specArray.length < 3)
-                            cost = Integer.valueOf(specArray[index + 1]);
-                    }
-                } else {
-                    String sCity = specArray[0];
-                    toCity = findCity(sCity);
-                    for (int index = 0; index < specArray.length; index++) {
-                        // here is a problem somewhere.....
-                        String arrayElement = specArray[index];
-                        if (arrayElement.contains(fromCityName)) {
-                            // int costIndex = index;
-                            cost = Integer.valueOf(specArray[index + 1]);
-                        }
-                    }
-                }
-                connections.put(toCity,cost);
-            }
-        }
-        return connections;
-    }
-
-
     private void connectAll(){
         List<String> citySpecs = getEdition().getCitySpecifications();
         Set<City> cityName = getCities();
@@ -226,47 +133,13 @@ public class NeutralBoard implements Board {
                             }
                         }
                     }
-                    if (!city.getConnections().containsKey(toCity)) {
+                    if (!city.getConnections().containsKey(toCity) && toCity!=null) {
                         city.connect(toCity, cost);
-                        System.out.println(city.getConnections());
+                        System.out.println(city.getName()+
+                                city.getConnections());
                     }
                 }
             }
         }
     }
-    /**
-     * trough Edition.citySpecifications costs for connections are found
-     * complexity: 4
-     * @return int cost of the connection
-     */
-    private int findConnectionCost(City from, City to){
-        int cost = -1;
-        for (String singleCity: getEdition().getCitySpecifications()) {
-            if (singleCity.contains(from.getName()) && singleCity.contains(to.getName())) {
-                if (singleCity.startsWith(from.getName())) {
-                    int startIndex = singleCity.indexOf(to.getName());
-                    cost = Integer.valueOf(singleCity.charAt(startIndex+to.getName().length()+1));
-                }else{
-                    int startIndex = singleCity.indexOf(from.getName());
-                    cost = Integer.valueOf(singleCity.charAt(startIndex+from.getName().length()+1));
-                }
-            }
-        }
-        return cost;
-    }
-
-    /**
-     * connects all cities, through city.connect()
-     * complexity: 1
-     */
-    private void connectAllCities(){
-        Map<City,City> allConnections = getConnectionsFromEdition();
-        for(Map.Entry<City, City> entry : allConnections.entrySet()){
-            City from = entry.getKey();
-            City to = entry.getValue();
-            from.connect(to, findConnectionCost(from, to));
-            System.out.println(from.getConnections());
-        }
-    }
-
 }
