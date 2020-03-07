@@ -1,13 +1,6 @@
 package edu.hm.cs.rs.powergrid.datastore;
 
-import edu.hm.cs.rs.powergrid.Bag;
 import static org.junit.Assert.assertEquals;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.Timeout;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author R. Schiedermeier, rs@cs.hm.edu

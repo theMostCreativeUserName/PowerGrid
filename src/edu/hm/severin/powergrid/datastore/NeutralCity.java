@@ -1,11 +1,10 @@
 package edu.hm.severin.powergrid.datastore;
 
-import edu.hm.cs.rs.powergrid.Edition;
-import edu.hm.cs.rs.powergrid.EditionGermany;
 import edu.hm.cs.rs.powergrid.datastore.City;
-import edu.hm.cs.rs.powergrid.datastore.Factory;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class NeutralCity implements City {
     private final String name;
@@ -15,7 +14,7 @@ public class NeutralCity implements City {
 
     NeutralCity(String name, int area) {
         Objects.requireNonNull(name);
-        if (area < 1 || name == "") {
+        if (area < 1 || name.equals("")) {
             throw new IllegalArgumentException("name or area of city is invalid");
         } else {
             this.name = name;
@@ -31,7 +30,7 @@ public class NeutralCity implements City {
     }
 
     @Override
-    public int getArea() {
+    public int getRegion() {
         return area;
     }
 
@@ -61,7 +60,7 @@ public class NeutralCity implements City {
 
     @Override
     public String toString() {
-        return getName() + " " + getArea();
+        return getName() + " " + getRegion();
     }
 
 }

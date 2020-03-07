@@ -21,7 +21,7 @@ public interface Plant {
          * Kann Kohle und Oel verbrennen.
          * Einzelheiten setzt die Spiellogik um.
          */
-        Hybrid,
+        Hybrid(Resource.Coal, Resource.Oil),
         /** Braucht keine Rohstoffe. */
         Eco,
         /** Braucht keine Rohstoffe. */
@@ -30,26 +30,20 @@ public interface Plant {
         Level3;
 
         /**
-         * Rohstoff, den dieser Kraftwerkstyp braucht.
-         * null, wenn es keinen oder mehrere gibt.
+         * Rohstoffe, die dieser Kraftwerkstyp verbrauchen kann.
          */
-        private final Resource resource;
+        private final Resource[] resources;
 
-        Type(Resource resource) {
-            this.resource = resource;
-        }
-
-        Type() {
-            this(null);
+        Type(Resource... resources) {
+            this.resources = resources;
         }
 
         /**
-         * Rohstoff, wenn das Kw ausschliesslich einen einzigen braucht.
-         * @return Rohstoff, den dieser Kraftwerkstyp braucht.
-         * null, wenn das Kw keinen braucht oder mehrere verarbeiten kann.
+         * Liste der Rohstoffe, die dieser Kraftwerkstyp verbrauchen kann.
+         * @return Rohstoffe fuer diesen Kraftwerkstyp.
          */
-        public Resource getResource() {
-            return resource;
+        public Set<Resource> getResources() {
+            return Set.of(resources);
         }
 
     }
@@ -61,13 +55,13 @@ public interface Plant {
     int getNumber();
 
     /**
-     * Anzahl Staedte, die dieses Kraftwerk versorgen kann.
+     * Anzahl Staedte, die dieses Kraftwerk mit Strom versorgen kann.
      * @return Anzahl Staedte. Nicht negativ.
      */
     int getCities();
 
     /**
-     * Anzahl Rohstoffe, die dieses Kraftwerk braucht.
+     * Anzahl Rohstoffe, die dieses Kraftwerk braucht, egal welcher Art.
      * @return Anzahl Rohstoffe. Nicht negativ.
      */
     int getNumberOfResources();
@@ -81,15 +75,19 @@ public interface Plant {
     boolean hasOperated();
 
     /**
-     * Rohstoffsammlungen, die dieses Kraftwerk verbrennen kann.
-     * @return Verschiedene Rohstoffsammlungen. Nicht null und nicht leer.
-     * Menge und Elemente unveraenderlich.
-     */
-    Set<Bag<Resource>> getResources();
-
-    /**
      * Legt fest, ob  dieses Kraftwerk Strom produziert hat.
      * @param operated true genau dann, wenn dieses Kw Strom produziert hat.
      */
     void setOperated(boolean operated);
+
+    /**
+     * Rohstoffsammlungen, die dieses Kraftwerk verbrennen kann.
+     * Wenn das Kw nur eine Sorte verbraucht, hat die Menge nur ein Element.
+     * Wenn das Kw verschiedene Sorten akzeptiert,
+     * enthaelt die Menge alle zulaessigen Kombinationen.
+     * Wenn das Kw nichts braucht, enthaelt die Menge eine leere Sammlung als einziges Element.
+     * @return Verschiedene Rohstoffsammlungen. Nicht null und nicht leer.
+     * Menge und Elemente unveraenderlich.
+     */
+    Set<Bag<Resource>> getResources();
 }

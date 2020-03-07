@@ -16,35 +16,35 @@ public interface Factory {
      * Wenn diese Systemproperty undefiniert ist,
      * gilt die Umgebungsvariable POWERGRID_FACTORYTYPE.
      * @return neue Factory.
+     * @throws RuntimeException wenn weder Systemproperty noch Umgebungsvariable definiert sind.
      */
     static Factory newFactory() {
         return newFactory(System.getProperty("powergrid.factory",
-                System.getenv("POWERGRID_FACTORY")));
+                                             System.getenv("POWERGRID_FACTORY")));
     }
 
     /**
      * Liefert eine neue Factory des gegebenen Typs.
      * @param fqcn Fully qualified Classname der konkreten Factoryklasse.
      * @return neue Factory.
+     * @throws RuntimeException wenn die Methode kein Objekt des Typs erzeugen kann.
      */
     static Factory newFactory(String fqcn) {
         try {
             return (Factory)Class.forName(fqcn)
                     .getConstructor()
                     .newInstance();
-        }
-        catch(ReflectiveOperationException e) {
+        } catch(ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
 
     /**
-     * Eine Stadt, noch ohne Verbindungen.
-     * Erst ist wenigstens ein connect-Aufruf noetig, dann einmal close.
+     * Eine Stadt.
      * @param name Name. Nicht null und nicht leer.
-     * @param area Gebiet, in dem diese Stadt liegt. Wenigstens 1.
+     * @param region Gebiet, in dem diese Stadt liegt. Wenigstens 1.
      */
-    City newCity(String name, int area);
+    City newCity(String name, int region);
 
     /**
      * Ein Spieler.
@@ -78,25 +78,16 @@ public interface Factory {
 
     /**
      * Ein Spielplan.
-     * Fuegt die Staedte der Edition und ihre Verbidnungen in den Spielplan ein.
      * @param edition Ausgabe des Spieles.
      * @return Spielplan.
      */
     Board newBoard(Edition edition);
 
-    /**
-     * Eine Auktion.
-     * @param plant   Kraft, um das es geht. Nicht null.
-     * @param players Spieler, die an der Auktion teilnehmen. Nicht null, nicht leer.
-     * @return Auktion. Nicht null.
-     */
-    Auction newAuction(Plant plant, List<Player> players);
 
     /**
-     * Ein Spiel, noch ohne Spieler.
+     * Ein Spiel.
      * @param edition Ausgabe des Spieles.
      * @return Spiel. Nicht null.
      */
     Game newGame(Edition edition);
-
 }

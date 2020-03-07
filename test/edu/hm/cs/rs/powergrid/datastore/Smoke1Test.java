@@ -29,7 +29,7 @@ public class Smoke1Test {
         // act
         // assert
         Assert.assertEquals("Entenhausen", sut.getName());
-        Assert.assertEquals(1, sut.getArea());
+        Assert.assertEquals(1, sut.getRegion());
     }
     @Test (expected =  IllegalArgumentException.class)
     public void newIllegalCity1() {
@@ -60,7 +60,7 @@ public class Smoke1Test {
     @Test public void getCityArea() {
         // arrange
         City sut = factory.newCity("Entenhausen", 1);
-        Assert.assertEquals(sut.getArea(), 1);
+        Assert.assertEquals(sut.getRegion(), 1);
     }
     @Test public void connectCity1(){
         City sut = factory.newCity("city", 1);
@@ -137,11 +137,43 @@ public class Smoke1Test {
     @Test public void closeRegionsBoard1(){
         Board sut = factory.newBoard(new EditionGermany());
         sut.closeRegions(2);
-        Assert.assertEquals(null, sut.findCity("Leipzig"));
+        Assert.assertEquals(null, sut.findCity("München"));
     }
-    @Test public void getCitiesOfBoard(){
+    @Test (expected = NullPointerException.class)
+    public void closeRegionsBoard2(){
+        Board sut = factory.newBoard(new EditionGermany());
+        sut.closeRegions(2);
+        Assert.assertEquals(null, sut.findCity("München").getConnections());
+    }
+    @Test (expected = IllegalStateException.class)
+    public void closeRegionsBoard4(){
+        Board sut = factory.newBoard(new EditionGermany());
+        sut.close();
+        sut.closeRegions(2);
+    }
+    @Test public void closeRegionsBoard3(){
+        Board sut = factory.newBoard(new EditionGermany());
+        sut.closeRegions(2);
+        Assert.assertEquals(14,sut.getCities().size() );
+    }
+    @Test public void closeRegionsBoard5(){
+        Board sut = factory.newBoard(new EditionGermany());
+        sut.closeRegions(2);
+        City city = sut.findCity("Berlin");
+        System.out.println(city.getName()+city.getConnections());
+        Assert.assertTrue(sut.findCity("Berlin").getConnections().size() == 4);
+    }
+    @Test public void getCitiesOfBoard1(){
         Board sut = factory.newBoard(new EditionGermany());
         Assert.assertEquals(42,sut.getCities().size());
+    }
+    @Test public void getCitiesOfBoard2(){
+        Board sut = factory.newBoard(new EditionGermany());
+        Assert.assertEquals(factory.newCity("Würzburg",4).toString(), sut.findCity("Würzburg").toString());
+    }
+    @Test public void getCitiesOfBoard3(){
+        Board sut = factory.newBoard(new EditionGermany());
+        Assert.assertFalse( sut.findCity("Würzburg").getConnections().isEmpty());
     }
 
 }

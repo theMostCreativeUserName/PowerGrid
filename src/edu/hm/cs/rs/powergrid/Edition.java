@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Ausgabe des Spieles.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version 2020-02-09
+ * @version 2020-01-08
  */
 public interface Edition {
     /**
@@ -110,6 +110,13 @@ public interface Edition {
     List<Integer> getPlayersEndgameCities();
 
     /**
+     * Anzahl Gebiete der Karte, auf denen das Spiel ablaeuft.
+     * Die uebrigen Gebiete fallen weg.
+     * Index = Spieleranzahl.
+     */
+    List<Integer> getRegionsUsed();
+
+    /**
      * Spezifikationen der Kraftwerke.
      * Jeder String hat den Aufbau "Nummer Typ Staedte".
      * Die Nummer sind eindeutig, positiv und nicht fortlaufend.
@@ -134,8 +141,8 @@ public interface Edition {
      *
      * Beispiel: "Cuxhaven 1 Bremen 8 Hamburg 11" bedeutet:
      * Cuxhafen liegt in Region 1.
-     * Die Verbindung zwischen Cuxhaven und Bremen kostet 8,
-     * zwischen Cuxhaven und Hamburg 11.
+     * Die Verbindung zwischen Cuxhaven und Bremen kostet 8 Elektro (egal in welcher Richtung),
+     * die zwischen Cuxhaven und Hamburg 11 Elektro.
      */
     List<String> getCitySpecifications();
 

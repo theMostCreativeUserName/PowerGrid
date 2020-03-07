@@ -18,7 +18,7 @@ public interface City {
      * Gebiet, in dem die Stadt liegt.
      * @return Gebiet. Wenigstens 1.
      */
-    int getArea();
+    int getRegion();
 
     /**
      * Verbindet diese Stadt mit einer anderen.

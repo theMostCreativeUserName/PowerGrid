@@ -17,9 +17,21 @@ public interface Player  {
 
     /**
      * Staedte, die dieser Spieler an sein Netz angeschlossen hat.
-     * @return Unveraenderliche Menge der Staedte. Nicht null.
+     * @return Menge der Staedte. Nicht null.
      */
     Set<City> getCities();
+
+    /**
+     * Die Kraftwerke dieses Spielers.
+     * @return  Menge der Kraftwerke. Nicht null.
+     */
+    Set<Plant> getPlants();
+
+    /**
+     * Die Rohstoffe, die der Spieler in seinen Kraftwerken lagert.
+     * @return  Rohstoffe. Nicht null.
+     */
+    Bag<Resource> getResources();
 
     /**
      * Das Vermoegen.
@@ -28,22 +40,18 @@ public interface Player  {
     int getElectro();
 
     /**
+     * Legt das Vermoegen neu fest.
+     * @param electro Anzahl Elektro. Nicht negativ.
+     */
+    void setElectro(int electro);
+
+    /**
      * Test, ob der Spieler schon an der Reihe war.
      * @return true genau dann, wenn der Spieler an der Reihe war.
      */
     boolean hasPassed();
 
-    /**
-     * Die Kraftwerke dieses Spielers.
-     * @return Unveraenderliche Menge der Kraftwerke. Nicht null.
-     */
-    Set<Plant> getPlants();
-
-    /**
-     * Die Rohstoffe, die der Spieler in seinen Kraftwerken lagert.
-     * @return Unveranederliche Rohstoffe. Nicht null.
-     */
-    Bag<Resource> getResources();
+    void setPassed(boolean passed);
 
     /**
      * Liefert das Geheimnis dieses Spielers.
@@ -58,13 +66,5 @@ public interface Player  {
      * @return true, wenn der String das Geheimnis ist; false ansonsten.
      */
     boolean hasSecret(String secret);
-
-    /**
-     * Legt das Vermoegen neu fest.
-     * @param electro Anzahl Elektro. Nicht negativ.
-     */
-    void setElectro(int electro);
-
-    void setPassed(boolean passed);
 
 }

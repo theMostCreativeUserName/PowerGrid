@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 /**
  * Ausgabe Deutschland.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version 2020-02-09
+ * @version 2020-01-11
  */
 public class EditionGermany implements Edition {
     @Override public int getPlayersMinimum() {
@@ -27,11 +27,11 @@ public class EditionGermany implements Edition {
     }
 
     @Override public int getActualPlants(int levelIndex) {
-        return new int[] {4, 4, 6} [levelIndex];
+        return new int[] {4, 4, 6}[levelIndex];
     }
 
     @Override public int getFuturePlants(int levelIndex) {
-        return new int[] {4, 4, 0} [levelIndex];
+        return new int[] {4, 4, 0}[levelIndex];
     }
 
     @Override public Map<Resource, Integer> getResourceToNumber() {
@@ -43,14 +43,14 @@ public class EditionGermany implements Edition {
 
     @Override public Map<Resource, List<Integer>> getResourceAvailableToCost() {
         final List<Integer> groupsOf3 = IntStream.range(0, 24)
-                .map(n -> 8 - (n - 1) / 3)
+                .map(n -> 8 - n/3)
                 .boxed()
                 .collect(Collectors.toList());
         return Map.of(Resource.Coal, groupsOf3,
                 Resource.Oil, groupsOf3,
                 Resource.Garbage, groupsOf3,
                 Resource.Uranium, IntStream.range(0, 12)
-                        .map(n -> n > 4? 13 - n: 18 - 2 * n)
+                        .map(n -> n > 3? 12 - n: 16 - 2*n)
                         .boxed()
                         .collect(Collectors.toList()));
     }
@@ -102,6 +102,12 @@ public class EditionGermany implements Edition {
 
     @Override public List<Integer> getPlayersEndgameCities() {
         return List.of(-1, -1, 21, 17, 17, 15, 14);
+    }
+
+    @Override public List<Integer> getRegionsUsed() {
+        // das letzte Element weicht von den Originalregeln ab.
+        // (dort nur 5 Regionen).
+        return List.of(-1, -1, 3, 3, 4, 5, 6);
     }
 
     @Override public List<String> getPlantSpecifications() {

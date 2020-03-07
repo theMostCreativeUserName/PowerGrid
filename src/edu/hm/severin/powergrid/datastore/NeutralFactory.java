@@ -37,11 +37,6 @@ public class NeutralFactory implements Factory {
     }
 
     @Override
-    public Auction newAuction(Plant plant, List<Player> players) {
-        return null;
-    }
-
-    @Override
     public Game newGame(Edition edition) {
         return null;
     }
