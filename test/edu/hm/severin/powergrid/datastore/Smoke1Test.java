@@ -1,7 +1,10 @@
-package edu.hm.cs.rs.powergrid.datastore;
+package edu.hm.severin.powergrid.datastore;
 
 
 import edu.hm.cs.rs.powergrid.EditionGermany;
+import edu.hm.cs.rs.powergrid.datastore.Board;
+import edu.hm.cs.rs.powergrid.datastore.City;
+import edu.hm.cs.rs.powergrid.datastore.Factory;
 import org.junit.Assert;
 import static org.junit.Assert.assertFalse;
 import org.junit.Rule;
