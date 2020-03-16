@@ -109,7 +109,6 @@ public class NeutralBoard implements Board {
      * connects all cities, creates these connections
      * complexity: 12
      * TODO: reduce complexity
-     * (maybe export inner stuff from second loop to new method; eg find cost)
      */
     private void connectAll() {
         List<String> citySpecs = getEdition().getCitySpecifications();
