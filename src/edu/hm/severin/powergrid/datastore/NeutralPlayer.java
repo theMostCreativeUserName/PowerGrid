@@ -9,15 +9,15 @@ import edu.hm.cs.rs.powergrid.datastore.Resource;
 import java.util.Set;
 
 public class NeutralPlayer implements Player {
-    final String secret;
-    final String color;
-    boolean passed;
-    int electro;
-    Set<City> cities;
-    Set<Plant> plants;
-    Bag<Resource> resources;
+    private final String secret;
+    private final String color;
+    private boolean passed;
+    private int electro;
+    private Set<City> cities;
+    private Set<Plant> plants;
+    private Bag<Resource> resources;
 
-    public NeutralPlayer(String secret, String color) {
+    public NeutralPlayer(final String secret, final String color) {
         this.secret = secret;
         this.color = color;
     }
@@ -68,7 +68,7 @@ public class NeutralPlayer implements Player {
     }
 
     @Override
-    public boolean hasSecret(String secret) {
+    public boolean hasSecret(final String secret) {
         return false;
     }
 }

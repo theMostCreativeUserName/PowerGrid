@@ -7,39 +7,73 @@ import edu.hm.cs.rs.powergrid.datastore.Factory;
 
 import java.util.*;
 
+/**
+ * the board of the game.
+ * @author Severin
+ * @version 2020-03-23
+ */
 public class NeutralBoard implements Board {
-    private boolean open;
+    private static int HTML_CORRECTER = 48;
+
+    /** Factory used for this board. */
+    private final Factory factory;
+
+    /** edition of the board. */
     private final Edition edition;
+
+    /** state of the bord.
+     * if open: board can be changed
+     * if closed: no more changes valid*/
+    private boolean open;
+
+    /** includes all possible cities names. */
     private Set<City> cityNames;
 
-    NeutralBoard(Edition edition) {
+    /**
+     * A new board.
+     * @param edition Edition of the board. Not Null.
+     */
+    NeutralBoard(final Edition edition) {
         Objects.requireNonNull(edition);
         this.edition = edition;
+        this.factory = new NeutralFactory();
+        //default state
         open = true;
+        // method exported. Collects all City-Names of Edition
         this.cityNames = getCityNamesFromEdition();
+        // connects all cities in cityNames
         connectAll();
     }
 
     /**
-     * removes cities and connections of area > remaining
+     * removes cities and connections, if area > remaining.
+     * also updates the Variable cityNames
      * complexity: 6
+     * @param remaining highest area that should remain
      */
     @Override
-    public void closeRegions(int remaining) {
+    public void closeRegions(final int remaining) {
         if (!open) throw new IllegalStateException("Board is closed");
         Set<City> allCities = getCities();
-        // city Set as Array to go through each single city
+        // converts city Set to array
+        // and goes through every element of the new Array (for each loop)
+        // (this is needed to not be offset by the changing cityNames)
         City[] cityArray = allCities.toArray(new City[getCities().size()]);
         for (City city : cityArray) {
-            // deletes city from citySet and its connections
+            // deletes city from citySet
             if (city.getRegion() > remaining)
                 getCities().remove(city);
             else {
+                // creates a Set of connections,
+                // of the current city (the ArrayElement)
                 Set<City> connectedCities = city.getConnections().keySet();
-                City[]connectedArray = connectedCities.toArray(new City[city.getConnections().size()]);
+                // same thing as before-> Set to Array
+                City[]connectedArray = connectedCities.toArray(
+                        new City[city.getConnections().size()]);
                 // deletes invalid cities from a valid cities connections
                 for (City connected : connectedArray) {
-                    if (connected.getRegion() > remaining) city.getConnections().remove(connected);
+                    if (connected.getRegion() > remaining)
+                        city.getConnections().remove(connected);
                 }
             }
         }
@@ -47,13 +81,13 @@ public class NeutralBoard implements Board {
 
 
     /**
-     * finds a city in the set of all cities
-     *
-     * @return found city or null
+     * finds a city in the set cityNames.
      * complexity: 3
+     * @param name Name of the requested city
+     * @return found city or null
      */
     @Override
-    public City findCity(String name) {
+    public City findCity(final String name) {
         City found = null;
         City[] cityArray = getCities().toArray(new City[getCities().size()]);
         for (City city : cityArray) {
@@ -64,14 +98,27 @@ public class NeutralBoard implements Board {
         return found;
     }
 
+    /**
+     * get all city names.
+     * @return cityNames
+     */
     @Override
     public Set<City> getCities() {
         return cityNames;
     }
 
+    /** closes board and all its cities.
+     * @throws IllegalStateException if board is already closed
+     */
     @Override
     public void close() {
-        open = false;
+        if (open) {
+            open = false;
+            Set<City> allCities = getCities();
+            for (City city:allCities) {
+                city.close();
+            }
+        } else throw new IllegalStateException("Board is already closed.");
     }
 
     private Edition getEdition() {
@@ -80,35 +127,30 @@ public class NeutralBoard implements Board {
 
 
     /**
-     * gets List from edition.getCitySpecifications
+     * gets List from edition.getCitySpecifications (citySpecs).
      * and sorts out the first word(=CityName) of every String
      * and reorders into a Set
      * complexity: 2
-     *
      * @return Set of all cities
      */
     private Set<City> getCityNamesFromEdition() {
-        // city Specs. as Array, so you can actually do stuff
-        City[] cityArray = new City[getEdition().getCitySpecifications().size()];
-        Factory factory = new NeutralFactory();
-        int index = 0;
-        while (index != getEdition().getCitySpecifications().size()) {
-            String citySpecElement = getEdition().getCitySpecifications().get(index);
+        HashSet<City> citySet = new HashSet<>();
+
+        for (int counter = 0; counter < getEdition().getCitySpecifications().size(); counter++) {
+            String citySpecElement = getEdition().getCitySpecifications().get(counter);
             // first word of String
             String cityName = citySpecElement.substring(0, citySpecElement.indexOf(' '));
             // java automatically converts chars to their html number code
             // for numbers this has to be corrected by distracting the html- numberCode of 0 (= 48)
-            int area = citySpecElement.charAt(cityName.length() + 1) - 48;
-            cityArray[index] = factory.newCity(cityName, area);
-            index++;
+            int area = citySpecElement.charAt(cityName.length() + 1) - HTML_CORRECTER;
+            citySet.add(factory.newCity(cityName, area));
         }
-        return new HashSet<>(Arrays.asList(cityArray));
+        return citySet;
     }
 
     /**
-     * connects all cities, creates these connections
+     * connects all cities, creates their connections.
      * complexity: 12
-     * TODO: reduce complexity
      */
     private void connectAll() {
         List<String> citySpecs = getEdition().getCitySpecifications();
@@ -121,7 +163,6 @@ public class NeutralBoard implements Board {
             //goes through city specifics
             for (String specElement : citySpecs) {
                 if (specElement.contains(fromCityName)) {
-
                     String[] specArray = specElement.split(" ");
                     // cityname is first element
                     if (specElement.startsWith(fromCityName)) {

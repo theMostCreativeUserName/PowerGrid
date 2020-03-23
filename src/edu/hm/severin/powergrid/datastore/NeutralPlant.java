@@ -7,11 +7,11 @@ import edu.hm.cs.rs.powergrid.datastore.Resource;
 import java.util.Set;
 
 public class NeutralPlant implements Plant {
-    final int number;
-    final Plant.Type type;
-    final int resources;
-    final int cities;
-    boolean operated;
+    private final int number;
+    private final Plant.Type type;
+    private final int resources;
+    private final int cities;
+    private boolean operated;
 
     public NeutralPlant(int number, Type type, int resources, int cities) {
         this.number = number;
