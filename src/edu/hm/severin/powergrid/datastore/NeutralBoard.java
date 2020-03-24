@@ -13,7 +13,8 @@ import java.util.*;
  * @version 2020-03-23
  */
 public class NeutralBoard implements Board {
-    private static int HTML_CORRECTER = 48;
+    /** constant to correct the offset of unicode numbers*/
+    private static int htmlCorrecter = 48;
 
     /** Factory used for this board. */
     private final Factory factory;
@@ -142,7 +143,7 @@ public class NeutralBoard implements Board {
             String cityName = citySpecElement.substring(0, citySpecElement.indexOf(' '));
             // java automatically converts chars to their html number code
             // for numbers this has to be corrected by distracting the html- numberCode of 0 (= 48)
-            int area = citySpecElement.charAt(cityName.length() + 1) - HTML_CORRECTER;
+            int area = citySpecElement.charAt(cityName.length() + 1) - htmlCorrecter;
             citySet.add(factory.newCity(cityName, area));
         }
         return citySet;

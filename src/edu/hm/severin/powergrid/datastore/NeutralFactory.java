@@ -24,7 +24,7 @@ public class NeutralFactory implements Factory {
      */
     @Override
     public Player newPlayer(final String secret, final String color) {
-        return null;
+        return new NeutralPlayer(secret, color);
     }
 
     /**
@@ -39,7 +39,7 @@ public class NeutralFactory implements Factory {
      */
     @Override
     public Plant newPlant(final int number, final Plant.Type type, final int resources, final int cities) {
-        return null;
+        return new NeutralPlant(number,type,resources,cities);
     }
 
     /**
