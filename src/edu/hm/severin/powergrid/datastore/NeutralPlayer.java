@@ -29,7 +29,7 @@ public class NeutralPlayer implements Player {
     /** plants the player owns. */
     private Set<Plant> plants = new HashSet<>();
     /** resources the player stores. */
-    private Bag<Resource> resources;
+    private Bag<Resource> resources = null;
 
     /** A new player. */
     public NeutralPlayer(final String secret, final String color) {
@@ -110,7 +110,7 @@ public class NeutralPlayer implements Player {
     @Override
     public boolean hasSecret(final String secret) {
         boolean knowsSecret = false;
-        if (secret == this.secret) knowsSecret = true;
+        if (secret.equals(this.secret)) knowsSecret = true;
         return knowsSecret;
     }
 }

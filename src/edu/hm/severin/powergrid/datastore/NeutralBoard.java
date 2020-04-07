@@ -56,6 +56,7 @@ public class NeutralBoard implements Board {
     public void closeRegions(final int remaining) {
         if (!open) throw new IllegalStateException("Board is closed");
         Set<City> allCities = getCities();
+        int originalCities = allCities.size();
         // converts city Set to array
         // and goes through every element of the new Array (for each loop)
         // (this is needed to not be offset by the changing cityNames)
@@ -78,6 +79,8 @@ public class NeutralBoard implements Board {
                 }
             }
         }
+        // originalCities == Number of cities in CitySpecifications
+        assert originalCities >getCities().size();
     }
 
 
@@ -96,6 +99,7 @@ public class NeutralBoard implements Board {
                 found = city;
             }
         }
+        assert getCities().contains(found) || found == null;
         return found;
     }
 
@@ -120,6 +124,7 @@ public class NeutralBoard implements Board {
                 city.close();
             }
         } else throw new IllegalStateException("Board is already closed.");
+        assert this.open == false;
     }
 
     private Edition getEdition() {
@@ -146,6 +151,7 @@ public class NeutralBoard implements Board {
             int area = citySpecElement.charAt(cityName.length() + 1) - htmlCorrecter;
             citySet.add(factory.newCity(cityName, area));
         }
+        assert getEdition().getCitySpecifications().size() == citySet.size();
         return citySet;
     }
 
@@ -173,7 +179,7 @@ public class NeutralBoard implements Board {
                                 city.connect(toCity, cost);
                         }
                     } else {
-
+                        // cityName not first element
                         String sCity = specArray[0];
                         toCity = findCity(sCity);
                         for (int index = 0; index < specArray.length; index++) {
@@ -185,9 +191,11 @@ public class NeutralBoard implements Board {
                         }
                         if (!city.getConnections().containsKey(toCity) && toCity != null) {
                             city.connect(toCity, cost);
+
                         }
                     }
                 }
+                assert city.getConnections() != null;
             }
         }
     }

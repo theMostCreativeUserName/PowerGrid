@@ -80,6 +80,7 @@ public class NeutralCity implements City {
             getConnections().put(to, cost);
         } else throw new IllegalStateException("city is closed already");
 
+        assert to.getConnections() != null;
     }
 
     /**
