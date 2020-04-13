@@ -5,8 +5,10 @@ import edu.hm.cs.rs.powergrid.datastore.City;
 import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.Resource;
+import edu.hm.severin.powergrid.ListBag;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class NeutralPlayer implements Player {
@@ -29,7 +31,7 @@ public class NeutralPlayer implements Player {
     /** plants the player owns. */
     private Set<Plant> plants = new HashSet<>();
     /** resources the player stores. */
-    private Bag<Resource> resources = null;
+    private Bag<Resource> resources = new ListBag<>();
 
     /** A new player. */
     public NeutralPlayer(final String secret, final String color) {
