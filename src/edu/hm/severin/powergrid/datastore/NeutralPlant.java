@@ -138,6 +138,7 @@ public class NeutralPlant implements Plant {
         }
         usable.immutable();
         canUse.add(usable);
+        assert canUse.size() >=0;
         return canUse;
     }
 }

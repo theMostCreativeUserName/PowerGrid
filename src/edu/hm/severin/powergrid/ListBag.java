@@ -79,20 +79,24 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
 
     public boolean add(E e) {
         boolean added;
+        int compareSize = this.size();
         if (!readOnly) {
             listAdd(e);
             added = true;
         } else added = false;
+        assert this.size() >= compareSize;
         return added;
     }
 
     @Override
     public boolean remove(Object o) {
+        int compareSize = this.size();
         boolean removed;
         if (!readOnly) {
             listRemove(o);
             removed = true;
         }else removed = false;
+        assert this.size() <= compareSize;
         return removed;
     }
 
@@ -120,6 +124,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
             int times = count(element);
             result.add((E) (name + " : " + times));
         }
+        assert result.size()>=0;
         return result;
     }
 
@@ -132,11 +137,13 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public Bag<E> add(E element, int times) {
+        int compare = this.size();
         if (times < 0) throw new IllegalArgumentException();
         Bag<E> result = new ListBag<>(getElements());
         for (int count = 0; count < times; count++) {
             result.add(element);
         }
+        assert compare<= this.size();
         return result;
     }
 
@@ -148,12 +155,14 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public Bag<E> add(Bag<? extends E> that) {
+        int compare = this.size();
         Bag<E> result = new ListBag<>(getElements());
         Iterator thatIterator = that.iterator();
         while (thatIterator.hasNext()) {
             result.add((E) thatIterator.next());
             that.iterator().next();
         }
+        assert compare<= this.size();
         return result;
     }
 
@@ -169,6 +178,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
         for (E thisElements : getElements()) {
             if (thisElements.equals(element)) elementNumber++;
         }
+        assert elementNumber>=0;
         return elementNumber;
     }
 
@@ -191,6 +201,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
                 contained = false;
             }
         }
+        assert doubletNumber>=0;
         return doubletNumber >= that.size();
     }
 
@@ -204,12 +215,14 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public Bag<E> remove(Bag<E> that) throws NoSuchElementException {
+        int compare = this.size();
         Bag<E> result = new ListBag<>(getElements());
         Iterator thatIterator = that.iterator();
             while (thatIterator.hasNext()) {
                 result.remove((E) thatIterator.next());
                 that.iterator().next();
             }
+            assert compare <= this.size();
             return result;
 
     }
@@ -224,11 +237,14 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public Bag<E> remove(Object element, int times) {
+        int compare = this.size();
         if (times < 0) throw new IllegalArgumentException();
         Bag<E> result = new ListBag<>(getElements());
         for (int count = 0; count < times; count++) {
             result.remove(element);
         }
+        assert compare <= this.size();
+
         return result;
     }
 
@@ -246,11 +262,13 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
         /**
          * global counter of Iterator
          */
+        // set this way to be able to access element at index 0
         private int count = -1;
 
         @Override
         public boolean hasNext() {
             boolean result;
+            // prevent outOfBounds
             if (elements.size() > count + 1)
                 result = true;
             else result = false;
@@ -276,6 +294,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
         for (E element : getElements()) {
             size++;
         }
+        assert size >=0;
         return size;
     }
 
