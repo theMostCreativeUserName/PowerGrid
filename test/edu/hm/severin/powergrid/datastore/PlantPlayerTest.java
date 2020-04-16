@@ -4,6 +4,7 @@ package edu.hm.severin.powergrid.datastore;
 import edu.hm.cs.rs.powergrid.datastore.Factory;
 import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.Player;
+import edu.hm.severin.powergrid.BagTest;
 import org.junit.Assert;
 
 import org.junit.Rule;
@@ -13,10 +14,11 @@ import org.junit.rules.Timeout;
 import static org.junit.Assert.*;
 
 /**
- * @author R. Schiedermeier, rs@cs.hm.edu
- * @version last modified 2020-03-01
+ * test for plant and player classes
+ * @author Severin
  */
-public class PlantPlayerTest {
+
+public class PlantPlayerTest extends BagTest {
     @Rule public Timeout globalTimeout = Timeout.seconds(1); // max seconds per test
 
     private final String fqcn = "edu.hm.severin.powergrid.datastore.NeutralFactory";
@@ -70,32 +72,32 @@ public class PlantPlayerTest {
     }
     @Test public void plantGetResources1(){
         Plant plant = factory.newPlant(1, Plant.Type.Coal, 2,1);
-        assertEquals("[ListBag{elements=[Coal]}]", plant.getResources().toString());
+        assertEquals("[[Coal]]", plant.getResources().toString());
     }
     @Test public void plantGetResources2(){
         Plant plant = factory.newPlant(1, Plant.Type.Oil, 2,1);
-        assertEquals("[ListBag{elements=[Oil]}]", plant.getResources().toString());
+        assertEquals("[[Oil]]", plant.getResources().toString());
     }
     @Test public void plantGetResources3(){
         Plant plant = factory.newPlant(1, Plant.Type.Garbage, 2,1);
-        assertEquals("[ListBag{elements=[Garbage]}]", plant.getResources().toString());
+        assertEquals("[[Garbage]]", plant.getResources().toString());
     }
     @Test public void plantGetResources4(){
         Plant plant = factory.newPlant(1, Plant.Type.Uranium, 2,1);
-        assertEquals("[ListBag{elements=[Uranium]}]", plant.getResources().toString());
+        assertEquals("[[Uranium]]", plant.getResources().toString());
     }
     @Test public void plantGetResources5(){
         Plant plant = factory.newPlant(1, Plant.Type.Hybrid, 2,1);
-        assertEquals("[ListBag{elements=[Coal, Oil]}]", plant.getResources().toString());
+        assertEquals("[[Coal, Oil]]", plant.getResources().toString());
     }
     @Test public void plantGetResources6(){
         Plant plant = factory.newPlant(1, Plant.Type.Eco, 2,1);
-        assertEquals("[ListBag{elements=[]}]", plant.getResources().toString());
+        assertEquals("[[]]", plant.getResources().toString());
     }
 
     @Test public void plantGetResources7(){
         Plant plant = factory.newPlant(1, Plant.Type.Fusion, 2,1);
-        assertEquals("[ListBag{elements=[]}]", plant.getResources().toString());
+        assertEquals("[[]]", plant.getResources().toString());
     }
     @Test public void newPlayer() {
         // arrange

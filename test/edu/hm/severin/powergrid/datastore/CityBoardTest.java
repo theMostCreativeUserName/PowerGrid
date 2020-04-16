@@ -12,8 +12,12 @@ import org.junit.Test;
 import org.junit.rules.Timeout;
 
 
+/**
+ * test for city and board classes
+ * @author Severin
+ */
 public class CityBoardTest extends PlantPlayerTest{
-   @Rule public Timeout globalTimeout = Timeout.seconds(1); // max seconds per test
+  @Rule public Timeout globalTimeout = Timeout.seconds(1); // max seconds per test
 
     private final String fqcn = "edu.hm.severin.powergrid.datastore.NeutralFactory"; // package path
 
@@ -110,6 +114,12 @@ public class CityBoardTest extends PlantPlayerTest{
         Assert.assertEquals("{city2 2=30}",sut.getConnections().toString());
     }
 
+    @Test (expected = IllegalStateException.class)
+    public void closeBoard(){
+        Board sut = getBoardGermany();
+        sut.close();
+        sut.close();
+    }
     @Test public void newBoard() {
         // arrange
         Board sut = getBoardGermany();

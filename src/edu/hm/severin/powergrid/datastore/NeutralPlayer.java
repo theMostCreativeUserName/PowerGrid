@@ -11,6 +11,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * creates player.
+ * @author Severin
+ * @complexity: 14
+ */
+
 public class NeutralPlayer implements Player {
 
     /** counts calls for secret*/

@@ -3,7 +3,11 @@ package edu.hm.severin.powergrid.datastore;
 import edu.hm.cs.rs.powergrid.Edition;
 import edu.hm.cs.rs.powergrid.datastore.*;
 
-
+/**
+ * creates Factory.
+ * @author Severin
+ * @complexity: 8
+ */
 public class NeutralFactory implements Factory {
     /**
      * new City.
@@ -12,7 +16,7 @@ public class NeutralFactory implements Factory {
      * @return new City
      */
     @Override
-    public City newCity(final String name,final int area) {
+    public City newCity(final String name, final int area) {
         return new NeutralCity(name, area);
     }
 
@@ -39,7 +43,7 @@ public class NeutralFactory implements Factory {
      */
     @Override
     public Plant newPlant(final int number, final Plant.Type type, final int resources, final int cities) {
-        return new NeutralPlant(number,type,resources,cities);
+        return new NeutralPlant(number, type, resources, cities);
     }
 
     /**

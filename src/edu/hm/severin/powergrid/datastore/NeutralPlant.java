@@ -10,19 +10,19 @@ import java.util.Set;
 
 public class NeutralPlant implements Plant {
     /**
-     * number of plant
+     * number of plant.
      */
     private final int number;
     /**
-     * type of plant
+     * type of plant.
      */
     private final Plant.Type type;
     /**
-     * number of resources used by plant
+     * number of resources used by plant.
      */
-    private final int NumberOfResources;
+    private final int numberOfResources;
     /**
-     * number of cities that can be provided
+     * number of cities that can be provided.
      */
     private final int cities;
     /**
@@ -37,7 +37,7 @@ public class NeutralPlant implements Plant {
 
         this.number = number;
         this.type = type;
-        this.NumberOfResources = resources;
+        this.numberOfResources = resources;
         this.cities = cities;
     }
 
@@ -68,7 +68,7 @@ public class NeutralPlant implements Plant {
      */
     @Override
     public int getNumberOfResources() {
-        return NumberOfResources;
+        return numberOfResources;
     }
 
     /**
@@ -116,7 +116,7 @@ public class NeutralPlant implements Plant {
         Plant.Type type = getType();
         Set<Bag<Resource>> canUse = new HashSet<>();
         Bag<Resource> usable = new ListBag<>();
-       switch (type) {
+        switch (type) {
             case Coal:
                 usable.add(Resource.Coal);
                 break;
@@ -134,11 +134,11 @@ public class NeutralPlant implements Plant {
                 usable.add(Resource.Oil);
                 break;
             }
-           default:{}
+            default: {
+            }
         }
-        usable.immutable();
-        canUse.add(usable);
-        assert canUse.size() >=0;
+        Bag<Resource> imutableUsable = usable.immutable();
+        canUse.add(imutableUsable);
         return canUse;
     }
 }

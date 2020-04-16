@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * a city of the game.
+ * @author Severin
+ * @complexity: 13
+ * */
 public class NeutralCity implements City {
     /**
      * Name of city.
@@ -34,6 +39,7 @@ public class NeutralCity implements City {
      * a new city.
      * @param name Name of City. Not null; not empty
      * @param area Area of City. Bigger 0
+     * @complexity: 3
      */
     NeutralCity(final String name, final int area) {
         if (name.isEmpty())
@@ -65,7 +71,7 @@ public class NeutralCity implements City {
 
     /**
      * connects two cities.
-     * complexity: 4
+     * @complexity: 4
      * @param cost cost of the connection
      * @param to City to connect to
      */

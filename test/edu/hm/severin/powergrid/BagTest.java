@@ -13,43 +13,38 @@ import org.junit.rules.Timeout;
 import java.util.*;
 
 /**
- * Smoketest fuer Bag.
- *
- * @author R. Schiedermeier, rs@cs.hm.edu
- * @version last modified 2020-04-05
+ *tests for bag.
+ * @author Severin
  */
 public class BagTest {
     /**
      * Maximale Laufzeit jedes  einzelnen Tests.
      * Verhindert Endlosschleifen.
      */
-    @Rule
-    public Timeout globalTimeout = Timeout.seconds(1);
+    @Rule public Timeout globalTimeout = Timeout.seconds(1);
 
     /**
      * Konkreter Bag-Typ.
      * TODO: Fuegen Sie hier Ihre Typ ein.
      */
-    private static final Class<? extends Bag> bagType = ListBag.class;
-    private Bag<Character> x;
+    private static final Class<? extends Bag> bagType = edu.hm.severin.powergrid.ListBag.class;
 
     /**
      * Eine neue, leere Tuete.
-     *
      * @return Tuete. Nicht null.
      */
     private <E> Bag<E> getSUT() {
         try {
             return bagType.getDeclaredConstructor()
                     .newInstance();
-        } catch (ReflectiveOperationException e) {
+        }
+        catch(ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
 
     /**
      * Eine neue Tuete mit den Elementen einer Collection.
-     *
      * @param collection Collection, deren Elemente die neue Tuete enthaelt.
      * @return Tuete. Nicht null.
      */
@@ -57,10 +52,12 @@ public class BagTest {
         try {
             return bagType.getDeclaredConstructor(Collection.class)
                     .newInstance(collection);
-        } catch (ReflectiveOperationException e) {
+        }
+        catch(ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
+
 
     /**
      * Eine neue Tuete mit gegebenen Elementen.
@@ -110,14 +107,14 @@ public class BagTest {
         Bag<String> copy = sut.immutable();
         assertEquals(sut.toString(), copy.toString());
     }
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void immutable2() {
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
         Bag<String> copy = sut.immutable();
         copy.add("5th");
         assertEquals(sut.toString(), copy.toString());
     }
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void immutable3() {
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
         Bag<String> copy = sut.immutable();
