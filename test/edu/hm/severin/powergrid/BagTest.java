@@ -16,7 +16,7 @@ import java.util.*;
  *tests for bag.
  * @author Severin
  */
-public class BagTest {
+public class BagTest<E> {
     /**
      * Maximale Laufzeit jedes  einzelnen Tests.
      * Verhindert Endlosschleifen.
@@ -27,12 +27,14 @@ public class BagTest {
      * Konkreter Bag-Typ.
      * TODO: Fuegen Sie hier Ihre Typ ein.
      */
+    @SuppressWarnings("rawtypes")
     private static final Class<? extends Bag> bagType = edu.hm.severin.powergrid.ListBag.class;
 
     /**
      * Eine neue, leere Tuete.
      * @return Tuete. Nicht null.
      */
+    @SuppressWarnings({"varargs", "unchecked"})
     private <E> Bag<E> getSUT() {
         try {
             return bagType.getDeclaredConstructor()
@@ -48,6 +50,7 @@ public class BagTest {
      * @param collection Collection, deren Elemente die neue Tuete enthaelt.
      * @return Tuete. Nicht null.
      */
+    @SuppressWarnings("unchecked")
     private <E> Bag<E> getSUT(Collection<? super E> collection) {
         try {
             return bagType.getDeclaredConstructor(Collection.class)
@@ -65,6 +68,7 @@ public class BagTest {
      * @param elements Elemente, die die neue Tuete enthaelt.
      * @return Tuete. Nicht null.
      */
+    @SuppressWarnings("unchecked")
     private <E> Bag<E> getSUT(E... elements) {
         try {
             return bagType.getDeclaredConstructor(Object[].class)

@@ -29,16 +29,19 @@ public class NeutralPlant implements Plant {
      * is plant operating?
      */
     private boolean operated;
+    /** resource thar can be used by plant*/
+    private Set<Bag<Resource>> usableResources;
 
-    public NeutralPlant(final int number, final Type type, final int resources, final int cities) {
+    public NeutralPlant(final int number, final Type type, final int numberofResources, final int cities) {
         if (number < 0) throw new IllegalArgumentException("number of plant cannot be negative");
         if (cities < 0) throw new IllegalArgumentException("plant provides at least one city");
-        if (resources < 0) throw new IllegalArgumentException("plant uses at least one resource");
+        if (numberofResources < 0) throw new IllegalArgumentException("plant uses at least one resource");
 
         this.number = number;
         this.type = type;
-        this.numberOfResources = resources;
+        this.numberOfResources = numberofResources;
         this.cities = cities;
+        this.usableResources = setUsableResources();
     }
 
     /**
@@ -113,6 +116,10 @@ public class NeutralPlant implements Plant {
      */
     @Override
     public Set<Bag<Resource>> getResources() {
+      return this.usableResources;
+    }
+
+    private Set<Bag<Resource>> setUsableResources(){
         Plant.Type type = getType();
         Set<Bag<Resource>> canUse = new HashSet<>();
         Bag<Resource> usable = new ListBag<>();
@@ -140,5 +147,16 @@ public class NeutralPlant implements Plant {
         Bag<Resource> imutableUsable = usable.immutable();
         canUse.add(imutableUsable);
         return canUse;
+    }
+
+    @Override
+    public String toString() {
+        return "NeutralPlant{" +
+                "number=" + number +
+                ", type=" + type +
+                ", numberOfResources=" + numberOfResources +
+                ", cities=" + cities +
+                ", operated=" + operated +
+                '}';
     }
 }

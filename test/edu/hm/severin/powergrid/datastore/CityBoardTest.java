@@ -16,7 +16,7 @@ import org.junit.rules.Timeout;
  * test for city and board classes
  * @author Severin
  */
-public class CityBoardTest extends PlantPlayerTest{
+public class CityBoardTest<E> extends PlantPlayerTest<E>{
   @Rule public Timeout globalTimeout = Timeout.seconds(1); // max seconds per test
 
     private final String fqcn = "edu.hm.severin.powergrid.datastore.NeutralFactory"; // package path

@@ -49,6 +49,8 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      *
      * @param elements elements.
      */
+    @SuppressWarnings("varargs")
+    @SafeVarargs
     public ListBag(final E... elements) {
         List<E> vararg = List.of(elements);
         this.elements = vararg;
@@ -124,14 +126,14 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * @complexity: 2
      */
     @Override
+    @SuppressWarnings("unchecked")
     public Set<E> distinct() {
         Set<E> result = new HashSet<>();
         for (E element : getElements()) {
 
             String name = element.toString();
             int times = count(element);
-            E toAdd = (E) (name + " : " + times);
-            boolean add = result.add(toAdd);
+            boolean add = result.add((E) (name + " : " + times));
         }
         return result;
     }
@@ -236,7 +238,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     public Bag<E> remove(final Bag<E> that) throws NoSuchElementException {
         int compare = this.size();
         Bag<E> result = new ListBag<>(getElements());
-        Iterator thatIterator = that.iterator();
+        Iterator<E> thatIterator = that.iterator();
         while (thatIterator.hasNext()) {
             result.remove(thatIterator.next());
             that.iterator().next();
@@ -278,47 +280,28 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public Iterator<E> iterator() {
-        return new BagIterator<E>(this.getElements());
-    }
+        return new Iterator<E>() {
 
-    /**
-     * creates Iterator for Bag.elements.
-     *
-     * @param <E>
-     * @complexity: 3
-     */
-     private final static class BagIterator<E extends Object> implements Iterator<E> {
+            private int count = 0;
 
-        /**
-         * global counter of Iterator.
-         */
-        // set this way to be able to access element at index 0
-        private int count = -1;
-        final private List<E> elements;
-
-        private BagIterator(List<E> elements) {
-            this.elements = elements;
-        }
-
-        @Override
-        public boolean hasNext() {
-            boolean result;
-            // prevent outOfBounds
-            if (elements.size() > count + 1) {
-                result = true;
-            } else {
-                result = false;
+            @Override
+            public boolean hasNext() {
+                boolean result;
+                if (elements.size() > count) {
+                    result = true;
+                } else {
+                    result = false;
+                }
+                return result;
             }
-            return result;
-        }
 
-        @Override
-        public E next() {
-            count++;
-            return (E) elements.get(count);
-        }
+            @Override
+            public E next() {
+                return elements.get(count++);
+            }
+        };
     }
-
+    
     /**
      * number of elements of the Bag.
      *
