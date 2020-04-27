@@ -28,7 +28,7 @@ public class BagTest<E> {
      * TODO: Fuegen Sie hier Ihre Typ ein.
      */
     @SuppressWarnings("rawtypes")
-    private static final Class<? extends Bag> bagType = edu.hm.severin.powergrid.ListBag.class;
+    private static final Class<? extends Bag> bagType = ListBag.class;
 
     /**
      * Eine neue, leere Tuete.
@@ -111,14 +111,14 @@ public class BagTest<E> {
         Bag<String> copy = sut.immutable();
         assertEquals(sut.toString(), copy.toString());
     }
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void immutable2() {
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
         Bag<String> copy = sut.immutable();
         copy.add("5th");
         assertEquals(sut.toString(), copy.toString());
     }
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void immutable3() {
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
         Bag<String> copy = sut.immutable();
@@ -163,7 +163,39 @@ public class BagTest<E> {
         //  assert
         assertEquals(4, sut.size());
     }
+    @Test
+    public void countType1(){
+        Set<Integer> g = new HashSet<>();
+        Set<Integer> gf = new HashSet<>();
+        g.add(1);
+        g.add(3);
+        g.add(14);
+        gf.add(2);
+        gf.add(3);
+        gf.add(2);
 
+        Bag<Set<Integer>> sut = getSUT(g,gf, gf);
+        assertEquals(2, sut.count((Set<Integer>) gf));
+
+    }
+
+    @Test
+    public void equals1() {
+        Bag<Integer> sut = getSUT(1,2,2,3);
+        assertTrue(sut.equals(sut));
+    }
+    @Test
+    public void equals2() {
+        Bag<Integer> sut = getSUT(1,2,3,4);
+        Bag<Integer> sat = getSUT(1,4,3,2);
+        assertTrue(sut.equals(sat));
+    }
+    @Test
+    public void equals3() {
+        Bag<Integer> sut = getSUT(1,2);
+        Bag<Integer> sat = getSUT(1,4,3,2);
+        assertFalse(sut.equals(sat));
+    }
     @Test
     public void addMore1() {
         Bag<Character> sut = getSUT();
@@ -238,7 +270,7 @@ public class BagTest<E> {
         assertEquals(2, sut.size());
     }
 
-    @Test
+    @Test (expected = NoSuchElementException.class)
     public void removeBag1() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
         Bag<Character> sat = getSUT('d', 'u', ' ');
@@ -250,12 +282,12 @@ public class BagTest<E> {
     @Test
     public void removeBag2() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
-        Bag<Character> x = sut.remove(sut);
-
-        assertTrue(x.size() == 0);
+        Bag<Character> sat = sut.remove(sut);
+        System.out.println(sat.size());
+        assertTrue(sat.size() == 0);
     }
 
-    @Test
+    @Test (expected = NoSuchElementException.class)
     public void removeBag3() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
         Bag<Character> sat = getSUT('a', 'f', ' ');
@@ -294,7 +326,7 @@ public class BagTest<E> {
     @Test
     public void contains1() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
-        Bag<Character> sat = getSUT('d', 'u');
+        Bag<Character> sat = getSUT('d', 'u', 'r');
 
         assertTrue(sut.contains(sat));
     }
@@ -341,15 +373,15 @@ public class BagTest<E> {
     public void distinct1() {
         Bag<Character> sut = getSUT('w', 'w', 'r', 'w');
         Set<String> sat = new HashSet<>();
-        sat.add("w : 3");
-        sat.add("r : 1");
+        sat.add("w");
+        sat.add("r");
         assertEquals(sut.distinct(),sat);
     }
     @Test
     public void distinct2() {
         Bag<Character> sut = getSUT('w', 'w', 'w', 'w');
         Set<String> sat = new HashSet<>();
-        sat.add("w : 4");
+        sat.add("w");
         assertEquals(sut.distinct(),sat);
     }
     @Test

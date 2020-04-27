@@ -8,6 +8,11 @@ import edu.hm.severin.powergrid.ListBag;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * creates the Factory of the game.
+ * @author Severin
+ * @complexity: 20
+ */
 public class NeutralPlant implements Plant {
     /**
      * number of plant.
@@ -29,7 +34,7 @@ public class NeutralPlant implements Plant {
      * is plant operating?
      */
     private boolean operated;
-    /** resource thar can be used by plant*/
+    /** resource thar can be used by plant.*/
     private Set<Bag<Resource>> usableResources;
 
     public NeutralPlant(final int number, final Type type, final int numberofResources, final int cities) {

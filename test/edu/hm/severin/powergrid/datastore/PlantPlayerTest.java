@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  * @author Severin
  */
 
-public class PlantPlayerTest<E> extends BagTest<E> {
+public class PlantPlayerTest {
     @Rule public Timeout globalTimeout = Timeout.seconds(1); // max seconds per test
 
     private final String fqcn = "edu.hm.severin.powergrid.datastore.NeutralFactory";

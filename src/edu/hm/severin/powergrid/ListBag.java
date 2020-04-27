@@ -10,7 +10,7 @@ import java.util.*;
  * a Bag with elements of no specific order.
  * @author Severin
  * @param <E> elements to be bagged
- * @complexity: 40
+ * @complexity: 47
  */
 public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
 
@@ -52,8 +52,13 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     @SuppressWarnings("varargs")
     @SafeVarargs
     public ListBag(final E... elements) {
-        List<E> vararg = List.of(elements);
-        this.elements = vararg;
+        E[] vararg =  elements;
+        //List<E> vararg2 = List.of(elements);
+        List<E> result = new ArrayList<>();
+        for (E arrayPart:vararg) {
+            result.add(arrayPart);
+        }
+        this.elements = result;
     }
 
     private ListBag(final List<E> elements, final boolean readOnly) {
@@ -64,7 +69,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
 
     private void writeAccess() {
         if (readOnly) {
-            throw new IllegalStateException();
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -88,30 +93,21 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      *
      * @param o element to be removed.
      * @return if element was removed.
-     * @complexity: 3
+     * @complexity: 1
      */
     public boolean remove(final Object o) {
         writeAccess();
         int compareSize = this.size();
-        List<E> list = new ArrayList<>();
-        int elementCount = 0;
-        for (E element : getElements()) {
-            // so element is only once removed
-            if (!o.equals(element) || elementCount != 0) {
-                list.add(element);
-            } else {
-                elementCount++;
-            }
-        }
+        this.getElements().remove(o);
         int size = getElements().size();
-        elements = list;
         assert this.size() <= compareSize;
-        return size >= getElements().size();
+        return size() < compareSize;
     }
     /**
      * makes Bag immutable returns this view.
      *
      * @return immutable view
+     * @complexity: 1
      */
     @Override
     public Bag<E> immutable() {
@@ -130,12 +126,11 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     public Set<E> distinct() {
         Set<E> result = new HashSet<>();
         for (E element : getElements()) {
-
             String name = element.toString();
-            int times = count(element);
-            boolean add = result.add((E) (name + " : " + times));
+            boolean add = result.add((E) (name));
         }
-        return result;
+        Set<E> immutable = Set.copyOf(result);
+        return immutable;
     }
 
     /**
@@ -185,19 +180,29 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      *
      * @param element searched for element
      * @return number of elements
-     * @complexity: 3
+     * @complexity: 5
      */
-    @Override
     public int count(final E element) {
         int elementNumber = 0;
+
         for (E thisElements : getElements()) {
-            if (thisElements.equals(element)) {
+            String thisString = thisElements + "";
+            String elementString = element + "";
+             if (thisString.contains(elementString)) {
                 elementNumber++;
             }
+          else if(element != null){
+              if(element.hashCode() == thisElements.hashCode()){
+                     System.out.println(111);
+                     elementNumber++;
+                 }
+             }
+
         }
         assert elementNumber >= 0;
         return elementNumber;
     }
+
 
     /**
      * proves if this contains another bag that.
@@ -206,24 +211,22 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * @return false, if that is not contained
      * @complexity: 5
      */
-    @Override
+   @Override
     public boolean contains(final Bag<E> that) {
-        int doubletNumber = 0;
-        boolean contained = false;
-        for (E thatElement : that) {
-            for (E thisElement : this) {
-                if (thisElement.equals(thatElement)) {
-                    contained = true;
-                }
-            }
-            if (contained) {
-                doubletNumber++;
-                contained = false;
-            }
-        }
-        assert doubletNumber >= 0;
-        return doubletNumber >= that.size();
+       if(this == that) return true;
+       Set<E> thisSet = this.distinct();
+       Set<E> thatSet = that.distinct();
+       int contained = 0;
+       for (E element:thisSet) {
+         int thisC = this.count(element);
+         int thatC = that.count(element);
+         if(thisC >= thatC)
+             if(thatC > 0) contained++;
+       }
+       return contained == thatSet.size();
     }
+
+
 
     /**
      * removes all elements of another bag.
@@ -232,19 +235,26 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * @return new bag with elements removed
      * or original bag
      * @throws NoSuchElementException, if bag that isn't included in this
-     * @complexity: 2
+     * @complexity: 4
      */
     @Override
-    public Bag<E> remove(final Bag<E> that) throws NoSuchElementException {
+    public Bag<E> remove(final Bag<E> that) {
         int compare = this.size();
-        Bag<E> result = new ListBag<>(getElements());
-        Iterator<E> thatIterator = that.iterator();
-        while (thatIterator.hasNext()) {
-            result.remove(thatIterator.next());
-            that.iterator().next();
+        List<E> thatElement = new ArrayList<>();
+        for (E e:that) {
+            thatElement.add(e);
         }
-        assert compare <= this.size();
-        return result;
+        Bag<E> iterate = new ListBag<>(thatElement);
+        for (E element:iterate) {
+            if(this.contains(element)) {
+                this.remove(element);
+            }else {
+                throw new NoSuchElementException();
+            }
+        }
+        //this.elements = result;
+        assert compare >= this.size();
+        return this;
 
     }
 
@@ -259,24 +269,25 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public Bag<E> remove(final Object element, final int times) {
-        int compare = this.size();
+        int compare = getElements().size();
         if (times < 0) {
             throw new IllegalArgumentException();
         }
-        Bag<E> result = new ListBag<>(getElements());
+       // Bag<E> result = new ListBag<>(getElements());
         for (int count = 0; count < times; count++) {
-            result.remove(element);
+            this.remove(element);
         }
-        assert compare <= this.size();
 
-        return result;
+        assert compare >= this.size();
+
+        return this;
     }
 
     /**
      * creates iterator for bag elements.
      *
      * @return iterator
-     * @complexity: 4
+     * @complexity: of class = 2, in total: 4
      */
     @Override
     public Iterator<E> iterator() {
@@ -301,7 +312,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
             }
         };
     }
-    
+
     /**
      * number of elements of the Bag.
      *
@@ -320,5 +331,36 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
 
     private List<E> getElements() {
         return elements;
+    }
+
+    /**
+     * proves if that is the same as this.
+     * @param that object to be checked
+     * @return true, if objects are the same
+     *         false, if not
+     *@complexity: 2
+     */
+    @Override
+    public boolean equals(Object that) {
+        if(that instanceof Bag bag) {
+            return this.contains(bag) && bag.contains(this);
+        }
+        return false;
+    }
+
+    /**
+     * redefines hashCode for ListBag.
+     * @return int HashCode
+     * @complexity: 2
+     */
+    @Override
+    public int hashCode() {
+        Set<E> thisSet = this.distinct();
+        Map<E,Integer> identifier = new HashMap<>();
+        for (E element:thisSet) {
+            int elementCount = this.count(element);
+            identifier.put(element, elementCount);
+        }
+        return identifier.hashCode();
     }
 }
