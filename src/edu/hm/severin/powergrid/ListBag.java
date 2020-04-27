@@ -98,7 +98,6 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
         writeAccess();
         int compareSize = this.size();
         this.getElements().remove(o);
-        int size = getElements().size();
         assert this.size() <= compareSize;
         return size() < compareSize;
     }

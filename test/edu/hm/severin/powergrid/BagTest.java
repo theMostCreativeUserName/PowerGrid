@@ -198,6 +198,12 @@ public class BagTest<E> {
         assertFalse(sut.equals(sat));
     }
     @Test
+    public void equals4() {
+        Bag<Integer> sut = getSUT(1,2);
+        String sat = "gg";
+        assertFalse(sut.equals(sat));
+    }
+    @Test
     public void addMore1() {
         Bag<Character> sut = getSUT();
         Bag<Character> sat = sut.add('c', 4);
@@ -208,6 +214,12 @@ public class BagTest<E> {
     public void addMore2() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
         Bag<Character> sat = sut.add('c', 4);
+        assertTrue(sat.size() == 8);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void addMore3() {
+        Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
+        Bag<Character> sat = sut.add('c', -2);
         assertTrue(sat.size() == 8);
     }
 
@@ -391,4 +403,5 @@ public class BagTest<E> {
         Set<String> sat = new HashSet<>();
         assertEquals(sut.distinct(),sat);
     }
+
 }
