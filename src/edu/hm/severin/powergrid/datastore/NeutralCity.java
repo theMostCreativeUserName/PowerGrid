@@ -9,8 +9,8 @@ import java.util.Objects;
 
 /**
  * a city of the game.
- * @author Severin
- * @complexity: 13
+ * @author Severin, pietsch
+ * @complexity: 14
  * */
 public class NeutralCity implements City {
     /**
@@ -113,6 +113,16 @@ public class NeutralCity implements City {
     @Override
     public String toString() {
         return getName() + " " + getRegion();
+    }
+
+    /**
+     * new compareTo, sort cities after name in alphabetic order
+     * @param other Other City to compare with
+     * @return Comparevalue (- this is first, 0 this is same as other, + other is first.)
+     */
+    @Override
+    public int compareTo(City other){
+        return this.getName().compareTo(other.getName());
     }
 
 }

@@ -1,10 +1,12 @@
 package edu.hm.cs.rs.powergrid.datastore;
 
 import edu.hm.cs.rs.powergrid.Bag;
+
 import java.util.Set;
 
 /**
  * Ein Kraftwerk.
+ *
  * @author R. Schiedermeier, rs@cs.hm.edu
  * @version 2020-02-19
  */
@@ -22,11 +24,17 @@ public interface Plant {
          * Einzelheiten setzt die Spiellogik um.
          */
         Hybrid(Resource.Coal, Resource.Oil),
-        /** Braucht keine Rohstoffe. */
+        /**
+         * Braucht keine Rohstoffe.
+         */
         Eco,
-        /** Braucht keine Rohstoffe. */
+        /**
+         * Braucht keine Rohstoffe.
+         */
         Fusion,
-        /** Pseudo-Kraftwerk: Start von Stufe 3. */
+        /**
+         * Pseudo-Kraftwerk: Start von Stufe 3.
+         */
         Level3;
 
         /**
@@ -40,6 +48,7 @@ public interface Plant {
 
         /**
          * Liste der Rohstoffe, die dieser Kraftwerkstyp verbrauchen kann.
+         *
          * @return Rohstoffe fuer diesen Kraftwerkstyp.
          */
         public Set<Resource> getResources() {
@@ -50,18 +59,21 @@ public interface Plant {
 
     /**
      * Eindeutige Nummer.
+     *
      * @return Nummer. Nicht negativ.
      */
     int getNumber();
 
     /**
      * Anzahl Staedte, die dieses Kraftwerk mit Strom versorgen kann.
+     *
      * @return Anzahl Staedte. Nicht negativ.
      */
     int getCities();
 
     /**
      * Anzahl Rohstoffe, die dieses Kraftwerk braucht, egal welcher Art.
+     *
      * @return Anzahl Rohstoffe. Nicht negativ.
      */
     int getNumberOfResources();
@@ -70,12 +82,14 @@ public interface Plant {
 
     /**
      * Test, ob dieses Kraftwerk Strom produziert hat.
+     *
      * @return true genau dann, wenn dieses Kraftwerk gelaufen ist.
      */
     boolean hasOperated();
 
     /**
      * Legt fest, ob  dieses Kraftwerk Strom produziert hat.
+     *
      * @param operated true genau dann, wenn dieses Kw Strom produziert hat.
      */
     void setOperated(boolean operated);
@@ -86,8 +100,11 @@ public interface Plant {
      * Wenn das Kw verschiedene Sorten akzeptiert,
      * enthaelt die Menge alle zulaessigen Kombinationen.
      * Wenn das Kw nichts braucht, enthaelt die Menge eine leere Sammlung als einziges Element.
+     *
      * @return Verschiedene Rohstoffsammlungen. Nicht null und nicht leer.
      * Menge und Elemente unveraenderlich.
      */
     Set<Bag<Resource>> getResources();
+
+    int compareTo(Plant other);
 }

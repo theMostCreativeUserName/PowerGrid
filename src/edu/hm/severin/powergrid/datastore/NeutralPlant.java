@@ -10,7 +10,7 @@ import java.util.Set;
 
 /**
  * creates the Factory of the game.
- * @author Severin
+ * @author Severin, Pietsch
  * @complexity: 20
  */
 public class NeutralPlant implements Plant {
@@ -155,13 +155,7 @@ public class NeutralPlant implements Plant {
     }
 
     @Override
-    public String toString() {
-        return "NeutralPlant{" +
-                "number=" + number +
-                ", type=" + type +
-                ", numberOfResources=" + numberOfResources +
-                ", cities=" + cities +
-                ", operated=" + operated +
-                '}';
+    public int compareTo(Plant other){
+        return this.getNumber()-other.getNumber();
     }
 }

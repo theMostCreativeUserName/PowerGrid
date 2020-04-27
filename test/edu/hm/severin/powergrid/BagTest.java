@@ -14,6 +14,7 @@ import java.util.*;
 
 /**
  *tests for bag.
+ * @author R. Schiedermeier, rs@cs.hm.edu
  * @author Severin
  */
 public class BagTest<E> {

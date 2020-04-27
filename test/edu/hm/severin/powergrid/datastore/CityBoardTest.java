@@ -13,7 +13,8 @@ import org.junit.rules.Timeout;
 
 
 /**
- * test for city and board classes
+ * test for city and board classes.
+ * @author R. Schiedermeier, rs@cs.hm.edu
  * @author Severin
  */
 public class CityBoardTest{

@@ -1,9 +1,9 @@
 package edu.hm.severin.powergrid.datastore;
 
 
-import edu.hm.cs.rs.powergrid.datastore.City;
-import edu.hm.cs.rs.powergrid.datastore.Factory;
-import edu.hm.cs.rs.powergrid.datastore.Player;
+import edu.hm.cs.rs.powergrid.Edition;
+import edu.hm.cs.rs.powergrid.EditionGermany;
+import edu.hm.cs.rs.powergrid.datastore.*;
 import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import org.junit.Rule;
@@ -19,7 +19,7 @@ import org.junit.rules.Timeout;
 public class FactoryTest {
     @Rule public Timeout globalTimeout = Timeout.seconds(1); // max seconds per test
 
-    private final String fqcn = "edu.hm.yourname.powergrid.datastore.SillyFactory";
+    private final String fqcn = "edu.hm.severin.powergrid.datastore.NeutralFactory";
 
     private final Factory factory = Factory.newFactory(fqcn);
 
@@ -41,12 +41,141 @@ public class FactoryTest {
         Assert.assertNotSame("factory returns different City objects for different names", sut, have);
     }
 
-    @Test public void comparePlayers() {
+    @Test public void newSamePlayer() {
+        // arrange
+        Player sut = factory.newPlayer("geheim", "a");
+        // act
+        final Player have = factory.newPlayer("geheim2", "a");
+        // assert
+        Assert.assertSame("factory supplies one Player object per color", sut, have);
+    }
+
+    @Test public void newOtherPlayer() {
+        // arrange
+        Player sut = factory.newPlayer("geheim", "a");
+        // act
+        final Player have = factory.newPlayer("geheim", "b");
+        // assert
+        Assert.assertNotSame("factory returns different Player objects for different colors", sut, have);
+    }
+
+    @Test public void newSamePlant() {
+        // arrange
+        Plant sut = factory.newPlant(1, Plant.Type.Coal, 2, 2 );
+        // act
+        final Plant have = factory.newPlant(1, Plant.Type.Eco, 5, 4 );
+        // assert
+        Assert.assertSame("factory supplies one Plant object per number", sut, have);
+    }
+
+    @Test public void newSameBoard() {
+        // arrange
+        Edition test = new EditionGermany();
+        Board sut = factory.newBoard(test);
+        // act
+        final Board have = factory.newBoard(test);
+        // assert
+        Assert.assertSame("factory supplies one Board object per edition", sut, have);
+    }
+
+    @Test public void newOtherBoard() {
+        // arrange
+        Edition test = new EditionGermany();
+        Board sut = factory.newBoard(test);
+        // act
+        Edition test2 = new EditionGermany();
+        final Board have = factory.newBoard(test2);
+        // assert
+        Assert.assertNotSame("factory returns different Board objects for different edition", sut, have);
+    }
+
+    @Test public void newOtherPlant() {
+        // arrange
+        Plant sut = factory.newPlant(1, Plant.Type.Coal, 2, 2 );
+        // act
+        final Plant have = factory.newPlant(2, Plant.Type.Coal, 2, 2 );
+        // assert
+        Assert.assertNotSame("factory returns different Plant objects for different numbers", sut, have);
+    }
+
+    @Test public void compareCities1() {
+        // arrange
+        City sut = factory.newCity("Mu", 1);
+        City other = factory.newCity("Nu", 2);
+        // act
+        // assert
+        assertTrue("Cities compared by name, sut before other", sut.compareTo(other) < 0);
+    }
+
+    @Test public void compareCities2() {
+        // arrange
+        City sut = factory.newCity("Nu", 1);
+        City other = factory.newCity("Mu", 2);
+        // act
+        // assert
+        assertTrue("Cities compared by name, sut after other", sut.compareTo(other) > 0);
+    }
+
+    @Test public void compareCities3() {
+        // arrange
+        City sut = factory.newCity("Nu", 1);
+        City other = factory.newCity("Nu", 2);
+        // act
+        // assert
+        assertTrue("Cities compared by name, sut and other are the same", sut.compareTo(other) == 0);
+    }
+
+    @Test public void comparePlants1() {
+        // arrange
+        Plant sut = factory.newPlant(1, Plant.Type.Coal, 2, 2);
+        Plant other = factory.newPlant(2, Plant.Type.Coal, 2, 2);
+        // act
+        // assert
+        assertTrue("Plants compared by there number in ascending order (sut before other)", sut.compareTo(other) < 0);
+    }
+
+    @Test public void comparePlants2() {
+        // arrange
+        Plant sut = factory.newPlant(3, Plant.Type.Coal, 2, 2);
+        Plant other = factory.newPlant(2, Plant.Type.Coal, 2, 2);
+        // act
+        // assert
+        assertTrue("Plants compared by there number in ascending order (other before sut)", sut.compareTo(other) > 0);
+    }
+
+    @Test public void comparePlants3() {
+        // arrange
+        Plant sut = factory.newPlant(2, Plant.Type.Coal, 2, 2);
+        Plant other = factory.newPlant(2, Plant.Type.Coal, 2, 2);
+        // act
+        // assert
+        assertTrue("Plants compared by there number in ascending order (sut same as other)", sut.compareTo(other) == 0);
+    }
+
+    @Test public void comparePlayers1() {
         // arrange
         Player sut = factory.newPlayer("-", "a");
         Player other = factory.newPlayer("-", "b");
         // act
         // assert
-        //assertTrue("players w/o cities&plants compare by color", sut.compareTo(other) < 0);
+        assertTrue("players w/o cities&plants compare by color (sut first)", sut.compareTo(other) < 0);
+    }
+
+    @Test public void comparePlayers2() {
+        // arrange
+        Player sut = factory.newPlayer("-", "b");
+        Player other = factory.newPlayer("-", "b");
+        // act
+        // assert
+        assertTrue("players w/o cities&plants compare by color (sut and other same)", sut.compareTo(other) == 0);
+    }
+
+    @Test public void comparePlayers3() {
+        // arrange
+        Player sut = factory.newPlayer("-", "c");
+        Player other = factory.newPlayer("-", "b");
+        // act
+        // assert
+        assertTrue("players w/o cities&plants compare by color (other first)", sut.compareTo(other) > 0);
     }
 }

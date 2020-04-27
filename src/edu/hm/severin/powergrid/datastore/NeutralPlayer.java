@@ -14,8 +14,8 @@ import java.util.Set;
 /**
  * creates player.
  *
- * @author Severin
- * @complexity: 14
+ * @author Severin, Pietsch
+ * @complexity: 25
  */
 
 public class NeutralPlayer implements Player {
@@ -171,5 +171,34 @@ public class NeutralPlayer implements Player {
         final NeutralPlayer that = (NeutralPlayer) obj;
         return getElectro() == that.getElectro() && getColor().equals(that.getColor());
 
+    }
+    /**
+     * new compareTo, compare Players. 1) Connected Cities (des), 2) highest nummber of plant (des) 3) Color alphabetic.
+     * @param other Other Player to compare with
+     * @return Comparevalue
+     */
+    @Override
+    public int compareTo(Player other){
+        int result;
+        result = other.getCities().size()-this.getCities().size();
+        if (result == 0)
+            result = biggestPlantOfPlayer(other)-biggestPlantOfPlayer(this);
+        if (result == 0)
+            result = this.getColor().compareTo(other.getColor());
+        return result;
+    }
+
+    /**
+     * search for the plant with the highest number in a player.
+     * @param player Player where highest plant should be found
+     * @return number of highest plant
+     */
+    private int biggestPlantOfPlayer(Player player){
+        int result = 0;
+        for (Plant plant: player.getPlants()) {
+            if(plant.getNumber() > result)
+                result = plant.getNumber();
+        }
+        return result;
     }
 }

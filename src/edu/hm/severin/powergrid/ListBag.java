@@ -62,7 +62,6 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     }
 
     private ListBag(final List<E> elements, final boolean readOnly) {
-        // ToDo: dont copy element
         this.readOnly = readOnly;
         this.elements = elements;
     }

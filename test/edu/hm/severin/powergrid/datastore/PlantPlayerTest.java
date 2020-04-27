@@ -14,7 +14,8 @@ import org.junit.rules.Timeout;
 import static org.junit.Assert.*;
 
 /**
- * test for plant and player classes
+ * test for plant and player classes.
+ * @author R. Schiedermeier, rs@cs.hm.edu
  * @author Severin
  */
 
@@ -112,6 +113,32 @@ public class PlantPlayerTest {
 
         assertEquals("red", sut.getColor());
     }
+    @Test public void playerEqual1(){
+        Player sut = factory.newPlayer("hush - don't tell!", "red");
+
+        assertTrue(sut.equals(sut));
+    }
+    @Test public void playerEqual2(){
+        Player sut = factory.newPlayer("hush - don't tell!", "red");
+        Player sat = factory.newPlayer("hush - don't tell!", "blue");
+
+        assertFalse(sut.equals(sat));
+        assertFalse(sat.equals(sut));
+    }
+    @Test public void playerEqual3(){
+        Player sut = factory.newPlayer("hush - don't tell!", "red");
+        String sat = "orage";
+
+        assertFalse(sut.equals(sat));
+    }
+    @Test public void playerHash(){
+        Player sut = factory.newPlayer("hush - don't tell!", "red");
+        Player sat = factory.newPlayer("hush - don't tell!", "blue");
+        assertEquals(sat.hashCode(), sat.hashCode());
+        assertEquals(sut.hashCode(), sut.hashCode());
+        assertFalse(sat.hashCode() == sut.hashCode());
+    }
+
     @Test public void playerGetSecret() throws InterruptedException {
         // arrange
         Player sut = factory.newPlayer("hush - don't tell!", "red");
