@@ -73,20 +73,22 @@ public class NeutralCity implements City {
      * connects two cities.
      * @complexity: 4
      * @param cost cost of the connection
-     * @param to City to connect to
+     * @param toCity City to connect to
      */
     @Override
-    public void connect(final City to, final int cost) {
+    public void connect(final City toCity, final int cost) {
         if (open) {
-            Objects.requireNonNull(to);
-            if (to == this || cost < 0)
+            Objects.requireNonNull(toCity);
+            if (toCity == this || cost < 0){
+                System.out.println(toCity + ","+ this +", " + cost);
                 throw new IllegalArgumentException("city or cost are invalid");
-            if (getConnections().containsKey(to))
+            }
+            if (getConnections().containsKey(toCity))
                 throw new IllegalArgumentException("connection exists already");
-            getConnections().put(to, cost);
+            getConnections().put(toCity, cost);
         } else throw new IllegalStateException("city is closed already");
 
-        assert to.getConnections() != null;
+        assert toCity.getConnections() != null;
     }
 
     /**

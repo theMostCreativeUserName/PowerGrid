@@ -10,7 +10,7 @@ import java.util.*;
  * a Bag with elements of no specific order.
  * @author Severin
  * @param <E> elements to be bagged
- * @complexity: 47
+ * @complexity: 46
  */
 public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
 
@@ -53,7 +53,6 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     @SafeVarargs
     public ListBag(final E... elements) {
         E[] vararg =  elements;
-        //List<E> vararg2 = List.of(elements);
         List<E> result = new ArrayList<>();
         for (E arrayPart:vararg) {
             result.add(arrayPart);
@@ -207,24 +206,14 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      *
      * @param that a bag
      * @return false, if that is not contained
-     * @complexity: 5
+     * @complexity: 3
      */
-   @Override
+    @Override
     public boolean contains(final Bag<E> that) {
-       if(this == that) return true;
-       Set<E> thisSet = this.distinct();
-       Set<E> thatSet = that.distinct();
-       int contained = 0;
-       for (E element:thisSet) {
-         int thisC = this.count(element);
-         int thatC = that.count(element);
-         if(thisC >= thatC)
-             if(thatC > 0) contained++;
-       }
-       return contained == thatSet.size();
+        if(this == that) return true;
+        Set<E> thatSet = that.distinct();
+        return thatSet.stream().allMatch(element -> this.count(element)>=that.count(element));
     }
-
-
 
     /**
      * removes all elements of another bag.
