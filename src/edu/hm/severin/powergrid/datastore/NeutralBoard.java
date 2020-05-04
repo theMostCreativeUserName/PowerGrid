@@ -5,20 +5,25 @@ import edu.hm.cs.rs.powergrid.datastore.Board;
 import edu.hm.cs.rs.powergrid.datastore.City;
 import edu.hm.cs.rs.powergrid.datastore.Factory;
 
-import java.util.*;
-
+import java.util.Set;
+import java.util.Objects;
+import java.util.HashSet;
+import java.util.List;
 /**
  * the board of the game.
  *
  * @author Severin
  * @complexity: 25
- * @version las modified 2020-04-30
  */
 public class NeutralBoard implements Board {
     /**
      * constant to correct the offset of unicode numbers.
      */
-    private static int htmlCorrecter = 48;
+    private static final int HTML_CORRECTER = 48;
+    /**
+     * initializes the search for connection cost in connectAll().
+     */
+    private static final int MAGIC_NUMBER = 3;
 
     /**
      * Factory used for this board.
@@ -68,20 +73,20 @@ public class NeutralBoard implements Board {
     /**
      * removes cities and connections, if area > remaining.
      * also updates the Variable cityNames
+     *
      * @param remaining highest area that should remain
      * @complexity: 3
      */
     @Override
     public void closeRegions(final int remaining) {
         isBoardOpen();
-        Set<City> result = getCities();
-        Set<City> remove = new HashSet<>();
-        final int originalCities = result.size();
+        final Set<City> result = getCities();
+        final Set<City> remove = new HashSet<>();
         for (City city : result) {
             if (city.getRegion() > remaining) {
                 remove.add(city);
             }
-            city.getConnections();
+            //city.getConnections();
         }
         result.removeAll(remove);
         this.cityNames = result;
@@ -90,19 +95,20 @@ public class NeutralBoard implements Board {
 
     /**
      * removes connections to non existing cities.
+     *
      * @complexity: 5
      */
-    private void removeClosedConnections(){
-        for (City city:getCities()) {
-            Set<City>keySet = city.getConnections().keySet();
-            Set<City>remove = new HashSet<>();
-            for (City connection:keySet) {
-                City found = findCity(connection.getName());
-                if(found == null){
+    private void removeClosedConnections() {
+        for (City city : getCities()) {
+            final Set<City> keySet = city.getConnections().keySet();
+            final Set<City> remove = new HashSet<>();
+            for (City connection : keySet) {
+                final City found = findCity(connection.getName());
+                if (found == null) {
                     remove.add(connection);
                 }
             }
-            for (City toRemove:remove) {
+            for (City toRemove : remove) {
                 city.getConnections().remove(toRemove);
             }
         }
@@ -118,7 +124,7 @@ public class NeutralBoard implements Board {
     @Override
     public City findCity(final String name) {
         City found = null;
-        City[] cityArray = getCities().toArray(new City[getCities().size()]);
+        final City[] cityArray = getCities().toArray(new City[getCities().size()]);
         for (City city : cityArray) {
             if (city.getName().contains(name)) {
                 found = city;
@@ -148,14 +154,14 @@ public class NeutralBoard implements Board {
     public void close() {
         if (open) {
             open = false;
-            Set<City> allCities = getCities();
+            final Set<City> allCities = getCities();
             for (City city : allCities) {
                 city.close();
             }
         } else {
             throw new IllegalStateException("Board is already closed.");
         }
-        assert this.open == false;
+        assert !this.open;
     }
 
     private Edition getEdition() {
@@ -172,15 +178,22 @@ public class NeutralBoard implements Board {
      * @complexity: 2
      */
     private Set<City> getCityNamesFromEdition() {
-        HashSet<City> citySet = new HashSet<>();
+         final HashSet<City> citySet = new HashSet<>();
 
-        for (int counter = 0; counter < getEdition().getCitySpecifications().size(); counter++) {
-            String citySpecElement = getEdition().getCitySpecifications().get(counter);
+        for (int counter = 0; counter < getEdition()
+                .getCitySpecifications()
+                .size(); counter++) {
+            final String citySpecElement = getEdition()
+                    .getCitySpecifications()
+                    .get(counter);
             // first word of String
-            String cityName = citySpecElement.substring(0, citySpecElement.indexOf(' '));
+            final String cityName = citySpecElement
+                    .substring(0, citySpecElement.indexOf(' '));
             // java automatically converts chars to their html number code
-            // for numbers this has to be corrected by distracting the html- numberCode of 0 (= 48)
-            int area = citySpecElement.charAt(cityName.length() + 1) - htmlCorrecter;
+            // for numbers this has to be corrected
+            // by distracting the html- numberCode of 0 (= 48)
+            final int area = citySpecElement
+                    .charAt(cityName.length() + 1) - HTML_CORRECTER;
             citySet.add(factory.newCity(cityName, area));
         }
         assert getEdition().getCitySpecifications().size() == citySet.size();
@@ -190,21 +203,23 @@ public class NeutralBoard implements Board {
     /**
      * connects all cities, creates their connections.
      *
-     * @complexity: 3
+     * @complexity: 4
      */
     public void connectAll() {
-        List<String> citySpecs = getEdition().getCitySpecifications();
+        final List<String> citySpecs = getEdition().getCitySpecifications();
         for (String specific : citySpecs) {
-            City fromCity = findCity(specific.substring(0, specific.indexOf(' ')));
-            String[] specArray = specific.split(" ");
+            final City fromCity = findCity(specific
+                    .substring(0, specific.indexOf(' ')));
+            final String[] specArray = specific.split(" ");
             int cityIndex = 2;
-            int costIndex = 3;
+            int costIndex = MAGIC_NUMBER;
             while (costIndex <= specArray.length - 1) {
-                City toCity = findCity(specArray[cityIndex]);
-                int cost = Integer.parseInt(specArray[costIndex]);
-
-                fromCity.connect(toCity, cost);
-                toCity.connect(fromCity, cost);
+                if(specArray[costIndex].length()<=2){
+                    final int cost = Integer.parseInt(specArray[costIndex]);
+                    final City toCity = findCity(specArray[cityIndex]);
+                    fromCity.connect(toCity, cost);
+                    toCity.connect(fromCity, cost);
+                }
                 cityIndex += 2;
                 costIndex += 2;
             }

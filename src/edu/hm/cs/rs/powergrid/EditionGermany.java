@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 /**
  * Ausgabe Deutschland.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version 2020-01-11
+ * @version last modified 2020-03-02
  */
 public class EditionGermany implements Edition {
     @Override public int getPlayersMinimum() {
@@ -27,11 +27,11 @@ public class EditionGermany implements Edition {
     }
 
     @Override public int getActualPlants(int levelIndex) {
-        return new int[] {4, 4, 6}[levelIndex];
+        return new int[] {4, 4, 6} [levelIndex];
     }
 
     @Override public int getFuturePlants(int levelIndex) {
-        return new int[] {4, 4, 0}[levelIndex];
+        return new int[] {4, 4, 0} [levelIndex];
     }
 
     @Override public Map<Resource, Integer> getResourceToNumber() {
@@ -43,14 +43,14 @@ public class EditionGermany implements Edition {
 
     @Override public Map<Resource, List<Integer>> getResourceAvailableToCost() {
         final List<Integer> groupsOf3 = IntStream.range(0, 24)
-                .map(n -> 8 - n/3)
+                .map(n -> 8 - n / 3)
                 .boxed()
                 .collect(Collectors.toList());
         return Map.of(Resource.Coal, groupsOf3,
                 Resource.Oil, groupsOf3,
                 Resource.Garbage, groupsOf3,
                 Resource.Uranium, IntStream.range(0, 12)
-                        .map(n -> n > 3? 12 - n: 16 - 2*n)
+                        .map(n -> n > 3? 12 - n: 16 - 2 * n)
                         .boxed()
                         .collect(Collectors.toList()));
     }
@@ -160,9 +160,9 @@ public class EditionGermany implements Edition {
                 "Kiel 1 Hamburg 8 L\u00FCbeck 4",
                 "Cuxhaven 1 Bremen 8 Hamburg 11",
                 "Wilhelmshaven 1 Osnabr\u00FCck 14 Bremen 11",
-                "Hamburg 1 Bremen 11 Hannover 17 Schwerin 8",
+                "Hamburg 1  Bremen 11 Hannover 17 Schwerin 8",
                 "Bremen 1 Osnabr\u00FCck 11 Hannover 10",
-                "Hannover 1 Kassel 15 Erfurt 19 Magdeburg 15",
+                "Hannover 1  Kassel 15 Erfurt 19 Magdeburg 15",
                 "L\u00FCbeck 2 Hamburg 6 Schwerin 6",
                 "Rostock 2 Schwerin 6 Torgelow 19",
                 "Schwerin 2 Hannover 19 Magdeburg 16 Berlin 18 Torgelow 19",

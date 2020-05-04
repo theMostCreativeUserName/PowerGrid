@@ -33,7 +33,7 @@ public class NeutralCity implements City {
     /**
      * connections of this city.
      */
-    private Map<City, Integer> connections = new HashMap<>();
+    private final  Map<City, Integer> connections = new HashMap<>();
 
     /**
      * a new city.
@@ -80,7 +80,6 @@ public class NeutralCity implements City {
         if (open) {
             Objects.requireNonNull(toCity);
             if (toCity == this || cost < 0){
-                System.out.println(toCity + ","+ this +", " + cost);
                 throw new IllegalArgumentException("city or cost are invalid");
             }
             if (getConnections().containsKey(toCity))
@@ -118,7 +117,7 @@ public class NeutralCity implements City {
     }
 
     /**
-     * new compareTo, sort cities after name in alphabetic order
+     * new compareTo, sort cities after name in alphabetic order.
      * @param other Other City to compare with
      * @return Comparevalue (- this is first, 0 this is same as other, + other is first.)
      */

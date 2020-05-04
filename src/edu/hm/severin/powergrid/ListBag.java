@@ -10,7 +10,7 @@ import java.util.*;
  * a Bag with elements of no specific order.
  * @author Severin
  * @param <E> elements to be bagged
- * @complexity: 46
+ * @complexity: 40
  */
 public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
 
@@ -185,15 +185,15 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
         for (E thisElements : getElements()) {
             String thisString = thisElements + "";
             String elementString = element + "";
-             if (thisString.contains(elementString)) {
+            if (thisString.contains(elementString)) {
                 elementNumber++;
             }
-          else if(element != null){
-              if(element.hashCode() == thisElements.hashCode()){
-                     System.out.println(111);
-                     elementNumber++;
-                 }
-             }
+            else if(element != null){
+                if(element.hashCode() == thisElements.hashCode()){
+                    System.out.println(111);
+                    elementNumber++;
+                }
+            }
 
         }
         assert elementNumber >= 0;
@@ -208,6 +208,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * @return false, if that is not contained
      * @complexity: 3
      */
+
     @Override
     public boolean contains(final Bag<E> that) {
         if(this == that) return true;
@@ -260,7 +261,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
         if (times < 0) {
             throw new IllegalArgumentException();
         }
-       // Bag<E> result = new ListBag<>(getElements());
+        // Bag<E> result = new ListBag<>(getElements());
         for (int count = 0; count < times; count++) {
             this.remove(element);
         }
@@ -327,12 +328,15 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      *         false, if not
      *@complexity: 2
      */
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object that) {
+        boolean result = false;
         if(that instanceof Bag bag) {
-            return this.contains(bag) && bag.contains(this);
+            if(this.contains(bag))
+                if(((Bag) that).contains(this))result = true;
         }
-        return false;
+        return result;
     }
 
     /**

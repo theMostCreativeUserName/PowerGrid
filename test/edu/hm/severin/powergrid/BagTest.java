@@ -2,6 +2,7 @@ package edu.hm.severin.powergrid;
 
 import edu.hm.cs.rs.powergrid.Bag;
 
+import static junit.framework.TestCase.assertSame;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -29,13 +30,13 @@ public class BagTest<E> {
      * TODO: Fuegen Sie hier Ihre Typ ein.
      */
     @SuppressWarnings("rawtypes")
-    private static final Class<? extends Bag> bagType = ListBag.class;
+    private static final Class<? extends Bag> bagType = edu.hm.severin.powergrid.ListBag.class;
 
     /**
      * Eine neue, leere Tuete.
      * @return Tuete. Nicht null.
      */
-    @SuppressWarnings({"varargs", "unchecked"})
+    @SuppressWarnings("unchecked")
     private <E> Bag<E> getSUT() {
         try {
             return bagType.getDeclaredConstructor()
@@ -65,21 +66,44 @@ public class BagTest<E> {
 
     /**
      * Eine neue Tuete mit gegebenen Elementen.
-     *
      * @param elements Elemente, die die neue Tuete enthaelt.
      * @return Tuete. Nicht null.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "varargs"})
     private <E> Bag<E> getSUT(E... elements) {
         try {
             return bagType.getDeclaredConstructor(Object[].class)
-                    .newInstance((Object) elements);
-        } catch (ReflectiveOperationException e) {
+                    .newInstance((Object)elements);
+        }
+        catch(ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
 
     //------------------- Tests -------------------------------------------------------------
+    @Test public void addSome() {
+        // arrange
+        Bag<Boolean> sut = getSUT();
+        // act
+        sut.add(true);
+        sut.add(false);
+        sut.add((Boolean)null);
+        sut.add(true);
+        //  assert
+        assertEquals(4, sut.size());
+    }
+
+
+    @Test public void removeSome() {
+        // arrange
+        Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
+        // act
+        sut.remove("2nd");
+        sut.remove("4th");
+        // assert
+        assertEquals(3, sut.size());
+    }
+
     @Test
     public void cTor1() {
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
@@ -102,7 +126,7 @@ public class BagTest<E> {
     @Test
     public void cTor4() {
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
-        assertTrue(sut.size() == 4);
+        assertSame(4, sut.size());
     }
 
     @Test
@@ -165,31 +189,32 @@ public class BagTest<E> {
         assertEquals(4, sut.size());
     }
     @Test
+    @SuppressWarnings("unchecked")
     public void countType1(){
-        Set<Integer> g = new HashSet<>();
-        Set<Integer> gf = new HashSet<>();
-        g.add(1);
-        g.add(3);
-        g.add(14);
-        gf.add(2);
-        gf.add(3);
-        gf.add(2);
+        Set<Integer> that = new HashSet<>();
+        Set<Integer> sat = new HashSet<>();
+        that.add(1);
+        that.add(3);
+        that.add(14);
+        sat.add(2);
+        sat.add(3);
+        sat.add(2);
 
-        Bag<Set<Integer>> sut = getSUT(g,gf, gf);
-        assertEquals(2, sut.count((Set<Integer>) gf));
+        Bag<Set<Integer>> sut = getSUT(that,sat, sat);
+        assertEquals(2, sut.count(sat));
 
     }
 
     @Test
     public void equals1() {
         Bag<Integer> sut = getSUT(1,2,2,3);
-        assertTrue(sut.equals(sut));
+        assertEquals(sut, sut);
     }
     @Test
     public void equals2() {
         Bag<Integer> sut = getSUT(1,2,3,4);
         Bag<Integer> sat = getSUT(1,4,3,2);
-        assertTrue(sut.equals(sat));
+        assertEquals(sut, sat);
     }
     @Test
     public void equals3() {
@@ -207,44 +232,50 @@ public class BagTest<E> {
     public void addMore1() {
         Bag<Character> sut = getSUT();
         Bag<Character> sat = sut.add('c', 4);
-        assertTrue(sat.size() == 4);
+        assertSame(4, sat.size());
     }
 
     @Test
     public void addMore2() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
         Bag<Character> sat = sut.add('c', 4);
-        assertTrue(sat.size() == 8);
+        assertSame(8, sat.size());
     }
     @Test(expected = IllegalArgumentException.class)
     public void addMore3() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
         Bag<Character> sat = sut.add('c', -2);
-        assertTrue(sat.size() == 8);
+        assertSame(8, sat.size());
     }
 
     @Test
     public void addBag1() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
         Bag<Character> sat = getSUT('c');
-        Bag<Character> x = sut.add(sat);
-        assertTrue(x.size() == 5);
+        Bag<Character> test = sut.add(sat);
+        assertSame(5, test.size());
     }
 
     @Test
     public void addBag2() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
         Bag<Character> sat = getSUT('d', 'a', ' ');
-        Bag<Character> x = sat.add(sut);
-        assertTrue(x.size() == 9);
+        Bag<Character> test = sat.add(sut);
+        assertSame(9, test.size());
     }
 
     @Test
     public void addBag3() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
         Bag<Character> sat = getSUT('c');
-        Bag<Character> x = sut.add(sut);
-        assertTrue(x.size() == 8);
+        Bag<Character> test = sut.add(sat);
+        assertSame(5, test.size());
+    }
+    @Test
+    public void addBagSelf() {
+        Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
+        Bag<Character> test= sut.add(sut);
+        assertSame(8, test.size());
     }
 
     @Test
@@ -287,9 +318,9 @@ public class BagTest<E> {
     public void removeBag1() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
         Bag<Character> sat = getSUT('d', 'u', ' ');
-        Bag<Character> x = sut.remove(sat);
+        Bag<Character> test = sut.remove(sat);
 
-        assertTrue(x.size() == 4);
+        assertSame(4, test.size());
     }
 
     @Test
@@ -297,43 +328,43 @@ public class BagTest<E> {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
         Bag<Character> sat = sut.remove(sut);
         System.out.println(sat.size());
-        assertTrue(sat.size() == 0);
+        assertSame(0, sat.size());
     }
 
     @Test (expected = NoSuchElementException.class)
     public void removeBag3() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
         Bag<Character> sat = getSUT('a', 'f', ' ');
-        Bag<Character> x = sut.remove(sat);
-        assertEquals(x.toString(), sut.toString());
+        Bag<Character> test = sut.remove(sat);
+        assertEquals(test.toString(), sut.toString());
     }
 
     @Test
     public void removeMore1() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'l', 'l');
         Bag<Character> sat = sut.remove('l', 3);
-        assertTrue(sat.size() == 3);
+        assertSame(3, sat.size());
     }
 
     @Test
     public void removeMore2() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'l', 'l');
         Bag<Character> sat = sut.remove('l', 5);
-        assertTrue(sat.size() == 3);
+        assertSame(3, sat.size());
     }
 
     @Test
     public void removeMore3() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'l', 'l');
         Bag<Character> sat = sut.remove('a', 5);
-        assertTrue(sat.size() == 6);
+        assertSame(6, sat.size());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void removeMore4() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'l', 'l');
         Bag<Character> sat = sut.remove('a', -5);
-        assertTrue(sat.size() == 6);
+        assertSame(6, sat.size());
     }
 
     @Test
@@ -368,19 +399,19 @@ public class BagTest<E> {
     @Test
     public void count1() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
-        assertTrue(sut.count('w') == 1);
+        assertSame(1, sut.count('w'));
     }
 
     @Test
     public void count2() {
         Bag<Character> sut = getSUT('w', 'w', 'r', 'l', 'd', 'w');
-        assertTrue(sut.count('w') == 3);
+        assertSame(3, sut.count('w'));
     }
 
     @Test
     public void count3() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
-        assertTrue(sut.count('y') == 0);
+        assertSame(0, sut.count('y'));
     }
     @Test
     public void distinct1() {

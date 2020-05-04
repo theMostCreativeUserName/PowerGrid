@@ -21,9 +21,9 @@ import java.util.Set;
 public class NeutralPlayer implements Player {
 
     /**
-     * counts calls for secret
+     * counts calls for secret.
      */
-    private int secretCalls = 0;
+    private int secretCalls;
     /**
      * secret of the player.
      */
@@ -37,29 +37,34 @@ public class NeutralPlayer implements Player {
      * true, if past already
      * false, if not yet passed
      */
-    private boolean passed = false;
+    private boolean passed;
     /**
      * electro of player.
      */
-    private int electro = 0;
+    private int electro;
     /**
      * cities the player owns.
      */
-    private Set<City> cities = new HashSet<>();
+    private final Set<City> cities = new HashSet<>();
     /**
      * plants the player owns.
      */
-    private Set<Plant> plants = new HashSet<>();
+    private final Set<Plant> plants = new HashSet<>();
     /**
      * resources the player stores.
      */
-    private Bag<Resource> resources = new ListBag<>();
+    private final Bag<Resource> resources = new ListBag<>();
 
     /**
      * A new player.
+     * @param color color of player
+     * @param secret color of secret
      */
     public NeutralPlayer(final String secret, final String color) {
 
+        electro = 0;
+        passed = false;
+        secretCalls = 0;
         this.secret = secret;
         this.color = color;
     }

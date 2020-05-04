@@ -78,17 +78,6 @@ public class FactoryTest {
         Assert.assertSame("factory supplies one Board object per edition", sut, have);
     }
 
-    @Test public void newOtherBoard() {
-        // arrange
-        Edition test = new EditionGermany();
-        Board sut = factory.newBoard(test);
-        // act
-        Edition test2 = new EditionGermany();
-        final Board have = factory.newBoard(test2);
-        // assert
-        Assert.assertNotSame("factory returns different Board objects for different edition", sut, have);
-    }
-
     @Test public void newOtherPlant() {
         // arrange
         Plant sut = factory.newPlant(1, Plant.Type.Coal, 2, 2 );

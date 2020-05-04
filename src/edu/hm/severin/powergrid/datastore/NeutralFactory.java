@@ -4,29 +4,70 @@ import edu.hm.cs.rs.powergrid.Edition;
 import edu.hm.cs.rs.powergrid.datastore.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * creates Factory.
  * @author Severin,Pietsch
- * @complexity: 12
+ * @complexity: 17
  */
 public class NeutralFactory implements Factory {
+
+    /**
+     * Map of already generated cities.
+     */
+    private Map<String, City> nameOfCity = new HashMap<>();
+
+    /**
+     * Map of already generated players.
+     */
+    private Map<String, Player> colorOfPlayer = new HashMap<>();
+
+    /**
+     * Map of already generated plants.
+     */
+    private Map<Integer, Plant> numberOfPlant = new HashMap<>();
+
+    /**
+     * generated plantmarket.
+     */
+    private PlantMarket plantMarket;
+
+    /**
+     * generated resourcemarket.
+     */
+    private ResourceMarket resourceMarket;
+
+    /**
+     * generated board.
+     */
+    private Board board;
+
+    /**
+     * Map of already generated auctions.
+     */
+    private Map<Plant, Auction> plantforAuction = new HashMap<>();
+
+    /**
+     * generated game.
+     */
+    private Game game;
+
     /**
      * new City.
      * @param name Name. Not Null, not empty.
      * @param area Area. Bigger 0.
      * @return new City
      */
-    private Map<String, City> NameOfCity = new HashMap<>();
     @Override
     public City newCity(final String name, final int area) {
         final City result;
-        if(NameOfCity.containsKey(name))
-            result = NameOfCity.get(name);
+        if(nameOfCity.containsKey(name))
+            result = nameOfCity.get(name);
         else {
             result = new NeutralCity(name, area);
-            NameOfCity.put(name, result);
+            nameOfCity.put(name, result);
         }
         return result;
     }
@@ -35,17 +76,16 @@ public class NeutralFactory implements Factory {
      * new Player.
      * @param secret Geheimnis des Spielers. Nicht null.
      * @param color  Farbe des Spielers. Nicht null.
-     * @return
+     * @return new Player
      */
-    private Map<String, Player> ColorOfPlayer = new HashMap<>();
     @Override
     public Player newPlayer(final String secret, final String color) {
         final Player result;
-        if(ColorOfPlayer.containsKey(color))
-            result = ColorOfPlayer.get(color);
+        if(colorOfPlayer.containsKey(color))
+            result = colorOfPlayer.get(color);
         else {
             result = new NeutralPlayer(secret, color);
-            ColorOfPlayer.put(color, result);
+            colorOfPlayer.put(color, result);
         }
         return result;
     }
@@ -60,15 +100,14 @@ public class NeutralFactory implements Factory {
      *                  Echt positiv.
      * @return new Plant
      */
-    private Map<Integer, Plant> NumberOfPlant = new HashMap<>();
     @Override
     public Plant newPlant(final int number, final Plant.Type type, final int resources, final int cities) {
         final Plant result;
-        if(NumberOfPlant.containsKey(number))
-            return NumberOfPlant.get(number);
+        if(numberOfPlant.containsKey(number))
+            return numberOfPlant.get(number);
         else {
             result = new NeutralPlant(number, type, resources, cities);
-            NumberOfPlant.put(number, result);
+            numberOfPlant.put(number, result);
         }
         return result;
     }
@@ -80,7 +119,10 @@ public class NeutralFactory implements Factory {
      */
     @Override
     public PlantMarket newPlantMarket(final Edition edition) {
-        return null;
+        if (plantMarket == null) {
+            plantMarket = new NeutralPlantMarket(edition, this);
+        }
+        return plantMarket;
     }
 
     /**
@@ -90,7 +132,10 @@ public class NeutralFactory implements Factory {
      */
     @Override
     public ResourceMarket newResourceMarket(final Edition edition) {
-        return null;
+        if (resourceMarket == null){
+            resourceMarket = new NeutralResourceMarket(edition);
+        }
+        return resourceMarket;
     }
 
     /**
@@ -98,15 +143,30 @@ public class NeutralFactory implements Factory {
      * @param edition Ausgabe des Spieles.
      * @return new Board
      */
-    private Map<Edition, Board> EditionOfBoard = new HashMap<>();
     @Override
     public Board newBoard(final Edition edition) {
-        final Board result;
-        if(EditionOfBoard.containsKey(edition))
-            result = EditionOfBoard.get(edition);
+        if (board == null) {
+            board = new NeutralBoard(edition);
+        }
+        return board;
+    }
+    /**
+     * Eine Auktion.
+     * Das Hoechstgebot ist gleich der Nummer des Kraftwerkes.
+     * Der erste Spieler der Liste ist der Hoechstbietende.
+     * @param plant   Kraftwerk, das zum Verkauf steht. Nicht null.
+     * @param players Spieler, die an der Auktion teilnehmen. Nicht null, nicht leer.
+     *                Die Spieler bieten in der Reihenfolge dieser Liste.
+     * @return Auktion. Nicht null.
+     */
+    @Override
+    public Auction newAuction(final Plant plant, final List<Player> players) {
+        final Auction result;
+        if(plantforAuction.containsKey(plant))
+            result = plantforAuction.get(plant);
         else {
-            result = new NeutralBoard(edition);
-            EditionOfBoard.put(edition, result);
+            result = new NeutralAuction(plant, players);
+            plantforAuction.put(plant, result);
         }
         return result;
     }
@@ -118,6 +178,9 @@ public class NeutralFactory implements Factory {
      */
     @Override
     public Game newGame(final Edition edition) {
-        return null;
+        if (game == null) {
+            game = new NeutralGame(edition, this);
+        }
+        return game;
     }
 }

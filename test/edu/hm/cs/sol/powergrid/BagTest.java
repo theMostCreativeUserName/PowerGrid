@@ -24,13 +24,19 @@ import org.junit.rules.Timeout;
  */
 public class BagTest{
     @Rule public Timeout globalTimeout = Timeout.millis(1_000); // max seconds per test
-    private static final Class<? extends Bag> bagType = ListBag.class;
+
+    /**
+     * Konkreter Bag-Typ.
+     * TODO: Fuegen Sie hier Ihre Typ ein.
+     */
+    @SuppressWarnings("rawtypes")
+    private static final Class<? extends Bag> bagType = edu.hm.severin.powergrid.ListBag.class;
 
     /**
      * Eine neue, leere Tuete.
      * @return Tuete. Nicht null.
      */
-    @SuppressWarnings({"varargs", "unchecked"})
+    @SuppressWarnings("unchecked")
     private <E> Bag<E> getSut() {
         try {
             return bagType.getDeclaredConstructor()
@@ -41,39 +47,22 @@ public class BagTest{
         }
     }
 
+
     /**
-     * Eine neue Tuete mit den Elementen einer Collection.
-     * @param collection Collection, deren Elemente die neue Tuete enthaelt.
+     * Eine neue Tuete mit gegebenen Elementen.
+     * @param elements Elemente, die die neue Tuete enthaelt.
      * @return Tuete. Nicht null.
      */
-    @SuppressWarnings("unchecked")
-    private <E> Bag<E> getSut(Collection<? super E> collection) {
+    @SuppressWarnings({"unchecked", "varargs"})
+    private <E> Bag<E> getSut(E... elements) {
         try {
-            return bagType.getDeclaredConstructor(Collection.class)
-                    .newInstance(collection);
+            return bagType.getDeclaredConstructor(Object[].class)
+                    .newInstance((Object)elements);
         }
         catch(ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
-
-
-    /**
-     * Eine neue Tuete mit gegebenen Elementen.
-     *
-     * @param elements Elemente, die die neue Tuete enthaelt.
-     * @return Tuete. Nicht null.
-     */
-    @SuppressWarnings("unchecked")
-    private <E> Bag<E> getSut(E... elements) {
-        try {
-            return bagType.getDeclaredConstructor(Object[].class)
-                    .newInstance((Object) elements);
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 
     @Test public void ofNone() {
         // arrange
@@ -310,7 +299,7 @@ public class BagTest{
         sut.remove((String)null);
         assertEquals(4, sut.size());
     }
-
+    @SuppressWarnings("unchecked")
     @Test public void bagOfBags() {
         Bag<Bag<Integer>> sut = getSut(getSut(1, 2),
                 getSut(2, 1),
@@ -358,34 +347,5 @@ public class BagTest{
         assertEquals(3, (long)sut.size());
 
         assertEquals(1, sut.count(null));
-    }
-
-
-    @Ignore("relax timeout for this test") @Test public void equalsFatAlienBag() {
-        final int size = 1_000_000_000;
-        Bag<Integer> sut = getSut();
-        sut.add(1, size);
-        assertEquals(sut, new ListBag<Integer>() {
-            @Override
-            public void clear() {
-                throw new UnsupportedOperationException("Not supported.");
-            }
-
-            @Override
-            public int count(Integer element) {
-                return element == 1 ? size : 0;
-            }
-
-            @Override
-            public Set<Integer> distinct() {
-                return Set.of(1);
-            }
-
-            @Override
-            public Bag<Integer> immutable() {
-                return this;
-            }
-
-        });
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
  * Produziert neue Bausteine des Spieles.
  * Kapselt die konkreten Implementierungen.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version 2020-02-19
+ * @version last modified 2020-04-10
  */
 public interface Factory {
     /**
@@ -20,7 +20,7 @@ public interface Factory {
      */
     static Factory newFactory() {
         return newFactory(System.getProperty("powergrid.factory",
-                                             System.getenv("POWERGRID_FACTORY")));
+                System.getenv("POWERGRID_FACTORY")));
     }
 
     /**
@@ -41,7 +41,7 @@ public interface Factory {
 
     /**
      * Eine Stadt.
-     * @param name Name. Nicht null und nicht leer.
+     * @param name   Name. Nicht null und nicht leer.
      * @param region Gebiet, in dem diese Stadt liegt. Wenigstens 1.
      */
     City newCity(String name, int region);
@@ -64,6 +64,11 @@ public interface Factory {
 
     /**
      * Ein Kraftwerksmarkt.
+     * Erzeugt alle Kraftwerke, die es in dieser Ausgabe gibt.
+     * Die Kraftwerke liegen alle im Stapel mit den verborgenen Kraftwerken.
+     * Die Reihenfolge spielt keine Rolle.
+     * Der aktuelle und der zukuenftige Markt sind leer.
+     * Die Karte "Stufe 3" ist noch nicht dabei.
      * @param edition Ausgabe des Spieles.
      * @return Kraftwerksmarkt. Nicht null.
      */
@@ -71,6 +76,9 @@ public interface Factory {
 
     /**
      * Ein Rohstoffmarkt.
+     * Erzeugt alle Rohstoffe gemaess Ausgabe.
+     * Macht davon so viele verfuegbar, wie es die Ausgabe festlegt.
+     * Der Rest bleibt im Vorrat.
      * @param edition Ausgabe des Spieles.
      * @return Rohstoffmarkt. Nicht null.
      */
@@ -78,16 +86,32 @@ public interface Factory {
 
     /**
      * Ein Spielplan.
+     * Fuegt die Staedte der Edition und ihre Verbindungen in den Spielplan ein.
+     * Der Spielplan ist noch offen.
      * @param edition Ausgabe des Spieles.
      * @return Spielplan.
      */
     Board newBoard(Edition edition);
 
+    /**
+     * Eine Auktion.
+     * Das Hoechstgebot ist gleich der Nummer des Kraftwerkes.
+     * Der erste Spieler der Liste ist der Hoechstbietende.
+     * @param plant   Kraftwerk, das zum Verkauf steht. Nicht null.
+     * @param players Spieler, die an der Auktion teilnehmen. Nicht null, nicht leer.
+     *                Die Spieler bieten in der Reihenfolge dieser Liste.
+     * @return Auktion. Nicht null.
+     */
+    Auction newAuction(Plant plant, List<Player> players);
 
     /**
-     * Ein Spiel.
+     * Ein Spiel mit einem neuen Spielbrett, Kraftwerks- und Rohstoffmarkt.
+     * Es gibt noch keine Spieler und keine Auktion.
+     * Spielstufe (Index), Runden- und Zugnummer sind 0.
+     * Die Phase ist Opening.
      * @param edition Ausgabe des Spieles.
      * @return Spiel. Nicht null.
+     * @see Phase#Opening
      */
     Game newGame(Edition edition);
 }

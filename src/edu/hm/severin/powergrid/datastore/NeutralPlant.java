@@ -35,7 +35,15 @@ public class NeutralPlant implements Plant {
      */
     private boolean operated;
     /** resource thar can be used by plant.*/
-    private Set<Bag<Resource>> usableResources;
+    private final Set<Bag<Resource>> usableResources;
+
+    /**
+     * creates new Neutral Plant.
+     * @param number identifying number
+     * @param type type of plant
+     * @param numberofResources Number of Resources used in one turn
+     * @param cities the plant provides to
+     */
 
     public NeutralPlant(final int number, final Type type, final int numberofResources, final int cities) {
         if (number < 0) throw new IllegalArgumentException("number of plant cannot be negative");
@@ -46,7 +54,7 @@ public class NeutralPlant implements Plant {
         this.type = type;
         this.numberOfResources = numberofResources;
         this.cities = cities;
-        this.usableResources = setUsableResources();
+        this.usableResources = getUsableResources();
     }
 
     /**
@@ -124,10 +132,10 @@ public class NeutralPlant implements Plant {
       return this.usableResources;
     }
 
-    private Set<Bag<Resource>> setUsableResources(){
-        Plant.Type type = getType();
-        Set<Bag<Resource>> canUse = new HashSet<>();
-        Bag<Resource> usable = new ListBag<>();
+    private Set<Bag<Resource>> getUsableResources(){
+        final Plant.Type type = getType();
+        final Set<Bag<Resource>> plantCanUse = new HashSet<>();
+        final Bag<Resource> usable = new ListBag<>();
         switch (type) {
             case Coal:
                 usable.add(Resource.Coal);
@@ -149,9 +157,9 @@ public class NeutralPlant implements Plant {
             default: {
             }
         }
-        Bag<Resource> imutableUsable = usable.immutable();
-        canUse.add(imutableUsable);
-        return canUse;
+        final Bag<Resource> imutableUsable = usable.immutable();
+        plantCanUse.add(imutableUsable);
+        return plantCanUse;
     }
 
     @Override

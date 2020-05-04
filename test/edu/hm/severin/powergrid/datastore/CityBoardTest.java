@@ -188,6 +188,7 @@ public class CityBoardTest{
     }
     @Test public void getCitiesOfBoard3(){
         Board sut = getBoardGermany();
+        System.out.println(sut.findCity("Würzburg").getConnections().isEmpty());
         Assert.assertFalse( sut.findCity("Würzburg").getConnections().isEmpty());
     }
 
