@@ -1,15 +1,16 @@
 package edu.hm.severin.powergrid.datastore;
 
 
-import edu.hm.cs.rs.powergrid.datastore.Factory;
-import edu.hm.cs.rs.powergrid.datastore.Plant;
-import edu.hm.cs.rs.powergrid.datastore.Player;
+import edu.hm.cs.rs.powergrid.Bag;
+import edu.hm.cs.rs.powergrid.datastore.*;
 import edu.hm.severin.powergrid.BagTest;
 import org.junit.Assert;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
+
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -53,6 +54,21 @@ public class PlantPlayerTest {
     @Test (expected = IllegalArgumentException.class)
     public void newIllegalPlant3(){
         Plant plant = factory.newPlant(1, Plant.Type.Coal, 2,-1);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void newIllegalPlant4(){
+        Plant plant = factory.newPlant(0, Plant.Type.Coal, 2,2);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void newIllegalPlant5(){
+        Plant plant = factory.newPlant(1, Plant.Type.Coal, 0,2);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void newIllegalPlant6(){
+        Plant plant = factory.newPlant(1, Plant.Type.Coal, 2,0);
     }
 
     @Test public void plantHasOperated1(){
@@ -106,6 +122,7 @@ public class PlantPlayerTest {
         // act
         // assert
         assertTrue(sut.hasSecret("hush - don't tell!"));
+        assertFalse(sut.hasSecret("hush - 't tell!"));
     }
     @Test public void newPlayer2() {
         // arrange
@@ -127,9 +144,25 @@ public class PlantPlayerTest {
     }
     @Test public void playerEqual3(){
         Player sut = factory.newPlayer("hush - don't tell!", "red");
-        String sat = "orage";
+        String sat = "orange";
 
         assertFalse(sut.equals(sat));
+    }
+    @Test public void playerEqual4(){
+        Player sut = factory.newPlayer("hush - don't tell!", "red");
+        String sat = "orange";
+
+        assertFalse(sut.equals(null));
+    }
+    @Test public void playerEqual6(){
+        Player sut = factory.newPlayer("hush - don't tell!", "red");
+        String sat = "orange";
+        Player m = factory.newPlayer("m", sat);
+        Player n = factory.newPlayer("hush - don't tell!", "red");
+        n.setElectro(30);
+
+        assertFalse(sut.equals(sat));
+        assertFalse(sut.equals(m));
     }
     @Test public void playerHash(){
         Player sut = factory.newPlayer("hush - don't tell!", "red");
@@ -139,7 +172,7 @@ public class PlantPlayerTest {
         assertFalse(sat.hashCode() == sut.hashCode());
     }
 
-    @Test public void playerGetSecret() throws InterruptedException {
+    @Test public void playerGetSecret1() throws InterruptedException {
         // arrange
         Player sut = factory.newPlayer("hush - don't tell!", "red");
         Thread.sleep(200);
@@ -151,7 +184,17 @@ public class PlantPlayerTest {
     @Test public void playerGetSecret2() throws InterruptedException {
         // arrange
         Player sut = factory.newPlayer("hush - don't tell!", "red");
-        sut.getSecret();
+        String s = sut.getSecret();
+        Thread.sleep(200);
+        assertEquals(null, sut.getSecret());
+    }
+    @Test public void playerGetSecret3() throws InterruptedException {
+        // arrange
+        Player sut = factory.newPlayer("hush - don't tell!", "red");
+        String s = sut.getSecret();
+        assertEquals(s, "hush - don't tell!");
+        Thread.sleep(200);
+        s = sut.getSecret();
         Thread.sleep(200);
         assertEquals(null, sut.getSecret());
     }
@@ -193,6 +236,12 @@ public class PlantPlayerTest {
         sut.setElectro(3);
         assertEquals(3, sut.getElectro());
     }
+    @Test public void playerSetElectro3(){
+        Player sut = factory.newPlayer("hush - don't tell!", "red");
+        sut.setElectro(100);
+        sut.setElectro(0);
+        assertEquals(0, sut.getElectro());
+    }
     @Test public void playerGetPlants(){
         Player sut = factory.newPlayer("hush - don't tell!", "red");
         assertTrue(sut.getPlants().isEmpty());
@@ -205,4 +254,5 @@ public class PlantPlayerTest {
         Player sut = factory.newPlayer("hush - don't tell!", "red");
         assertTrue(sut.getResources().isEmpty());
     }
+
 }

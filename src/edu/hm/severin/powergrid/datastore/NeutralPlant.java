@@ -46,9 +46,9 @@ public class NeutralPlant implements Plant {
      */
 
     public NeutralPlant(final int number, final Type type, final int numberofResources, final int cities) {
-        if (number < 0) throw new IllegalArgumentException("number of plant cannot be negative");
-        if (cities < 0) throw new IllegalArgumentException("plant provides at least one city");
-        if (numberofResources < 0) throw new IllegalArgumentException("plant uses at least one resource");
+        if (number <= 0) throw new IllegalArgumentException("number of plant cannot be negative");
+        if (cities <= 0) throw new IllegalArgumentException("plant provides at least one city");
+        if (numberofResources <= 0) throw new IllegalArgumentException("plant uses at least one resource");
 
         this.number = number;
         this.type = type;

@@ -114,7 +114,7 @@ public class NeutralPlayer implements Player {
      */
     @Override
     public void setElectro(int electro) {
-        if (electro <= 0) throw new IllegalArgumentException();
+        if (electro < 0) throw new IllegalArgumentException();
         this.electro = electro;
     }
 
@@ -145,7 +145,7 @@ public class NeutralPlayer implements Player {
     @Override
     public String getSecret() {
         String result = null;
-        if (secretCalls == 0) result = secret;
+        if (secretCalls <= 0) result = secret;
         secretCalls++;
 
         return result;
@@ -171,10 +171,10 @@ public class NeutralPlayer implements Player {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
+        //if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         final NeutralPlayer that = (NeutralPlayer) obj;
-        return getElectro() == that.getElectro() && getColor().equals(that.getColor());
+        return getColor().equals(that.getColor());
 
     }
     /**

@@ -78,12 +78,13 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * @return if element was added
      * @complexity: 1
      */
+    @Override
     public boolean add(final E e) {
         writeAccess();
         int compareSize = this.size();
-        getElements().add(e);
-        assert this.size() >= compareSize;
-        return true;
+         getElements().add(e);
+         assert compareSize <= this.size();
+         return true;
     }
 
     /**
@@ -141,7 +142,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     @Override
     public Bag<E> add(final E element, final int times) {
         int compare = this.size();
-        if (times < 0) {
+        if (times <= 0) {
             throw new IllegalArgumentException();
         }
         Bag<E> result = new ListBag<>(getElements());
@@ -190,7 +191,6 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
             }
             else if(element != null){
                 if(element.hashCode() == thisElements.hashCode()){
-                    System.out.println(111);
                     elementNumber++;
                 }
             }
@@ -258,7 +258,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     @Override
     public Bag<E> remove(final Object element, final int times) {
         int compare = getElements().size();
-        if (times < 0) {
+        if (times <= 0) {
             throw new IllegalArgumentException();
         }
         // Bag<E> result = new ListBag<>(getElements());

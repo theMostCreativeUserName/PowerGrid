@@ -14,7 +14,8 @@ import org.junit.rules.Timeout;
 import java.util.*;
 
 /**
- *tests for bag.
+ * tests for bag.
+ *
  * @author R. Schiedermeier, rs@cs.hm.edu
  * @author Severin
  */
@@ -23,7 +24,8 @@ public class BagTest<E> {
      * Maximale Laufzeit jedes  einzelnen Tests.
      * Verhindert Endlosschleifen.
      */
-    @Rule public Timeout globalTimeout = Timeout.seconds(1);
+    @Rule
+    public Timeout globalTimeout = Timeout.seconds(1);
 
     /**
      * Konkreter Bag-Typ.
@@ -34,6 +36,7 @@ public class BagTest<E> {
 
     /**
      * Eine neue, leere Tuete.
+     *
      * @return Tuete. Nicht null.
      */
     @SuppressWarnings("unchecked")
@@ -41,14 +44,14 @@ public class BagTest<E> {
         try {
             return bagType.getDeclaredConstructor()
                     .newInstance();
-        }
-        catch(ReflectiveOperationException e) {
+        } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
 
     /**
      * Eine neue Tuete mit den Elementen einer Collection.
+     *
      * @param collection Collection, deren Elemente die neue Tuete enthaelt.
      * @return Tuete. Nicht null.
      */
@@ -57,8 +60,7 @@ public class BagTest<E> {
         try {
             return bagType.getDeclaredConstructor(Collection.class)
                     .newInstance(collection);
-        }
-        catch(ReflectiveOperationException e) {
+        } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
@@ -66,6 +68,7 @@ public class BagTest<E> {
 
     /**
      * Eine neue Tuete mit gegebenen Elementen.
+     *
      * @param elements Elemente, die die neue Tuete enthaelt.
      * @return Tuete. Nicht null.
      */
@@ -73,28 +76,29 @@ public class BagTest<E> {
     private <E> Bag<E> getSUT(E... elements) {
         try {
             return bagType.getDeclaredConstructor(Object[].class)
-                    .newInstance((Object)elements);
-        }
-        catch(ReflectiveOperationException e) {
+                    .newInstance((Object) elements);
+        } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
 
     //------------------- Tests -------------------------------------------------------------
-    @Test public void addSome() {
+    @Test
+    public void addSome() {
         // arrange
         Bag<Boolean> sut = getSUT();
         // act
         sut.add(true);
         sut.add(false);
-        sut.add((Boolean)null);
+        sut.add((Boolean) null);
         sut.add(true);
         //  assert
         assertEquals(4, sut.size());
     }
 
 
-    @Test public void removeSome() {
+    @Test
+    public void removeSome() {
         // arrange
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
         // act
@@ -136,6 +140,7 @@ public class BagTest<E> {
         Bag<String> copy = sut.immutable();
         assertEquals(sut.toString(), copy.toString());
     }
+
     @Test(expected = UnsupportedOperationException.class)
     public void immutable2() {
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
@@ -143,6 +148,7 @@ public class BagTest<E> {
         copy.add("5th");
         assertEquals(sut.toString(), copy.toString());
     }
+
     @Test(expected = UnsupportedOperationException.class)
     public void immutable3() {
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
@@ -150,11 +156,12 @@ public class BagTest<E> {
         copy.remove("2nd");
         assertEquals(sut.toString(), copy.toString());
     }
+
     @Test
     public void immutable4() {
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
         Bag<String> copy = sut.immutable();
-        copy.add("2nd",3);
+        copy.add("2nd", 3);
         assertEquals(sut.toString(), copy.toString());
     }
 
@@ -188,9 +195,10 @@ public class BagTest<E> {
         //  assert
         assertEquals(4, sut.size());
     }
+
     @Test
     @SuppressWarnings("unchecked")
-    public void countType1(){
+    public void countType1() {
         Set<Integer> that = new HashSet<>();
         Set<Integer> sat = new HashSet<>();
         that.add(1);
@@ -200,34 +208,38 @@ public class BagTest<E> {
         sat.add(3);
         sat.add(2);
 
-        Bag<Set<Integer>> sut = getSUT(that,sat, sat);
+        Bag<Set<Integer>> sut = getSUT(that, sat, sat);
         assertEquals(2, sut.count(sat));
 
     }
 
     @Test
     public void equals1() {
-        Bag<Integer> sut = getSUT(1,2,2,3);
+        Bag<Integer> sut = getSUT(1, 2, 2, 3);
         assertEquals(sut, sut);
     }
+
     @Test
     public void equals2() {
-        Bag<Integer> sut = getSUT(1,2,3,4);
-        Bag<Integer> sat = getSUT(1,4,3,2);
+        Bag<Integer> sut = getSUT(1, 2, 3, 4);
+        Bag<Integer> sat = getSUT(1, 4, 3, 2);
         assertEquals(sut, sat);
     }
+
     @Test
     public void equals3() {
-        Bag<Integer> sut = getSUT(1,2);
-        Bag<Integer> sat = getSUT(1,4,3,2);
+        Bag<Integer> sut = getSUT(1, 2);
+        Bag<Integer> sat = getSUT(1, 4, 3, 2);
         assertFalse(sut.equals(sat));
     }
+
     @Test
     public void equals4() {
-        Bag<Integer> sut = getSUT(1,2);
+        Bag<Integer> sut = getSUT(1, 2);
         String sat = "gg";
         assertFalse(sut.equals(sat));
     }
+
     @Test
     public void addMore1() {
         Bag<Character> sut = getSUT();
@@ -241,6 +253,7 @@ public class BagTest<E> {
         Bag<Character> sat = sut.add('c', 4);
         assertSame(8, sat.size());
     }
+
     @Test(expected = IllegalArgumentException.class)
     public void addMore3() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
@@ -267,15 +280,43 @@ public class BagTest<E> {
     @Test
     public void addBag3() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
+        boolean added = sut.add('v');
+        assertTrue(added);
+        assertSame(sut.size(), 5);
+    }
+
+    @Test
+    public void addBag4() {
+        Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
         Bag<Character> sat = getSUT('c');
         Bag<Character> test = sut.add(sat);
         assertSame(5, test.size());
     }
+
     @Test
     public void addBagSelf() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
-        Bag<Character> test= sut.add(sut);
+        Bag<Character> test = sut.add(sut);
         assertSame(8, test.size());
+    }
+
+    @Test
+    public void addFalse() {
+        Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
+        boolean added = sut.add('s');
+        assertTrue(added);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void addIllegalTimes() {
+        Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
+        sut.add('s', 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void removeIllegalTimes() {
+        Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
+        sut.remove('s', 0);
     }
 
     @Test
@@ -314,7 +355,7 @@ public class BagTest<E> {
         assertEquals(2, sut.size());
     }
 
-    @Test (expected = NoSuchElementException.class)
+    @Test(expected = NoSuchElementException.class)
     public void removeBag1() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
         Bag<Character> sat = getSUT('d', 'u', ' ');
@@ -331,7 +372,7 @@ public class BagTest<E> {
         assertSame(0, sat.size());
     }
 
-    @Test (expected = NoSuchElementException.class)
+    @Test(expected = NoSuchElementException.class)
     public void removeBag3() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
         Bag<Character> sat = getSUT('a', 'f', ' ');
@@ -413,26 +454,29 @@ public class BagTest<E> {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
         assertSame(0, sut.count('y'));
     }
+
     @Test
     public void distinct1() {
         Bag<Character> sut = getSUT('w', 'w', 'r', 'w');
         Set<String> sat = new HashSet<>();
         sat.add("w");
         sat.add("r");
-        assertEquals(sut.distinct(),sat);
+        assertEquals(sut.distinct(), sat);
     }
+
     @Test
     public void distinct2() {
         Bag<Character> sut = getSUT('w', 'w', 'w', 'w');
         Set<String> sat = new HashSet<>();
         sat.add("w");
-        assertEquals(sut.distinct(),sat);
+        assertEquals(sut.distinct(), sat);
     }
+
     @Test
     public void distinct3() {
         Bag<Character> sut = getSUT();
         Set<String> sat = new HashSet<>();
-        assertEquals(sut.distinct(),sat);
+        assertEquals(sut.distinct(), sat);
     }
 
 }

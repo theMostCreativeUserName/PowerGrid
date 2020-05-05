@@ -11,6 +11,9 @@ import org.junit.rules.Timeout;
 
 import java.util.*;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
 /**
  * @author R. Schiedermeier, rs@cs.hm.edu
  * @author Pietsch
@@ -31,8 +34,8 @@ public class DatastoreTest {
         // act
         Game have = factory.newGame(new EditionGermany());
         // assert
-        Assert.assertSame(sut, have);
-        Assert.assertSame(factory, sut.getFactory());
+        assertSame(sut, have);
+        assertSame(factory, sut.getFactory());
     }
 
     @Test
@@ -43,7 +46,7 @@ public class DatastoreTest {
         // act
         Edition have = game.getEdition();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -55,7 +58,7 @@ public class DatastoreTest {
         Game game = factory.newGame(edition);
         Board have = game.getBoard();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -68,7 +71,7 @@ public class DatastoreTest {
         // act
         int have = game.getRound();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -81,7 +84,7 @@ public class DatastoreTest {
         // act
         Phase have = game.getPhase();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -107,7 +110,7 @@ public class DatastoreTest {
         // act
         int have = game.getLevel();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -119,7 +122,7 @@ public class DatastoreTest {
         Game game = factory.newGame(edition);
         PlantMarket have = game.getPlantMarket();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -131,7 +134,7 @@ public class DatastoreTest {
         Game game = factory.newGame(edition);
         ResourceMarket have = game.getResourceMarket();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -149,7 +152,7 @@ public class DatastoreTest {
         game.setAuction(sut);
         Auction have = game.getAuction();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -162,7 +165,7 @@ public class DatastoreTest {
         // act
         int have = game.getNumMoves();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -172,7 +175,7 @@ public class DatastoreTest {
         // act
         ResourceMarket have = factory.newResourceMarket(new EditionGermany());
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -183,7 +186,7 @@ public class DatastoreTest {
         int sut = sutRM.getPrice(Resource.Uranium);
         int have = 14;
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -222,7 +225,7 @@ public class DatastoreTest {
         // act
         PlantMarket have = factory.newPlantMarket(new EditionGermany());
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -255,7 +258,7 @@ public class DatastoreTest {
         PlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
         int have = plantMarket.getNumberHidden();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -266,7 +269,7 @@ public class DatastoreTest {
         PlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
         Plant have = plantMarket.findPlant(7);
         // assert
-        Assert.assertEquals(sut, have);
+        assertEquals(sut, have);
     }
 
     @Test
@@ -277,7 +280,25 @@ public class DatastoreTest {
         PlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
         Plant have = plantMarket.findPlant(55);
         // assert
-        Assert.assertEquals(sut, have);
+        assertEquals(sut, have);
+    }
+    @Test
+    public void plantMarketFindPlant(){
+        PlantMarket m = factory.newPlantMarket(new EditionGermany());
+        Plant found = m.findPlant(4);
+        assertEquals(found.getType(), Plant.Type.Coal);
+    }
+    @Test
+    public void GameFindPlayers() {
+        // arrange
+        Edition edition = new EditionGermany();
+        Game game = factory.newGame(edition);
+        String secret = "hello";
+        Player sut = game.findPlayer(secret);
+        // act
+        Player have = null;
+        // assert
+        assertSame(sut, have);
     }
 
     @Test
@@ -288,7 +309,7 @@ public class DatastoreTest {
         PlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
         Plant have = plantMarket.removePlant(55);
         // assert
-        Assert.assertEquals(sut, have);
+        assertEquals(sut, have);
     }
 
     @Test
@@ -299,7 +320,7 @@ public class DatastoreTest {
         PlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
         Plant have = plantMarket.removePlant(7);
         // assert
-        Assert.assertEquals(sut, have);
+        assertEquals(sut, have);
     }
 
     @Test
@@ -353,7 +374,7 @@ public class DatastoreTest {
         PlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
         List<Plant> have = plantMarket.getHidden();
         // assert
-        Assert.assertEquals(sut, have);
+        assertEquals(sut, have);
     }
 
     @Test
@@ -367,7 +388,7 @@ public class DatastoreTest {
                 List.of(factory.newPlayer("789", "yellow"),
                         factory.newPlayer("012", "green")));
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -381,7 +402,7 @@ public class DatastoreTest {
         int sut = auction.getAmount();
         int have = 20;
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -395,7 +416,7 @@ public class DatastoreTest {
         auction.setPlayer(have);
         Player sut = auction.getPlayer();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -408,7 +429,7 @@ public class DatastoreTest {
         // act
         List<Player> sut = auction.getPlayers();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
     @Test
@@ -421,7 +442,7 @@ public class DatastoreTest {
         // act
         Plant sut = auction.getPlant();
         // assert
-        Assert.assertSame(sut, have);
+        assertSame(sut, have);
     }
 
 }

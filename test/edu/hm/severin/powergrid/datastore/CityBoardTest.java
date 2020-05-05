@@ -7,6 +7,8 @@ import edu.hm.cs.rs.powergrid.datastore.City;
 import edu.hm.cs.rs.powergrid.datastore.Factory;
 import org.junit.Assert;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -121,6 +123,24 @@ public class CityBoardTest{
         sut.close();
         sut.close();
     }
+    @Test (expected = IllegalStateException.class)
+    public void closeBoard2(){
+        Board sut = getBoardGermany();
+        sut.close();
+        City m = sut.findCity("Bremen");
+        m.close();
+        m.connect(sut.findCity("München"), 666);
+        Assert.assertEquals(50, m.getConnections().size());
+    }
+    @Test (expected = IllegalStateException.class)
+    public void closeBoard3(){
+        Board sut = getBoardGermany();
+        sut.close();
+        City m = sut.findCity("Bremen");
+        m.connect(sut.findCity("München"), 666);
+        Assert.assertEquals(m.getConnections().size(), 60);
+    }
+
     @Test public void newBoard() {
         // arrange
         Board sut = getBoardGermany();
