@@ -2,4 +2,8 @@
 /workspace.xml
 *.html
 /report
+<<<<<<< HEAD
 /out
+=======
+/out
+>>>>>>> c21efc134c1622d2b4fa95025fa3b9b3be51cc57
