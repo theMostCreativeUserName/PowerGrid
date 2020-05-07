@@ -125,7 +125,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
         Set<E> result = new HashSet<>();
         for (E element : getElements()) {
             String name = element.toString();
-            boolean add = result.add((E) (name));
+             result.add((E) (name));
         }
         Set<E> immutable = Set.copyOf(result);
         return immutable;
