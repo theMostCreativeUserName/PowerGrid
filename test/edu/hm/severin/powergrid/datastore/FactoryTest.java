@@ -10,6 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
 
+import java.util.Set;
+
 /**
  * Smoketest for factory.
  * @author R. Schiedermeier, rs@cs.hm.edu
@@ -167,4 +169,50 @@ public class FactoryTest {
         // assert
         assertTrue("players w/o cities&plants compare by color (other first)", sut.compareTo(other) > 0);
     }
+    @Test public void comparePlayersCities1() {
+        // arrange
+        Player sut = factory.newPlayer("-", "c");
+        Set<City> cities = sut.getCities();
+        cities.add(factory.newCity("Unicorncity", 1000));
+        Player other = factory.newPlayer("-", "b");
+        // act
+        // assert
+        assertTrue("players with Cities, sut first", sut.compareTo(other) < 0);
+    }
+
+    @Test public void comparePlayersCities2() {
+        // arrange
+        Player sut = factory.newPlayer("-", "c");
+        Player other = factory.newPlayer("-", "b");
+        Set<City> cities = other.getCities();
+        cities.add(factory.newCity("Unicorncity", 1000));
+        // act
+        // assert
+        assertTrue("players with Cities, sut first", sut.compareTo(other) > 0);
+    }
+
+    @Test public void comparePlayersPlant1() {
+        // arrange
+        Player sut = factory.newPlayer("-", "c");
+        Set<Plant> plants = sut.getPlants();
+        plants.add(factory.newPlant(1000, Plant.Type.Eco, 300, 60000));
+        Player other = factory.newPlayer("-", "b");
+
+        // act
+        // assert
+        assertTrue("players with Cities, sut first", sut.compareTo(other) < 0);
+    }
+
+    @Test public void comparePlayersPlant2() {
+        // arrange
+        Player sut = factory.newPlayer("-", "c");
+        Player other = factory.newPlayer("-", "b");
+        Set<Plant> plants = other.getPlants();
+        plants.add(factory.newPlant(1000, Plant.Type.Eco, 300, 60000));
+
+        // act
+        // assert
+        assertTrue("players with Cities, sut first", sut.compareTo(other) > 0);
+    }
+
 }

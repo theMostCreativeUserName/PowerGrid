@@ -178,7 +178,7 @@ public class NeutralBoard implements Board {
      * @complexity: 2
      */
     private Set<City> getCityNamesFromEdition() {
-         final HashSet<City> citySet = new HashSet<>();
+         final Set<City> citySet = new HashSet<>();
 
         for (int counter = 0; counter < getEdition()
                 .getCitySpecifications()

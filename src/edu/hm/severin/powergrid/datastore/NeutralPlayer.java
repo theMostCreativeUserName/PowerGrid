@@ -154,13 +154,13 @@ public class NeutralPlayer implements Player {
     /**
      * tests if player knows the secret.
      *
-     * @param secret Ein String.
+     * @param proveSecret Ein String.
      * @return true, if secret is correct: else false
      */
     @Override
-    public boolean hasSecret(final String secret) {
+    public boolean hasSecret(final String proveSecret) {
         boolean knowsSecret = false;
-        if (secret.equals(this.secret)) knowsSecret = true;
+        if (proveSecret.equals(this.secret)) knowsSecret = true;
         return knowsSecret;
     }
 

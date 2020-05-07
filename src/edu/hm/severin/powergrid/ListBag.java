@@ -3,7 +3,16 @@ package edu.hm.severin.powergrid;
 
 import edu.hm.cs.rs.powergrid.Bag;
 
-import java.util.*;
+import java.util.AbstractCollection;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 
 /**
@@ -52,7 +61,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     @SuppressWarnings("varargs")
     @SafeVarargs
     public ListBag(final E... elements) {
-        E[] vararg =  elements;
+        final E[] vararg =  elements;
         List<E> result = new ArrayList<>();
         for (E arrayPart:vararg) {
             result.add(arrayPart);
@@ -81,7 +90,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     @Override
     public boolean add(final E e) {
         writeAccess();
-        int compareSize = this.size();
+        final int compareSize = this.size();
          getElements().add(e);
          assert compareSize <= this.size();
          return true;
@@ -96,7 +105,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     public boolean remove(final Object o) {
         writeAccess();
-        int compareSize = this.size();
+        final int compareSize = this.size();
         this.getElements().remove(o);
         assert this.size() <= compareSize;
         return size() < compareSize;
@@ -109,7 +118,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public Bag<E> immutable() {
-        List<E> elementList = getElements();
+        final List<E> elementList = getElements();
         return new ListBag<E>(elementList, true);
     }
 
@@ -124,10 +133,10 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     public Set<E> distinct() {
         Set<E> result = new HashSet<>();
         for (E element : getElements()) {
-            String name = element.toString();
-             result.add((E) (name));
+            final String name = element.toString();
+             result.add((E) name);
         }
-        Set<E> immutable = Set.copyOf(result);
+        final Set<E> immutable = Set.copyOf(result);
         return immutable;
     }
 
@@ -141,7 +150,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public Bag<E> add(final E element, final int times) {
-        int compare = this.size();
+        final int compare = this.size();
         if (times <= 0) {
             throw new IllegalArgumentException();
         }
@@ -162,9 +171,9 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public Bag<E> add(final Bag<? extends E> that) {
-        int compare = this.size();
+        final int compare = this.size();
         Bag<E> result = new ListBag<>(getElements());
-        Iterator<? extends E> thatIterator = that.iterator();
+        final Iterator<? extends E> thatIterator = that.iterator();
         while (thatIterator.hasNext()) {
             result.add(thatIterator.next());
             that.iterator().next();
@@ -184,8 +193,8 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
         int elementNumber = 0;
 
         for (E thisElements : getElements()) {
-            String thisString = thisElements + "";
-            String elementString = element + "";
+            final String thisString = thisElements + "";
+            final String elementString = element + "";
             if (thisString.contains(elementString)) {
                 elementNumber++;
             }
@@ -212,7 +221,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     @Override
     public boolean contains(final Bag<E> that) {
         if(this == that) return true;
-        Set<E> thatSet = that.distinct();
+        final Set<E> thatSet = that.distinct();
         return thatSet.stream().allMatch(element -> this.count(element)>=that.count(element));
     }
 
@@ -227,12 +236,12 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public Bag<E> remove(final Bag<E> that) {
-        int compare = this.size();
+        final int compare = this.size();
         List<E> thatElement = new ArrayList<>();
         for (E e:that) {
             thatElement.add(e);
         }
-        Bag<E> iterate = new ListBag<>(thatElement);
+        final Bag<E> iterate = new ListBag<>(thatElement);
         for (E element:iterate) {
             if(this.contains(element)) {
                 this.remove(element);
@@ -257,7 +266,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public Bag<E> remove(final Object element, final int times) {
-        int compare = getElements().size();
+        final int compare = getElements().size();
         if (times <= 0) {
             throw new IllegalArgumentException();
         }
@@ -346,7 +355,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public int hashCode() {
-        Set<E> thisSet = this.distinct();
+        final Set<E> thisSet = this.distinct();
         Map<E,Integer> identifier = new HashMap<>();
         for (E element:thisSet) {
             int elementCount = this.count(element);

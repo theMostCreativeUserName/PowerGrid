@@ -254,5 +254,23 @@ public class PlantPlayerTest {
         Player sut = factory.newPlayer("hush - don't tell!", "red");
         assertTrue(sut.getResources().isEmpty());
     }
+    @Test public void PlayerGetCities(){
+        Player player = factory.newPlayer("hush - don't tell!", "red");
+        City city = factory.newCity("Unicorncity", 1000);
+        Set<City> sut = player.getCities();
+        sut.add(city);
+        Set<City> have = player.getCities();
+        assertSame(sut, have);
+    }
+
+    @Test public void PlayerGetPlants(){
+        Player player = factory.newPlayer("hush - don't tell!", "red");
+        Plant plant= factory.newPlant(666, Plant.Type.Eco, 1, 333);
+        Set<Plant> sut = player.getPlants();
+        sut.add(plant);
+        Set<Plant> have = player.getPlants();
+        assertSame(sut, have);
+    }
+
 
 }
