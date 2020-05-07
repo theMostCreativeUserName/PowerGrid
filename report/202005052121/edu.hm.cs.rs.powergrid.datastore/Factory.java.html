@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>Factory.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package edu.hm.cs.rs.powergrid.datastore;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import edu.hm.cs.rs.powergrid.Edition;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.List;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Produziert neue Bausteine des Spieles.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Kapselt die konkreten Implementierungen.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * @author R. Schiedermeier, rs@cs.hm.edu</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * @version last modified 2020-04-10</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>public interface Factory {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Liefert eine neue Factory,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * deren FQCN die Systemproperty powergrid.factory definiert.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Wenn diese Systemproperty undefiniert ist,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * gilt die Umgebungsvariable POWERGRID_FACTORYTYPE.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return neue Factory.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @throws RuntimeException wenn weder Systemproperty noch Umgebungsvariable definiert sind.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    static Factory newFactory() {</span></pre></td></tr>
+
+
+<tr>
+<td class='uncovered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_22'/>
+22
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_22'>1</a>
+<span>
+
+1. newFactory : replaced return value with null for edu/hm/cs/rs/powergrid/datastore/Factory::newFactory &rarr; NO_COVERAGE<br/>
+
+</span>
+</span>
+</td>
+<td class='uncovered'><pre><span  class='survived'>        return newFactory(System.getProperty(&#34;powergrid.factory&#34;,</span></pre></td></tr>
+
+
+<tr>
+<td class='uncovered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='uncovered'><pre><span  class=''>                System.getenv(&#34;POWERGRID_FACTORY&#34;)));</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Liefert eine neue Factory des gegebenen Typs.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param fqcn Fully qualified Classname der konkreten Factoryklasse.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return neue Factory.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @throws RuntimeException wenn die Methode kein Objekt des Typs erzeugen kann.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    static Factory newFactory(String fqcn) {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        try {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_34'/>
+34
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_34'>1</a>
+<span>
+
+1. newFactory : replaced return value with null for edu/hm/cs/rs/powergrid/datastore/Factory::newFactory &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return (Factory)Class.forName(fqcn)</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                    .getConstructor()</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                    .newInstance();</span></pre></td></tr>
+
+
+<tr>
+<td class='uncovered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='uncovered'><pre><span  class=''>        } catch(ReflectiveOperationException e) {</span></pre></td></tr>
+
+
+<tr>
+<td class='uncovered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='uncovered'><pre><span  class=''>            throw new RuntimeException(e);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Eine Stadt.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param name   Name. Nicht null und nicht leer.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param region Gebiet, in dem diese Stadt liegt. Wenigstens 1.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    City newCity(String name, int region);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Ein Spieler.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param secret Geheimnis des Spielers. Nicht null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param color  Farbe des Spielers. Nicht null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    Player newPlayer(String secret, String color);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_55'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_56'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Ein Kraftwerk.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param number    Nummer des Kraftwerks. Nicht negativ.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param type      Kraftwerkstyp. Nicht null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param resources Anzahl Rohstoffe, die das Kraftwerk verbraucht. Nicht negativ.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param cities    Anzahl Staedte, die das Kraftwerk versorgen kann. Echt positiv.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_63'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    Plant newPlant(int number, Plant.Type type, int resources, int cities);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Ein Kraftwerksmarkt.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_67'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Erzeugt alle Kraftwerke, die es in dieser Ausgabe gibt.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_68'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Die Kraftwerke liegen alle im Stapel mit den verborgenen Kraftwerken.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_69'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Die Reihenfolge spielt keine Rolle.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_70'/>
+70
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_70'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Der aktuelle und der zukuenftige Markt sind leer.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_71'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Die Karte &#34;Stufe 3&#34; ist noch nicht dabei.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_72'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param edition Ausgabe des Spieles.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_73'/>
+73
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_73'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return Kraftwerksmarkt. Nicht null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_74'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_75'/>
+75
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_75'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    PlantMarket newPlantMarket(Edition edition);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_76'/>
+76
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_76'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_77'/>
+77
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_77'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_78'/>
+78
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_78'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Ein Rohstoffmarkt.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_79'/>
+79
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_79'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Erzeugt alle Rohstoffe gemaess Ausgabe.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_80'/>
+80
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_80'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Macht davon so viele verfuegbar, wie es die Ausgabe festlegt.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_81'/>
+81
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_81'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Der Rest bleibt im Vorrat.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_82'/>
+82
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_82'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param edition Ausgabe des Spieles.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_83'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return Rohstoffmarkt. Nicht null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_84'/>
+84
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_84'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_85'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    ResourceMarket newResourceMarket(Edition edition);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_86'/>
+86
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_86'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_87'/>
+87
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_87'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_88'/>
+88
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_88'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Ein Spielplan.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_89'/>
+89
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_89'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Fuegt die Staedte der Edition und ihre Verbindungen in den Spielplan ein.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_90'/>
+90
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_90'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Der Spielplan ist noch offen.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_91'/>
+91
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_91'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param edition Ausgabe des Spieles.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_92'/>
+92
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_92'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return Spielplan.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_93'/>
+93
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_93'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_94'/>
+94
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_94'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    Board newBoard(Edition edition);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_95'/>
+95
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_95'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_96'/>
+96
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_96'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_97'/>
+97
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_97'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Eine Auktion.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_98'/>
+98
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_98'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Das Hoechstgebot ist gleich der Nummer des Kraftwerkes.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_99'/>
+99
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_99'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Der erste Spieler der Liste ist der Hoechstbietende.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_100'/>
+100
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_100'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param plant   Kraftwerk, das zum Verkauf steht. Nicht null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_101'/>
+101
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_101'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param players Spieler, die an der Auktion teilnehmen. Nicht null, nicht leer.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_102'/>
+102
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_102'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *                Die Spieler bieten in der Reihenfolge dieser Liste.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_103'/>
+103
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_103'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return Auktion. Nicht null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_104'/>
+104
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_104'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_105'/>
+105
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_105'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    Auction newAuction(Plant plant, List&#60;Player&#62; players);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_106'/>
+106
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_106'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_107'/>
+107
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_107'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_108'/>
+108
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_108'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Ein Spiel mit einem neuen Spielbrett, Kraftwerks- und Rohstoffmarkt.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_109'/>
+109
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_109'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Es gibt noch keine Spieler und keine Auktion.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_110'/>
+110
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_110'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Spielstufe (Index), Runden- und Zugnummer sind 0.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_111'/>
+111
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_111'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Die Phase ist Opening.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_112'/>
+112
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_112'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param edition Ausgabe des Spieles.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_113'/>
+113
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_113'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return Spiel. Nicht null.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_114'/>
+114
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_114'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @see Phase#Opening</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_115'/>
+115
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_115'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_116'/>
+116
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_116'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    Game newGame(Edition edition);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@38138629_117'/>
+117
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@38138629_117'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@38138629_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@38138629_22'/> 
+
+<p class='NO_COVERAGE'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>newFactory<br/><b>Killed by : </b>none</span></span> replaced return value with null for edu/hm/cs/rs/powergrid/datastore/Factory::newFactory &rarr; NO_COVERAGE</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@38138629_34'>34</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@38138629_34'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>newFactory<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.CityBoardTest.newCity(edu.hm.severin.powergrid.datastore.CityBoardTest)</span></span> replaced return value with null for edu/hm/cs/rs/powergrid/datastore/Factory::newFactory &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+
+<li class='mutator'>BOOLEAN_FALSE_RETURN</li>
+
+<li class='mutator'>BOOLEAN_TRUE_RETURN</li>
+
+<li class='mutator'>CONDITIONALS_BOUNDARY_MUTATOR</li>
+
+<li class='mutator'>EMPTY_RETURN_VALUES</li>
+
+<li class='mutator'>INCREMENTS_MUTATOR</li>
+
+<li class='mutator'>INVERT_NEGS_MUTATOR</li>
+
+<li class='mutator'>MATH_MUTATOR</li>
+
+<li class='mutator'>NEGATE_CONDITIONALS_MUTATOR</li>
+
+<li class='mutator'>NULL_RETURN_VALUES</li>
+
+<li class='mutator'>PRIMITIVE_RETURN_VALS_MUTATOR</li>
+
+<li class='mutator'>VOID_METHOD_CALL_MUTATOR</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>edu.hm.severin.powergrid.datastore.CityBoardTest.closeRegionsBoard4(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketFindPlantOut(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerEqual3(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetAndSetPhase(edu.hm.severin.powergrid.datastore.DatastoreTest) (4 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerGetPassed(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.ResourceMarketGetAvailable(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketGetNumberHidden(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerGetPlants(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.connectCity5(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetAndSetRound(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.getCityArea(edu.hm.severin.powergrid.datastore.CityBoardTest) (3 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetEdition(edu.hm.severin.powergrid.datastore.DatastoreTest) (11 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.newGame(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerGetElectro(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.newIllegalCity4(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlayers2(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.compareCities2(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.newOtherPlant(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources4(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketRemovePlantWithNullPlant(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.ResourceMarketGetPrice(edu.hm.severin.powergrid.datastore.DatastoreTest) (8 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.getCityName(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlants2(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.newIllegalCity1(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerSetPassed2(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources7(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.getCitiesOfBoard3(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketGetHidden(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.compareCities1(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.closeRegionsBoard5(edu.hm.severin.powergrid.datastore.CityBoardTest) (7 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.connectCity1(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerHash(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.closeRegionsBoard1(edu.hm.severin.powergrid.datastore.CityBoardTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetPlantMarket(edu.hm.severin.powergrid.datastore.DatastoreTest) (3 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant2(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.connectCity4(edu.hm.severin.powergrid.datastore.CityBoardTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantSetOperated3(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newPlayer(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newPlant(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.newSameCity(edu.hm.severin.powergrid.datastore.FactoryTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerSetElectro2(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources3(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerEqual2(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.auctionGetAndSetAmount(edu.hm.severin.powergrid.datastore.DatastoreTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.newResourceMarket(edu.hm.severin.powergrid.datastore.DatastoreTest) (4 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.newIllegalCity2(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.newBoardFindCity1(edu.hm.severin.powergrid.datastore.CityBoardTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.newOtherCity(edu.hm.severin.powergrid.datastore.FactoryTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketFindPlantIn(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources6(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketGetFuture(edu.hm.severin.powergrid.datastore.DatastoreTest) (6 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.ResourceMarketGetSupply(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.getCitiesOfBoard2(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.newSamePlayer(edu.hm.severin.powergrid.datastore.FactoryTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.newAuction(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant3(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantSetOperated2(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketRemovePlantWithRealPlant(edu.hm.severin.powergrid.datastore.DatastoreTest) (5 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerSetPassed1(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.newBoardFindCity2(edu.hm.severin.powergrid.datastore.CityBoardTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.closeRegionsBoard2(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetAndSetAuction(edu.hm.severin.powergrid.datastore.DatastoreTest) (7 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlayers3(edu.hm.severin.powergrid.datastore.FactoryTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.newPlantMarket(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerEqual1(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.compareCities3(edu.hm.severin.powergrid.datastore.FactoryTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.connectCity3(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources2(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerSetElectro1(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources5(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerGetSecret(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (203 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.newCity(edu.hm.severin.powergrid.datastore.CityBoardTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.newOtherPlayer(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantHasOperated1(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.newIllegalBoard(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.getCitiesOfBoard1(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketGetActual(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.newSamePlant(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerGetColor(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlants3(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant1(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlayers1(edu.hm.severin.powergrid.datastore.FactoryTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.connectCity6(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetAndSetLevel(edu.hm.severin.powergrid.datastore.DatastoreTest) (5 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newPlayer2(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetPlayers(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources1(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetAndSetNumMoves(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.connectCity2(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerGetResources(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.auctionGetPlayers(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerGetCities(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.newIllegalCity3(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlants1(edu.hm.severin.powergrid.datastore.FactoryTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetResourceMarket(edu.hm.severin.powergrid.datastore.DatastoreTest) (6 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.auctionGetAndSetPlayer(edu.hm.severin.powergrid.datastore.DatastoreTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.auctionGetPlant(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.closeRegionsBoard3(edu.hm.severin.powergrid.datastore.CityBoardTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerGetSecret2(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (202 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.newSameBoard(edu.hm.severin.powergrid.datastore.FactoryTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.closeBoard(edu.hm.severin.powergrid.datastore.CityBoardTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.CityBoardTest.newBoard(edu.hm.severin.powergrid.datastore.CityBoardTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetBoard(edu.hm.severin.powergrid.datastore.DatastoreTest) (3 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='http://pitest.org'>PIT</a> 1.5.1
+
+</body>
+</html>
