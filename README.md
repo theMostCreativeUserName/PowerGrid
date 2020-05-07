@@ -1,8 +1,14 @@
 # PowerGrid
+Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
+--------------------------------------------------------------------------------------------------
+
+# Wichtige Nebeninfos 
 bitte ignoriert die html-Files....
 die sind von den Mutation tests......
----
 
+-------------------------------------------------------------------------------------------------
+
+# Sonstiges
 Für Softwareentwicklung 2
 
 Gute Git Tutorials, wenn ihr Lust drauf habt 😉: 
