@@ -1,5 +1,6 @@
 # PowerGrid
 Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
+ ##### O_O O_o o_O O_O ### O_O O_o o_O O_O  #### O_O O_o o_O O_O    
 --------------------------------------------------------------------------------------------------
 
 # Wichtige Nebeninfos 
