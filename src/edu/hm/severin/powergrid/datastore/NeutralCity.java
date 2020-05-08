@@ -58,6 +58,7 @@ public class NeutralCity implements OpenCity {
      */
     @Override
     public String getName() {
+        isCityOpen();
         return name;
     }
 
@@ -67,6 +68,7 @@ public class NeutralCity implements OpenCity {
      */
     @Override
     public int getRegion() {
+        isCityOpen();
         return area;
     }
 
@@ -78,7 +80,7 @@ public class NeutralCity implements OpenCity {
      */
     @Override
     public void connect(final City toCity, final int cost) {
-        if (open) {
+        isCityOpen();
             Objects.requireNonNull(toCity);
             if (toCity == this || cost < 0){
                 throw new IllegalArgumentException("city or cost are invalid");
@@ -86,8 +88,6 @@ public class NeutralCity implements OpenCity {
             if (getOpenConnections().containsKey(toCity))
                 throw new IllegalArgumentException("connection exists already");
             getOpenConnections().put(toCity, cost);
-        } else throw new IllegalStateException("city is closed already");
-
         assert toCity.getConnections() != null;
     }
 
@@ -97,6 +97,7 @@ public class NeutralCity implements OpenCity {
      */
     @Override
     public Map<City, Integer> getOpenConnections() {
+        isCityOpen();
         return connections;
     }
 
@@ -105,6 +106,7 @@ public class NeutralCity implements OpenCity {
      */
     @Override
     public void close() {
+        isCityOpen();
         open = false;
     }
 
@@ -126,5 +128,9 @@ public class NeutralCity implements OpenCity {
     @Override
     public int compareTo(City other) {
         return this.getName().compareTo(other.getName());
+    }
+
+    private void isCityOpen(){
+        if(!open) throw new UnsupportedOperationException();
     }
 }

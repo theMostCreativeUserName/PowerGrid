@@ -88,7 +88,7 @@ public class Smoke6Test {
     public void testClosedOpenBoardIsReadonly() {
         OpenBoard board = factory.newBoard(edition);
         board.close();
-        board.getCities().add(factory.newCity("Duckburg", 1));
+        board.getOpenCities().add(factory.newCity("Duckburg", 1));
     }
 
     @Test(expected = UnsupportedOperationException.class)

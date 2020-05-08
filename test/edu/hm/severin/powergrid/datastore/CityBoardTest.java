@@ -108,7 +108,7 @@ public class CityBoardTest{
         sut.connect(sat, 50);
         Assert.assertEquals("{city2 2=30}",sut.getConnections().toString());
     }
-    @Test (expected = IllegalStateException.class)
+    @Test (expected = UnsupportedOperationException.class)
     public void connectCity6(){
         OpenCity sut = getCity("city", 1);
         OpenCity sat = getCity("city2", 2);
@@ -117,13 +117,13 @@ public class CityBoardTest{
         Assert.assertEquals("{city2 2=30}",sut.getConnections().toString());
     }
 
-    @Test (expected = IllegalStateException.class)
+    @Test (expected = UnsupportedOperationException.class)
     public void closeBoard(){
         OpenBoard sut = getBoardGermany();
         sut.close();
         sut.close();
     }
-    @Test (expected = IllegalStateException.class)
+    @Test (expected = UnsupportedOperationException.class)
     public void closeBoard2(){
         OpenBoard sut = getBoardGermany();
         sut.close();
@@ -132,7 +132,7 @@ public class CityBoardTest{
         m.connect(sut.findCity("München"), 666);
         Assert.assertEquals(50, m.getConnections().size());
     }
-    @Test (expected = IllegalStateException.class)
+    @Test (expected = UnsupportedOperationException.class)
     public void closeBoard3(){
         OpenBoard sut = getBoardGermany();
         sut.close();
@@ -141,7 +141,8 @@ public class CityBoardTest{
         Assert.assertEquals(m.getConnections().size(), 60);
     }
 
-    @Test public void newBoard() {
+    @Test(expected = UnsupportedOperationException.class)
+    public void newBoard() {
         // arrange
         OpenBoard sut = getBoardGermany();
         // act
@@ -153,7 +154,8 @@ public class CityBoardTest{
     public void newIllegalBoard(){
         Board sut = factory.newBoard(null);
     }
-    @Test public void newBoardFindCity1() {
+    @Test (expected = UnsupportedOperationException.class)
+    public void newBoardFindCity1() {
         // arrange
         OpenBoard sut = getBoardGermany();
         // act
@@ -161,13 +163,22 @@ public class CityBoardTest{
         // assert
         Assert.assertEquals(getCity("Würzburg",4).toString(), sut.findCity("Würzburg").toString());
     }
-    @Test public void newBoardFindCity2() {
+    @Test (expected = UnsupportedOperationException.class)
+    public void newBoardFindCity2() {
         // arrange
         OpenBoard sut = getBoardGermany();
         // act
         sut.close();
         // assert
         Assert.assertEquals(null, sut.findCity("Japan"));
+    }
+    @Test public void newBoardFindCity3() {
+        // arrange
+        OpenBoard sut = getBoardGermany();
+        OpenCity m = factory.newCity("DaCity", 4);
+        sut.getOpenCities().add(m);
+        // assert
+        Assert.assertEquals(m, sut.findCity("DaCity"));
     }
     @Test public void closeRegionsBoard1(){
         OpenBoard sut = getBoardGermany();
@@ -180,7 +191,7 @@ public class CityBoardTest{
         sut.closeRegions(2);
         Assert.assertEquals(null, sut.findCity("München").getConnections());
     }
-    @Test (expected = IllegalStateException.class)
+    @Test (expected = UnsupportedOperationException.class)
     public void closeRegionsBoard4(){
         OpenBoard sut = getBoardGermany();
         sut.close();
@@ -211,6 +222,64 @@ public class CityBoardTest{
         System.out.println(sut.findCity("Würzburg").getConnections().isEmpty());
         Assert.assertFalse( sut.findCity("Würzburg").getConnections().isEmpty());
     }
-
-
+    @Test (expected = UnsupportedOperationException.class)
+    public void close(){
+        OpenBoard sut = getBoardGermany();
+        OpenCity m = factory.newCity("mm", 3);
+        sut.getCities().add(m);
+        sut.close();
+        m.close();
+    }
+    @Test (expected = UnsupportedOperationException.class)
+    public void closeCloseRegion(){
+        OpenBoard sut = getBoardGermany();
+        OpenCity m = factory.newCity("mm", 3);
+        sut.getCities().add(m);
+        sut.close();
+        sut.closeRegions(3);
+    }
+    @Test (expected = UnsupportedOperationException.class)
+    public void closeClose(){
+        OpenBoard sut = getBoardGermany();
+        sut.getOpenCities();
+        sut.close();
+        sut.close();
+    }
+    @Test (expected = UnsupportedOperationException.class)
+    public void closeClose2(){
+        OpenBoard sut = getBoardGermany();
+        OpenCity m = factory.newCity("mm", 4);
+        sut.getOpenCities().add(m);
+        sut.close();
+        m.close();
+    }
+    @Test (expected = UnsupportedOperationException.class)
+    public void closeClose3(){
+        OpenBoard sut = getBoardGermany();
+        OpenCity m = factory.newCity("mm", 4);
+        sut.getOpenCities().add(m);
+        sut.close();
+        m.getOpenConnections();
+    }
+    @Test (expected = UnsupportedOperationException.class)
+    public void closeClose4(){
+        OpenBoard sut = getBoardGermany();
+        OpenCity m = factory.newCity("mm", 4);
+        sut.getOpenCities().add(m);
+        sut.close();
+       m.getRegion();
+    }
+    @Test (expected = UnsupportedOperationException.class)
+    public void closeCity1(){
+        OpenCity m = factory.newCity("mm", 4);
+        m.close();
+        m.getName();
+    }
+    @Test (expected = UnsupportedOperationException.class)
+    public void closeCity2(){
+        OpenCity m = factory.newCity("mm", 4);
+        OpenCity n = factory.newCity("mm", 4);
+        m.close();
+        m.connect(n,22);
+    }
 }

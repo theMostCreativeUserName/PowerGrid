@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.Objects;
 import java.util.HashSet;
 import java.util.List;
+
 /**
  * the board of the game.
  *
@@ -65,9 +66,10 @@ public class NeutralBoard implements OpenBoard {
         connectAll();
     }
 
+
     private void isBoardOpen() {
         if (!open) {
-            throw new IllegalStateException("Board is closed");
+            throw new UnsupportedOperationException("Board is closed");
         }
     }
 
@@ -80,7 +82,6 @@ public class NeutralBoard implements OpenBoard {
      */
     @Override
     public void closeRegions(final int remaining) {
-        isBoardOpen();
         final Set<OpenCity> result = getOpenCities();
         final Set<OpenCity> remove = new HashSet<>();
         for (OpenCity city : result) {
@@ -142,6 +143,7 @@ public class NeutralBoard implements OpenBoard {
      */
     @Override
     public Set<OpenCity> getOpenCities() {
+        isBoardOpen();
         return cityNames;
     }
 
@@ -153,16 +155,10 @@ public class NeutralBoard implements OpenBoard {
      */
     @Override
     public void close() {
-        if (open) {
-            open = false;
-            final Set<City> allCities = getCities();
-            for (City city : allCities) {
-                city.close();
+            for (City city : getCities()) {
+               city.close();
             }
-        } else {
-            throw new IllegalStateException("Board is already closed.");
-        }
-        assert !this.open;
+        open = false;
     }
 
     private Edition getEdition() {
@@ -179,7 +175,7 @@ public class NeutralBoard implements OpenBoard {
      * @complexity: 2
      */
     private Set<OpenCity> getCityNamesFromEdition() {
-         final Set<OpenCity> citySet = new HashSet<>();
+        final Set<OpenCity> citySet = new HashSet<>();
 
         for (int counter = 0; counter < getEdition()
                 .getCitySpecifications()
@@ -215,7 +211,7 @@ public class NeutralBoard implements OpenBoard {
             int cityIndex = 2;
             int costIndex = MAGIC_NUMBER;
             while (costIndex <= specArray.length - 1) {
-                if(specArray[costIndex].length()<=2){
+                if (specArray[costIndex].length() <= 2) {
                     final int cost = Integer.parseInt(specArray[costIndex]);
                     final OpenCity toCity = findCity(specArray[cityIndex]);
                     fromCity.connect(toCity, cost);
