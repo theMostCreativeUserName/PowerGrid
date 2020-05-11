@@ -129,7 +129,7 @@ public class CityBoardTest{
         sut.close();
         OpenCity m = sut.findCity("Bremen");
         m.close();
-        m.connect(sut.findCity("München"), 666);
+        m.connect(sut.findCity("M\u00FCnchen"), 666);
         Assert.assertEquals(50, m.getConnections().size());
     }
     @Test (expected = UnsupportedOperationException.class)
@@ -137,7 +137,7 @@ public class CityBoardTest{
         OpenBoard sut = getBoardGermany();
         sut.close();
         OpenCity m = sut.findCity("Bremen");
-        m.connect(sut.findCity("München"), 666);
+        m.connect(sut.findCity("M\u00FCnchen"), 666);
         Assert.assertEquals(m.getConnections().size(), 60);
     }
 
@@ -161,7 +161,7 @@ public class CityBoardTest{
         // act
         sut.close();
         // assert
-        Assert.assertEquals(getCity("Würzburg",4).toString(), sut.findCity("Würzburg").toString());
+        Assert.assertEquals(getCity("W\u00FCrzburg",4).toString(), sut.findCity("W\u00FCrzburg").toString());
     }
     @Test (expected = UnsupportedOperationException.class)
     public void newBoardFindCity2() {
@@ -183,13 +183,13 @@ public class CityBoardTest{
     @Test public void closeRegionsBoard1(){
         OpenBoard sut = getBoardGermany();
         sut.closeRegions(2);
-        Assert.assertEquals(null, sut.findCity("München"));
+        Assert.assertEquals(null, sut.findCity("M\u00FCnchen"));
     }
     @Test (expected = NullPointerException.class)
     public void closeRegionsBoard2(){
         OpenBoard sut = getBoardGermany();
         sut.closeRegions(2);
-        Assert.assertEquals(null, sut.findCity("München").getConnections());
+        Assert.assertEquals(null, sut.findCity("M\u00FCnchen").getConnections());
     }
     @Test (expected = UnsupportedOperationException.class)
     public void closeRegionsBoard4(){
@@ -215,12 +215,12 @@ public class CityBoardTest{
     }
     @Test public void getCitiesOfBoard2(){
         Board sut = getBoardGermany();
-        Assert.assertEquals(factory.newCity("Würzburg",4).toString(), sut.findCity("Würzburg").toString());
+        Assert.assertEquals(factory.newCity("W\u00FCrzburg",4).toString(), sut.findCity("W\u00FCrzburg").toString());
     }
     @Test public void getCitiesOfBoard3(){
         Board sut = getBoardGermany();
-        System.out.println(sut.findCity("Würzburg").getConnections().isEmpty());
-        Assert.assertFalse( sut.findCity("Würzburg").getConnections().isEmpty());
+        System.out.println(sut.findCity("W\u00FCrzburg").getConnections().isEmpty());
+        Assert.assertFalse( sut.findCity("W\u00FCrzburg").getConnections().isEmpty());
     }
     @Test (expected = UnsupportedOperationException.class)
     public void close(){
