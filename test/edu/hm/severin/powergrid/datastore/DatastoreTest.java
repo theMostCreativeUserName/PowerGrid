@@ -17,7 +17,7 @@ import static org.junit.Assert.assertSame;
 
 /**
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @author Pietsch
+ * @author Pietsch, Severin
  * @version last modified 2020-04-09
  */
 public class DatastoreTest {
