@@ -2,6 +2,8 @@
 Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
 
 ### O_O O__o o__O O_O ### O_O O__o o__O O_O #### O_O O__o o__O O_O
+
+## Wenn der Wunsch nach der Erlösung näher rückt vergisst nicht, dass das Semester auch irgendwann vorbei ist.
 -------------------------------------------------------------------------------
 # Wichtige Nebeninfos
 bitte ignoriert die html-Files.... die sind von den Mutation tests......
