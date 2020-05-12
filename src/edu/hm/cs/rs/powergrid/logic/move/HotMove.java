@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * Ein Spielzug.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version last modified 2020-05-05
+ * @version last modified 2020-05-08
  */
 public interface HotMove extends Move {
     /**
@@ -27,12 +27,7 @@ public interface HotMove extends Move {
      * Ansonsten Problem, das den Spielzug verhindert.
      */
     default Optional<Problem> test() {
-        final Optional<Problem> problem = run(false);
-        if(problem.isEmpty())
-            System.out.println("[test] " + this + ": +");
-        else if(problem.get() != Problem.NotNow)
-            System.out.println("[test] " + this + ": " + problem.get());
-        return problem;
+        return run(false);
     }
 
     /**
@@ -42,9 +37,7 @@ public interface HotMove extends Move {
      * In diesem Fall ist das Spiel unveraendert.
      */
     default Optional<Problem> fire() {
-        final Optional<Problem> problem = run(true);
-        System.out.println("[fire] " + this);
-        return problem;
+        return run(true);
     }
 
     /**

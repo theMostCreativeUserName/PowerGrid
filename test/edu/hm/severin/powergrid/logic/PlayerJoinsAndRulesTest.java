@@ -1,7 +1,8 @@
-package edu.hm.cs.rs.powergrid.logic;
+package edu.hm.severin.powergrid.logic;
 
 import edu.hm.cs.rs.powergrid.EditionGermany;
 import edu.hm.cs.rs.powergrid.datastore.Game;
+import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
@@ -9,8 +10,16 @@ import static edu.hm.cs.rs.powergrid.logic.MoveType.CommenceGame;
 import static edu.hm.cs.rs.powergrid.logic.MoveType.JoinPlayer;
 import static org.junit.Assert.*;
 
+import edu.hm.cs.rs.powergrid.logic.Move;
+import edu.hm.cs.rs.powergrid.logic.MoveType;
+import edu.hm.cs.rs.powergrid.logic.Problem;
+import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.severin.powergrid.datastore.NeutralFactory;
+import edu.hm.severin.powergrid.datastore.NeutralGame;
+import edu.hm.severin.powergrid.logic.move.HotMoves;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.platform.engine.support.hierarchical.ThrowableCollector;
 import org.junit.rules.Timeout;
 
 import java.io.IOException;
@@ -30,7 +39,7 @@ import java.util.stream.IntStream;
  * @author R. Schiedermeier, rs@cs.hm.edu
  * @version last modified 2020-04-30
  */
-public class Smoke7Test {
+public class PlayerJoinsAndRulesTest {
     @Rule
     public Timeout globalTimeout = Timeout.seconds(1); // max seconds per test
 
@@ -47,7 +56,7 @@ public class Smoke7Test {
     private static BiConsumer<Integer, Runnable> times = (n, runnable) -> IntStream.range(0, n).forEach(__ -> runnable.run());
 
     /** Initialisiert Factory und Spielregeln. */
-    public Smoke7Test() {
+    public PlayerJoinsAndRulesTest() {
         // TODO: Fuegen Sie hier Ihre eigenen FQCNs ein.
         System.setProperty("powergrid.factory", "edu.hm.severin.powergrid.datastore.NeutralFactory");
         System.setProperty("powergrid.rules", "edu.hm.severin.powergrid.logic.StandardRules");
@@ -55,8 +64,8 @@ public class Smoke7Test {
         sut = Rules.newRules(openGame);
         game = openGame;
     }
-
-    @Test public void testGetGame() {
+    @Test
+    public void testGetGame() {
         assertSame(game, sut.getGame());
     }
 
@@ -115,17 +124,6 @@ public class Smoke7Test {
         assertTrue(moves.isEmpty());
     }
 
-   /* @Test public void testCommenceGameMinPlayers() {
-        // arrange
-        times.accept(game.getEdition().getPlayersMinimum(),
-                () -> fireMove(JoinPlayer, NO_SECRET));
-        final String secret1 = reapSecrets().get(0);
-        // act
-        final Set<Move> moves = sut.getMoves(Optional.of(secret1));
-        final Move move = moves.iterator().next();
-        // assert
-        assertSame(CommenceGame, move.getType());
-    }
 
     @Test public void testJoinPlayerMaxPlayers() {
         // arrange
@@ -137,17 +135,8 @@ public class Smoke7Test {
         assertTrue("keine weiteren Spieler", moves.isEmpty());
     }
 
-    @Test public void testCommenceGameMaxPlayers() {
-        // arrange
-        times.accept(game.getEdition().getPlayersMaximum(),
-                () -> fireMove(JoinPlayer, NO_SECRET));
-        final String secret1 = reapSecrets().get(0);
-        // act
-        final Set<Move> moves = sut.getMoves(Optional.of(secret1));
-        final Move move = moves.iterator().next();
-        // assert
-        assertSame(CommenceGame, move.getType());
-    }
+
+
 
     /**
      * Fuehrt einen Zug aus, der gelingen muss.
@@ -174,5 +163,6 @@ public class Smoke7Test {
                 .map(Player::getSecret)
                 .collect(Collectors.toList());
     }
+
 
 }
