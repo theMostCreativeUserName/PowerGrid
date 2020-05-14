@@ -36,8 +36,7 @@ public class PowergridHotseat1 {
     private static <R> R wrap(Callable<R> callable) {
         try {
             return callable.call();
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -88,9 +87,9 @@ public class PowergridHotseat1 {
     private static List<Move> presentMoves(Rules logic, Map<String, String> knownSecretsToColor, Optional<String> currentSecret) {
         final List<Move> moves = new ArrayList<>(logic.getMoves(currentSecret));
         System.out.printf("%nPlayer %s, your moves are:%n",
-                knownSecretsToColor.getOrDefault(currentSecret.orElse(null), "unknown"));
+                          knownSecretsToColor.getOrDefault(currentSecret.orElse(null), "unknown"));
         int moveNumber = 1;
-        for(Move move: moves)
+        for(Move move : moves)
             System.out.printf("%d.) %s%n", moveNumber++, move);
         return moves;
     }
@@ -122,8 +121,7 @@ public class PowergridHotseat1 {
                     logic.fire(currentSecret, moves.get(moveNumber - 1)).ifPresent(System.out::println);
                 }
                 validEntry = true;
-            }
-            catch(NumberFormatException | IndexOutOfBoundsException e) {
+            } catch(NumberFormatException | IndexOutOfBoundsException e) {
                 System.out.println("Sorry, not a valid entry - please try again.");
             }
         while(!validEntry);
@@ -149,3 +147,4 @@ public class PowergridHotseat1 {
     }
 
 }
+

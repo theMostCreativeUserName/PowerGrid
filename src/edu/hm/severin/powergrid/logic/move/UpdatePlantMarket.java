@@ -9,36 +9,24 @@ import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.Set;
 
+/**
+ * move Update PlantMarket
+ * @author Severin
+ */
 public class UpdatePlantMarket implements HotMove {
     /**
      * the game.
      */
     private final OpenGame game;
-    /**
-     * secret of Player.
-     */
-    private final Optional<String> secret;
-    /**
-     * does class have priority status.
-     */
-    public final boolean priority = true;
-    /**
-     * does class auto fire.
-     */
-    public final boolean autoFire = true;
-
 
     public UpdatePlantMarket() {
         this.game = null;
-        this.secret = null;
     }
 
-    private UpdatePlantMarket(OpenGame game, Optional<String> secret) {
+    private UpdatePlantMarket(OpenGame game) {
         this.game = game;
-        this.secret = secret;
     }
 
     /**
@@ -54,20 +42,16 @@ public class UpdatePlantMarket implements HotMove {
         if (!phases.contains(game.getPhase()))
             return Optional.of(Problem.NotNow);
         Set<Plant> actualPlants = game.getPlantMarket().getActual();
+        // do plants actually exist?
         if(getGame().getPlantMarket().getActual().isEmpty())
             return Optional.of(Problem.NoPlants);
-        OptionalInt actualMax = game.getPlantMarket().getActual()
-                .stream()
-                .mapToInt(plant -> plant.getNumber())
-                .max();
-        if (actualMax.getAsInt() == game.getEdition().getPlantSpecifications().size())
-                return Optional.of(Problem.NoPlants);
-
-        OptionalInt nextPlantNumber = getGame().getPlantMarket().getFuture()
-                .stream()
-                .mapToInt(plant -> plant.getNumber())
-                .min();
-        game.getPlantMarket().getFuture().add(getGame().getPlantMarket().findPlant(nextPlantNumber.getAsInt()));
+        if(getGame().getPlantMarket().getFuture().isEmpty())
+            return Optional.of(Problem.NoPlants);
+        if(real) {
+            Optional<Plant> plant = game.getPlantMarket().getFuture().stream().findFirst();
+            game.getPlantMarket().getFuture().remove(plant.get());
+            game.getPlantMarket().getActual().add(plant.get());
+        }
     return Optional.empty();
     }
 
@@ -78,9 +62,10 @@ public class UpdatePlantMarket implements HotMove {
 
     @Override
     public Set<HotMove> collect(OpenGame game, Optional<String> secret) {
+        if(secret.isPresent()) return Set.of();
         if (this.game != null)
             throw new IllegalStateException("this is not a prototype");
-        HotMove move = new UpdatePlantMarket(game, secret);
+        HotMove move = new UpdatePlantMarket(game);
         Set<HotMove> result;
         if (move.run(false).isEmpty())
             result = Set.of(move);

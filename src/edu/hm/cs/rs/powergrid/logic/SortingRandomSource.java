@@ -1,3 +1,4 @@
+
 package edu.hm.cs.rs.powergrid.logic;
 
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;

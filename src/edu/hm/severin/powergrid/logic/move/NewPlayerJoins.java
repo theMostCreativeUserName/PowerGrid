@@ -5,45 +5,30 @@ import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
+import edu.hm.cs.rs.powergrid.logic.RandomSource;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-public class NewPlayerJoins implements HotMove {
+class NewPlayerJoins implements HotMove {
     /**
      * the game.
      */
     private final OpenGame game;
-    /**
-     * secret of Player.
-     */
-    private final Optional<String> secret;
-    /**
-     * does class have priority status.
-     */
-    public final boolean priority = false;
-
-    /**
-     * does class auto fire.
-     */
-    public final boolean autoFire = false;
 
     public NewPlayerJoins() {
         game = null;
-        secret = null;
     }
 
-    private NewPlayerJoins(OpenGame game, Optional<String> secret) {
+    private NewPlayerJoins(OpenGame game) {
         this.game = game;
-        this.secret = secret;
     }
 
     /**
      * creates a new player.
+     *
      * @param real false, um den Zug nur zu testen (keine Aenderung am Datastore) oder
      *             true, um ihn wirklich auszufueheren (aender das Datastore).
      */
@@ -52,17 +37,13 @@ public class NewPlayerJoins implements HotMove {
         Objects.requireNonNull(game);
         // test if possible
         // if real, if Phase correct, if mayNumb not reached
-        if(game.getPhase() != Phase.Opening) return Optional.of(Problem.NotNow);
-        if(game.getPlayers().size() >= game.getEdition().getPlayersMaximum()) return Optional.of(Problem.MaxPlayers);
-        if(secret.isPresent()) return Optional.of(Problem.NotNow);
-        if(real){
-            // code to fire....
-            // secret for player
-            //String newSecret = Integer.toString(game.getPlayers().size());
-            BigInteger number = new BigInteger(80, new SecureRandom());
-            String newSecret = number.toString();
+        if (game.getPhase() != Phase.Opening) return Optional.of(Problem.NotNow);
+        if (game.getPlayers().size() >= game.getEdition().getPlayersMaximum()) return Optional.of(Problem.MaxPlayers);
+        if (real) {
             //player color
             String newColor = game.getEdition().getPlayerColors().get(game.getPlayers().size());
+            // secret for player
+            String newSecret = RandomSource.make().babbled(newColor);
             //create Player
             OpenPlayer player = game.getFactory().newPlayer(newSecret, newColor);
             // insert in Game
@@ -79,9 +60,10 @@ public class NewPlayerJoins implements HotMove {
 
     @Override
     public Set<HotMove> collect(OpenGame game, Optional<String> secret) {
+        if(secret.isPresent()) return Set.of();
         if(this.game != null)
             throw new IllegalStateException("this is not a prototype");
-        HotMove move = new NewPlayerJoins(game, secret);
+        HotMove move = new NewPlayerJoins(game);
         Set<HotMove> result;
         if(move.run(false).isEmpty())
             result = Set.of(move);

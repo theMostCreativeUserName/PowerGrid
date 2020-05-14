@@ -42,8 +42,10 @@ public class StandardRules implements Rules {
     public Set<Move> getMoves(Optional<String> secret) {
         Set<Move> result = new HashSet<>();
         // gets possible Moves from Companion-Class HotMoves
-        for(HotMove prototype : new HotMoves().getPrototypes())
+        for(HotMove prototype : new HotMoves().getPrototypes()) {
+
             result.addAll(prototype.collect(game, secret));
+        }
         return result;
     }
 

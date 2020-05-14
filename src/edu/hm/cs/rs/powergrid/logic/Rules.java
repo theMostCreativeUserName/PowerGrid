@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Spielregeln.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version last modified 2020-05-01
+ * @version last modified 2020-05-12
  */
 public interface Rules {
     /**
@@ -19,8 +19,8 @@ public interface Rules {
      */
     static Rules newRules(OpenGame game) {
         return newRules(System.getProperty("powergrid.rules",
-                System.getenv("POWERGRID_RULES")),
-                game);
+                                           System.getenv("POWERGRID_RULES")),
+                        game);
     }
 
     /**
@@ -34,8 +34,7 @@ public interface Rules {
             return (Rules)Class.forName(fqcn)
                     .getConstructor(OpenGame.class)
                     .newInstance(game);
-        }
-        catch(ReflectiveOperationException e) {
+        } catch(ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }

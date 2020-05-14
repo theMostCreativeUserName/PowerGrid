@@ -37,9 +37,7 @@ public interface Move {
      * Die verfuegbaren Eigenschaften haengen vom Typ ab.
      * @return Alle Eigenschaften.
      */
-    default Properties getProperties() {
-        throw new UnsupportedOperationException();
-    }
+    default Properties getProperties() {throw new UnsupportedOperationException();}
 
     /**
      * Eigenschaft des Zuges.

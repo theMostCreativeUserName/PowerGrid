@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * Ein Spielzug.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version last modified 2020-05-08
+ * @version last modified 2020-05-05
  */
 public interface HotMove extends Move {
     /**
@@ -60,8 +60,6 @@ public interface HotMove extends Move {
      * @param name  Name der Eigenschaft. Nicht null.
      * @param value Wert der Eigenschaft. Nicht null.
      */
-    default void setProperty(String name, String value) {
-        throw new UnsupportedOperationException();
-    }
+    default void setProperty(String name, String value) {throw new UnsupportedOperationException();}
 
 }
