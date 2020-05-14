@@ -1,4 +1,4 @@
-package edu.hm.cs.rs.powergrid;
+package edu.hm.cs.rs.powergrid.logic;
 
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;

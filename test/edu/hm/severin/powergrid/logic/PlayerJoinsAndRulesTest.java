@@ -10,26 +10,22 @@ import static edu.hm.cs.rs.powergrid.logic.MoveType.CommenceGame;
 import static edu.hm.cs.rs.powergrid.logic.MoveType.JoinPlayer;
 import static org.junit.Assert.*;
 
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
-import edu.hm.severin.powergrid.datastore.NeutralFactory;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import edu.hm.severin.powergrid.datastore.NeutralGame;
-import edu.hm.severin.powergrid.logic.move.HotMoves;
+import edu.hm.severin.powergrid.logic.move.NewPlayerJoins;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.platform.engine.support.hierarchical.ThrowableCollector;
 import org.junit.rules.Timeout;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.Set;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -47,7 +43,7 @@ public class PlayerJoinsAndRulesTest {
     private final Game game;
 
     /** Spielregeln. */
-    private final Rules sut;
+    private Rules sut;
 
     /** Fluchtwert fuer kein Geheimnis. */
     private final String NO_SECRET = "";
@@ -99,6 +95,127 @@ public class PlayerJoinsAndRulesTest {
         // assert
         assertEquals("Ein moeglicher Zug", 1, have.size());
         assertSame("Zug ist Mitspielen", JoinPlayer, move.getType());
+    }
+    @Test public void testJoinPlayerMultiple() {
+        final Move move = sut.getMoves(Optional.empty()).iterator().next();
+         Optional<Problem> problem = sut.fire(Optional.empty(), move);
+        sut.fire(Optional.empty(), move);
+        sut.fire(Optional.empty(), move);
+        sut.fire(Optional.empty(), move);
+        sut.fire(Optional.empty(), move);
+        sut.fire(Optional.empty(), move);
+        problem = sut.fire(Optional.empty(), move);
+
+        assertSame(game.getPlayers().size(), 6);
+        assertEquals(Problem.MaxPlayers, problem.get());
+
+    }
+
+    @Test public void testRulesPrority(){
+         class moveMove implements HotMove {
+             public final boolean priority = true;
+             private final Optional<String> secret;
+             private final OpenGame game;
+
+             public moveMove(OpenGame game, Optional<String> secret) {
+                 this.secret = secret;
+                 this.game = game;
+             }
+
+             @Override
+             public Optional<Problem> run(boolean real) {
+                 return Optional.of(Problem.CityTaken);
+             }
+
+             @Override
+             public OpenGame getGame() {
+                 return Objects.requireNonNull(game);
+             }
+
+             @Override
+             public Set<HotMove> collect(OpenGame game, Optional<String> secret) {
+                 if(this.game != null)
+                     throw new IllegalStateException("this is not a prototype");
+                 HotMove move = new moveMove(game, secret);
+                 Set<HotMove> result;
+                 if(move.run(false).isEmpty())
+                     result = Set.of(move);
+                 else
+                     result = Set.of();
+                 return result;
+             }
+
+             @Override
+             public MoveType getType() {
+                 Objects.requireNonNull(game);
+                 return MoveType.JoinPlayer;
+             }
+         }
+         OpenGame op = OpenFactory.newFactory().newGame(new EditionGermany());
+        final Move move = new moveMove((OpenGame)game, Optional.empty());
+        final Set<Move> have = sut.getMoves(Optional.empty());
+        have.add(move);
+        final Move mm = have.iterator().next();
+        Optional<Problem> problem = sut.fire(Optional.empty(), move);
+        assertTrue(problem.get().equals(Problem.CityTaken));
+    }
+
+    @Test public void testRulesAutoFire(){
+        class moveMove implements HotMove {
+            public final boolean autoFire = true;
+            public final boolean priority = false;
+            private final Optional<String> secret;
+            private final OpenGame game;
+
+            public moveMove(OpenGame game, Optional<String> secret) {
+                this.secret = secret;
+                this.game = game;
+            }
+
+            @Override
+            public Optional<Problem> run(boolean real) {
+                return Optional.empty();
+            }
+
+            @Override
+            public OpenGame getGame() {
+                return Objects.requireNonNull(game);
+            }
+
+            @Override
+            public Set<HotMove> collect(OpenGame game, Optional<String> secret) {
+                if(this.game != null)
+                    throw new IllegalStateException("this is not a prototype");
+                HotMove move = new moveMove(game, secret);
+                Set<HotMove> result;
+                if(move.run(false).isEmpty())
+                    result = Set.of(move);
+                else
+                    result = Set.of();
+                return result;
+            }
+
+            @Override
+            public MoveType getType() {
+                Objects.requireNonNull(game);
+                return MoveType.JoinPlayer;
+            }
+        }
+        OpenGame op = OpenFactory.newFactory().newGame(new EditionGermany());
+        final Move move = new moveMove((OpenGame)game, Optional.empty());
+        Optional<Problem> problem = sut.fire(Optional.empty(), move);
+        assertTrue(problem.isEmpty());
+    }
+    @Test
+    public void testJoinPlayerWrongPhase() {
+
+        final OpenGame openGame = OpenFactory.newFactory().newGame(new EditionGermany());
+        openGame.setPhase(Phase.Building);
+        this.sut = Rules.newRules(openGame);
+        final Set<Move> move = sut.getMoves(Optional.empty());
+
+        assertTrue(move.isEmpty());
+
     }
 
     @Test public void testFireJoinPlayer() {

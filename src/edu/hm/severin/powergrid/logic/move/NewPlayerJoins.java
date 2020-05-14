@@ -14,9 +14,23 @@ import java.util.Optional;
 import java.util.Set;
 
 public class NewPlayerJoins implements HotMove {
+    /**
+     * the game.
+     */
     private final OpenGame game;
+    /**
+     * secret of Player.
+     */
     private final Optional<String> secret;
+    /**
+     * does class have priority status.
+     */
     public final boolean priority = false;
+
+    /**
+     * does class auto fire.
+     */
+    public final boolean autoFire = false;
 
     public NewPlayerJoins() {
         game = null;
@@ -29,7 +43,7 @@ public class NewPlayerJoins implements HotMove {
     }
 
     /**
-     * runs the Move.
+     * creates a new player.
      * @param real false, um den Zug nur zu testen (keine Aenderung am Datastore) oder
      *             true, um ihn wirklich auszufueheren (aender das Datastore).
      */
