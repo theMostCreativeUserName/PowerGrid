@@ -7,6 +7,6 @@ import java.util.Set;
 public class HotMoves {
 
     public Set<HotMove> getPrototypes(){
-        return Set.of(new NewPlayerJoins());
+        return Set.of(new NewPlayerJoins(), new UpdatePlantMarket(), new OrderPlayers());
     }
 }

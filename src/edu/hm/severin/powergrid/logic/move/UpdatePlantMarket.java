@@ -21,7 +21,7 @@ public class UpdatePlantMarket implements HotMove {
      */
     private final OpenGame game;
 
-    public UpdatePlantMarket() {
+    UpdatePlantMarket() {
         this.game = null;
     }
 
