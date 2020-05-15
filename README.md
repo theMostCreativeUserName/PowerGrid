@@ -2,9 +2,14 @@
 Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
 
 ### O_O O__o o__O O_O ### O_O O__o o__O O_O #### O_O O__o o__O O_O
+
+## Wenn der Wunsch nach der Erlösung näher rückt vergisst nicht, dass das Semester auch irgendwann vorbei ist.
+#### auch SE ist irgendwann vorbei....
 -------------------------------------------------------------------------------
 # Wichtige Nebeninfos
-bitte ignoriert die html-Files.... die sind von den Mutation tests......
+bitte tragt die Standard-Konstuktoren eurer Logikklassen in die Companions-Klasse "HotMoves" ein (in Methode getPrototypes)
+die wird von StandartRules benutzt um mögliche Moves abzufragen
+
 
 ------------------------------------------------------------------------------
 # Sonstiges
