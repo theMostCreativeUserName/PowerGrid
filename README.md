@@ -11,6 +11,8 @@ Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
 ### Das Ziel des Menschens. Ist es nicht klar definiert? Ist es die nicht die Blüte, des Seins? Ist es nicht das Emporsteigen einer Menschlichen Ziviliationsstufe? Ist es nicht das Recht, frei Atmen zu können? Ist es nicht die Erfüllung der Humanität? Aber warum nähert sich kein Mensch, dann dem Horizont? 
 
 ### Die Fähigkeit Reflexionen von Licht zu bermerken, die Dichteunterschiede von Mengen warzunehmen, Stimulierungen durch chemische Reaktionen zu erfahren, Molekühlstrukturen wahrzunehmen. Das ist die höchste Evolutionsstufe des Menschen?
+
+### Da brach das Alte, da ging es unter. Das Band der einzelnen löste sich. Sie atmeten. Sie sahen das Grün blühen. Sie konnten sich vom Roten lösen. Sie konnten wieder Lieben und Fühlen. Sie konnten wieder Schlafen. Essen. Duschen. Aber sie vergaßen. Sie Vergaßen es. Das Pulloverschwein. Das noch immer quickte wie an jenen Tag.
 -------------------------------------------------------------------------------
 # Wichtige Nebeninfos
 bitte tragt die Standard-Konstuktoren eurer Logikklassen in die Companions-Klasse "HotMoves" ein (in Methode getPrototypes)
