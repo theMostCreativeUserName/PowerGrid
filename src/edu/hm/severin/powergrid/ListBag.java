@@ -11,7 +11,6 @@ import java.util.*;
  *
  * @param <E> elements to be bagged
  * @author Severin
- * @complexity: 40
  */
 public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
 

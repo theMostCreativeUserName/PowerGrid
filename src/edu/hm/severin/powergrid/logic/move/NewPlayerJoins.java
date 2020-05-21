@@ -59,8 +59,8 @@ class NewPlayerJoins implements HotMove {
     }
 
     @Override
-    public Set<HotMove> collect(OpenGame game, Optional<String> secret) {
-        if(secret.isPresent()) return Set.of();
+    public Set<HotMove> collect(OpenGame game, Optional<OpenPlayer> player) {
+        if(player.isPresent()) return Set.of();
         if(this.game != null)
             throw new IllegalStateException("this is not a prototype");
         HotMove move = new NewPlayerJoins(game);

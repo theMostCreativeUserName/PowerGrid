@@ -20,8 +20,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.*;
 
 public class OrderPlayerTest {
     @Rule
@@ -32,7 +31,7 @@ public class OrderPlayerTest {
     public OrderPlayerTest() {
         System.setProperty("powergrid.factory", "edu.hm.severin.powergrid.datastore.NeutralFactory");
         System.setProperty("powergrid.rules", "edu.hm.severin.powergrid.logic.StandardRules");
-        System.setProperty("powergrid.random", "edu.hm.cs.rs.powergrid.logic.SortingRandomSource");
+        System.setProperty("powergrid.randomsource", "edu.hm.cs.rs.powergrid.logic.SortingRandomSource");
     }
 
     public OrderPlayers getSut() throws ReflectiveOperationException {
@@ -64,7 +63,8 @@ public class OrderPlayerTest {
     @Test(expected = IllegalStateException.class)
     public void testCollect1() throws ReflectiveOperationException {
         OrderPlayers sut = getSut();
-        assertEquals(Set.of(), sut.collect(null, Optional.of("invalid")));
+        OpenPlayer player = factory.newPlayer("nnnnnn", "Fucking-rainbow");
+        assertEquals(Set.of(), sut.collect(null, Optional.of(player)));
         sut.collect(game, Optional.empty());
     }
 
@@ -103,14 +103,16 @@ public class OrderPlayerTest {
         open.getOpenPlayers().add(player3);
         sut.run(true);
         List<String> sorted = new ArrayList<>();
+
+        // so the thing is actually understandable... and can be read by humans
         for (Player player : open.getPlayers()) {
             sorted.add(player.getColor());
         }
-        assertFalse(true);
-        System.out.println(sorted);
+        assertEquals("[blue, red, yellow]", sorted.toString());
+
     }
     @Test
-    public void testRun3() throws ReflectiveOperationException {
+    public void testRunDifferentCities() throws ReflectiveOperationException {
         OrderPlayers sut = getSut();
         game.setPhase(Phase.PlayerOrdering);
         OpenPlayer player1 = factory.newPlayer("abc", "red");
@@ -127,13 +129,15 @@ public class OrderPlayerTest {
         open.getOpenPlayers().add(player2);
         sut.run(true);
         List<String> sorted = new ArrayList<>();
+
+        // so the thing is actually understandable... and can be read by humans
         for (Player player : open.getPlayers()) {
             sorted.add(player.getColor());
         }
         assertEquals("[red, blue]", sorted.toString());
     }
     @Test
-    public void testRun4() throws ReflectiveOperationException {
+    public void testRunSameCities() throws ReflectiveOperationException {
         OrderPlayers sut = getSut();
         game.setPhase(Phase.PlayerOrdering);
         OpenPlayer player1 = factory.newPlayer("abc", "red");
@@ -149,13 +153,20 @@ public class OrderPlayerTest {
         OpenGame open = (OpenGame) game;
         open.getOpenPlayers().add(player1);
         open.getOpenPlayers().add(player2);
+
         sut.run(true);
-        System.out.println(game.getOpenPlayers().get(0).getColor());
         List<String> sorted = new ArrayList<>();
+
+        // so the thing is actually understandable... and can be read by humans
         for (Player player : open.getPlayers()) {
             sorted.add(player.getColor());
         }
-        System.out.println(sorted);
         assertEquals("[blue, red]", sorted.toString());
+    }
+    @Test public void testRun() throws ReflectiveOperationException {
+        OrderPlayers sut = getSutProto();
+        OpenGame g = factory.newGame(new EditionGermany());
+        g.setPhase(Phase.Opening);
+        assertEquals(Set.of(), sut.collect(g,Optional.empty()));
     }
 }

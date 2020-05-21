@@ -16,6 +16,7 @@ import java.lang.reflect.Constructor;
 import java.util.Optional;
 import java.util.Set;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.*;
 
 public class JoinPlayerTest {
@@ -29,6 +30,12 @@ public class JoinPlayerTest {
                 .getDeclaredConstructor(OpenGame.class);
        cTor.setAccessible(true);
        return cTor.newInstance(game);
+    }
+    public NewPlayerJoins getSutProto() throws ReflectiveOperationException {
+        Constructor<NewPlayerJoins> cTor = NewPlayerJoins.class
+                .getDeclaredConstructor();
+        cTor.setAccessible(true);
+        return cTor.newInstance();
     }
 
     @Test public void newClass() throws ReflectiveOperationException {
@@ -80,12 +87,15 @@ public class JoinPlayerTest {
         sut.collect(game, Optional.empty());
     }
     @Test public void collect() throws ReflectiveOperationException {
-        Constructor<NewPlayerJoins> cTor =  NewPlayerJoins.class
-                .getDeclaredConstructor();
-        cTor.setAccessible(true);
-        NewPlayerJoins sut = cTor.newInstance();
+        NewPlayerJoins sut = getSutProto();
         Set<HotMove> move = sut.collect(game,Optional.empty());
         assertFalse(move.isEmpty());
       }
+    @Test public void testRun() throws ReflectiveOperationException {
+        NewPlayerJoins sut = getSutProto();
+        OpenGame g = factory.newGame(new EditionGermany());
+        g.setPhase(Phase.Bureaucracy);
+        assertEquals(Set.of(), sut.collect(g,Optional.empty()));
+    }
 
 }

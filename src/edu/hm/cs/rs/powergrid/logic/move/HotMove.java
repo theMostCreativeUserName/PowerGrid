@@ -1,6 +1,7 @@
 package edu.hm.cs.rs.powergrid.logic.move;
 
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import java.util.Optional;
@@ -49,11 +50,11 @@ public interface HotMove extends Move {
     /**
      * Sammelt alle Zuege dieser Art, die im Moment erlaubt sind.
      * @param game   Aktuelles Spiel.
-     * @param secret Geheimnis eines Spielers oder leer, wenn er noch keines hat.
+     * @param player der Spieler um den es geht.
      * @return Alle Zuege dieser Art, die gerade moeglich sind.
      * Eventuell leer.
      */
-    Set<HotMove> collect(OpenGame game, Optional<String> secret);
+    Set<HotMove> collect(OpenGame game, Optional<OpenPlayer> player);
 
     /**
      * Legt eine Eigenschaft fest.

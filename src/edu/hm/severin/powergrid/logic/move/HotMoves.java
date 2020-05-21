@@ -6,7 +6,14 @@ import java.util.Set;
 
 public class HotMoves {
 
-    public Set<HotMove> getPrototypes(){
-        return Set.of(new NewPlayerJoins(), new UpdatePlantMarket(), new OrderPlayers());
+    public Set<HotMove> getPrototypes() {
+        return Set.of(new NewPlayerJoins(),
+                new ConnectNoCity(),
+                new EndBuilding(),
+                new TurnOver(),
+                new Build1stCity(),
+                new UpdatePlantMarket(),
+                new OrderPlayers());
+
     }
 }

@@ -2,12 +2,14 @@ package edu.hm.severin.powergrid.logic;
 
 import edu.hm.cs.rs.powergrid.datastore.Game;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import edu.hm.severin.powergrid.logic.move.HotMoves;
 
+import javax.swing.*;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -41,10 +43,20 @@ public class StandardRules implements Rules {
     @Override
     public Set<Move> getMoves(Optional<String> secret) {
         Set<Move> result = new HashSet<>();
+        Optional<OpenPlayer> player;
+        if (secret.isPresent()) {
+            OpenPlayer openplayer = game.findPlayer(secret.get());
+            if (openplayer != null)
+                player = Optional.of(openplayer);
+            else
+                return result;
+        }
+        else
+            player = Optional.empty();
         // gets possible Moves from Companion-Class HotMoves
         for(HotMove prototype : new HotMoves().getPrototypes()) {
 
-            result.addAll(prototype.collect(game, secret));
+            result.addAll(prototype.collect(game, player));
         }
         return result;
     }

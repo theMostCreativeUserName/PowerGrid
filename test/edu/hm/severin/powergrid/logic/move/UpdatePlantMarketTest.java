@@ -5,6 +5,8 @@ import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
@@ -38,9 +40,11 @@ public class UpdatePlantMarketTest {
         return cTor.newInstance(game);
     }
 
-    public Constructor<UpdatePlantMarket> getSutNoGame() throws ReflectiveOperationException {
-        return UpdatePlantMarket.class
-                .getDeclaredConstructor(OpenGame.class);
+    public UpdatePlantMarket getSutProto() throws ReflectiveOperationException {
+        Constructor<UpdatePlantMarket> cTor = UpdatePlantMarket.class
+                .getDeclaredConstructor();
+        cTor.setAccessible(true);
+        return cTor.newInstance();
     }
 
     @Test
@@ -79,25 +83,12 @@ public class UpdatePlantMarketTest {
         assertEquals(Problem.NoPlants, problem.get());
     }
 
-    @Test
-    public void noActualPlants() throws ReflectiveOperationException {
-        Constructor<UpdatePlantMarket> cTor = getSutNoGame();
-        cTor.setAccessible(true);
-        OpenGame test = factory.newGame(new EditionGermany());
-        test.setPhase(Phase.PlantBuying);
-
-        UpdatePlantMarket sut = cTor.newInstance(test);
-        Optional<Problem> problem = sut.run(false);
-        assertEquals(Problem.NoPlants, problem.get());
-        sut = cTor.newInstance(test);
-        problem = sut.run(false);
-        assertEquals(Problem.NoPlants, problem.get());
-    }
 
     @Test
     public void testCollect1() throws ReflectiveOperationException {
         UpdatePlantMarket sut = getSut();
-        Set<HotMove> move = sut.collect(game, Optional.of("invalid"));
+        OpenPlayer player = factory.newPlayer("invalid", "orange");
+        Set<HotMove> move = sut.collect(game, Optional.of(player));
         assertTrue(move.isEmpty());
     }
 
@@ -108,12 +99,36 @@ public class UpdatePlantMarketTest {
         assertTrue(move.isEmpty());
     }
     @Test public void testCollect3() throws ReflectiveOperationException {
-        Constructor<UpdatePlantMarket> cTor = UpdatePlantMarket.class
-                .getDeclaredConstructor();
-        cTor.setAccessible(true);
-        UpdatePlantMarket sut = cTor.newInstance();
+
+        UpdatePlantMarket sut = getSutProto();
         Set<HotMove> move = sut.collect(game, Optional.empty());
         assertTrue(move.isEmpty());
     }
-
+    @Test public void testCollect4() throws ReflectiveOperationException {
+        UpdatePlantMarket sut = getSutProto();
+        game.setPhase(Phase.PlantBuying);
+        OpenPlant p = factory.newPlant(1, Plant.Type.Coal, 2,3);
+        game.getPlantMarket().getOpenActual().add(p);
+        game.getPlantMarket().getOpenFuture().add(p);
+        assertFalse(sut.collect(game, Optional.empty()).isEmpty());
+    }
+    @Test public void testRun1() throws ReflectiveOperationException {
+        UpdatePlantMarket sut = getSut();
+        game.setPhase(Phase.PlantBuying);
+        OpenPlant p = factory.newPlant(1, Plant.Type.Coal, 2,3);
+        game.getPlantMarket().getOpenActual().add(p);
+        assertEquals(Problem.NoPlants, sut.run(false).get());
+    }
+    @Test public void testRun2() throws ReflectiveOperationException {
+        UpdatePlantMarket sut = getSut();
+        game.setPhase(Phase.PlantBuying);
+        OpenPlant p = factory.newPlant(1, Plant.Type.Coal, 2,3);
+        OpenPlant p1 = factory.newPlant(2, Plant.Type.Coal, 2,3);
+        game.getPlantMarket().getOpenActual().add(p);
+        game.getPlantMarket().getOpenFuture().add(p1);
+        assertTrue( sut.run(false).isEmpty());
+        sut.run(true);
+        assertEquals(0,game.getPlantMarket().getFuture().size());
+        assertEquals(2,game.getPlantMarket().getOpenActual().size());
+    }
 }

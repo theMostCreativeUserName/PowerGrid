@@ -178,7 +178,6 @@ public class NeutralPlayer implements OpenPlayer {
         if (obj == null || getClass() != obj.getClass()) return false;
         final NeutralPlayer that = (NeutralPlayer) obj;
         return getColor().equals(that.getColor());
-
     }
 
     /**

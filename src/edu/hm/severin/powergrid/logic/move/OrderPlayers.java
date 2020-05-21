@@ -40,15 +40,20 @@ public class OrderPlayers implements HotMove {
         Objects.requireNonNull(game);
         if (game.getPhase() != Phase.PlayerOrdering) return Optional.of(Problem.NotNow);
         if (real) {
+            // noone has plants
             List<OpenPlayer> players = game.getOpenPlayers();
             long playersNoPlant = players.stream().filter(player -> player.getPlants().isEmpty()).count();
             if (playersNoPlant == players.size()) {
                 RandomSource.make().shufflePlayers(players);
+                //order players
             } else {
-                //ToDo: finisch this shit
-                //ignore this this is not finished....
-                //why?????
-               players.stream().sorted(this::comparePlayers);
+                List<OpenPlayer> list = players
+                        .stream()
+                        .sorted(OpenPlayer::compareTo)
+                        .collect(Collectors.toList());
+
+                game.getOpenPlayers().clear();
+                game.getOpenPlayers().addAll(list);
             }
         }
         return Optional.empty();
@@ -71,8 +76,8 @@ public class OrderPlayers implements HotMove {
     }
 
     @Override
-    public Set<HotMove> collect(OpenGame game, Optional<String> secret) {
-        if (secret.isPresent()) return Set.of();
+    public Set<HotMove> collect(OpenGame game, Optional<OpenPlayer> player) {
+        if (player.isPresent()) return Set.of();
         if (this.game != null) throw new IllegalStateException("this is not a prototype!");
         HotMove move = new OrderPlayers(game);
         Set<HotMove> result;

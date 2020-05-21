@@ -113,7 +113,7 @@ public class Smoke7Test {
         assertTrue(moves.isEmpty());
     }
 
-    @Test public void testCommenceGameMinPlayers() {
+    /*@Test public void testCommenceGameMinPlayers() {
         // arrange
         times.accept(game.getEdition().getPlayersMinimum(),
                 () -> fireMove(JoinPlayer, NO_SECRET));

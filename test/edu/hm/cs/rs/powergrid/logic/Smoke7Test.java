@@ -9,6 +9,8 @@ import static edu.hm.cs.rs.powergrid.logic.MoveType.CommenceGame;
 import static edu.hm.cs.rs.powergrid.logic.MoveType.JoinPlayer;
 import static org.junit.Assert.*;
 
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
+import edu.hm.severin.powergrid.datastore.NeutralPlayer;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -63,6 +65,7 @@ public class Smoke7Test {
     @Test public void testGetMovesInvalidSecret() {
         // arrange
         // act
+        OpenPlayer player = new NeutralPlayer("mmm", "mmm");
         final Set<Move> have = sut.getMoves(Optional.of("invalid"));
         // assert
         assertTrue("falsches Geheimnis, keine Zuege", have.isEmpty());

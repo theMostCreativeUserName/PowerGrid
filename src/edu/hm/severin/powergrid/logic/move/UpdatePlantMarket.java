@@ -3,6 +3,8 @@ package edu.hm.severin.powergrid.logic.move;
 import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
@@ -48,9 +50,11 @@ public class UpdatePlantMarket implements HotMove {
         if(getGame().getPlantMarket().getFuture().isEmpty())
             return Optional.of(Problem.NoPlants);
         if(real) {
-            Optional<Plant> plant = game.getPlantMarket().getFuture().stream().findFirst();
-            game.getPlantMarket().getFuture().remove(plant.get());
-            game.getPlantMarket().getActual().add(plant.get());
+            Optional<OpenPlant> plant = game.getPlantMarket().getOpenFuture().stream().findFirst();
+            game.getPlantMarket()
+                    .getOpenFuture()
+                    .remove(plant.get());
+            game.getPlantMarket().getOpenActual().add(plant.get());
         }
     return Optional.empty();
     }
@@ -61,8 +65,8 @@ public class UpdatePlantMarket implements HotMove {
     }
 
     @Override
-    public Set<HotMove> collect(OpenGame game, Optional<String> secret) {
-        if(secret.isPresent()) return Set.of();
+    public Set<HotMove> collect(OpenGame game, Optional<OpenPlayer> player) {
+        if(player.isPresent()) return Set.of();
         if (this.game != null)
             throw new IllegalStateException("this is not a prototype");
         HotMove move = new UpdatePlantMarket(game);
