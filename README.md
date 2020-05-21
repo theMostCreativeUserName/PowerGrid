@@ -13,6 +13,9 @@ Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
 ### Die Fähigkeit Reflexionen von Licht zu bermerken, die Dichteunterschiede von Mengen warzunehmen, Stimulierungen durch chemische Reaktionen zu erfahren, Molekühlstrukturen wahrzunehmen. Das ist die höchste Evolutionsstufe des Menschen?
 
 ### Da brach das Alte, da ging es unter. Das Band der einzelnen löste sich. Sie atmeten. Sie sahen das Grün blühen. Sie konnten sich vom Roten lösen. Sie konnten wieder Lieben und Fühlen. Sie konnten wieder Schlafen. Essen. Duschen. Aber sie vergaßen. Sie Vergaßen es. Das Pulloverschwein. Das noch immer quickte wie an jenen Tag.
+
+### Das weinende Lachen. Das Ich. Tag und Nacht. Das Ich. Up and Down. Das Ich. Das strahlende Glänzende. Das Ich. Das dunkle Umheimliche. Das Ich. Ich das alles. Alles Glänzende. Alles Unheimliche. Das Ich. Die Sonne hat Schaden. Ich habe Ich und Ich hat Ich. Doch Ich ist schon längst nicht mehr da.
+
 -------------------------------------------------------------------------------
 # Wichtige Nebeninfos
 bitte tragt die Standard-Konstuktoren eurer Logikklassen in die Companions-Klasse "HotMoves" ein (in Methode getPrototypes)
