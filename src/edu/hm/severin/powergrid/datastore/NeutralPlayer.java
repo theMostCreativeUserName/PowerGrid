@@ -60,7 +60,8 @@ public class NeutralPlayer implements OpenPlayer {
 
     /**
      * A new player.
-     * @param color color of player
+     *
+     * @param color  color of player
      * @param secret color of secret
      */
     public NeutralPlayer(final String secret, final String color) {
@@ -182,10 +183,11 @@ public class NeutralPlayer implements OpenPlayer {
 
     /**
      * search for the plant with the highest number in a player.
+     *
      * @param player Player where highest plant should be found
      * @return number of highest plant
      */
-    private int biggestPlantOfPlayer(Player player){
+    private int biggestPlantOfPlayer(Player player) {
 
         final Plant elsePlant = new NeutralPlant(1, Plant.Type.Coal, 1, 1);
         return player.getPlants().stream().max(Comparator.comparingInt(Plant::getNumber)).orElse(elsePlant).getNumber();
@@ -193,15 +195,16 @@ public class NeutralPlayer implements OpenPlayer {
 
     /**
      * new compareTo, compare Players. 1) Connected Cities (des), 2) highest nummber of plant (des) 3) Color alphabetic.
+     *
      * @param other Other Player to compare with
      * @return Comparevalue
      */
     @Override
     public int compareTo(Player other) {
         int result;
-        result = other.getCities().size()-this.getCities().size();
+        result = other.getCities().size() - this.getCities().size();
         if (result == 0)
-            result = biggestPlantOfPlayer(other)-biggestPlantOfPlayer(this);
+            result = biggestPlantOfPlayer(other) - biggestPlantOfPlayer(this);
         if (result == 0)
             result = this.getColor().compareTo(other.getColor());
         return result;

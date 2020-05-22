@@ -9,7 +9,7 @@ import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
-import javax.swing.text.html.Option;
+
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -51,8 +51,9 @@ class Build1stCity implements HotMove {
 
    @Override
    public Set<HotMove> collect(OpenGame game, Optional<OpenPlayer> player) {
+       if(player.isPresent()) return Set.of();
        if (this.game != null)
-           throw new IllegalStateException("This ist not a protoype");
+           throw new IllegalStateException("This ist not a prototype");
        HotMove move = new Build1stCity(game, player, city);
        Set<HotMove> result;
        if(move.run(false).isEmpty())

@@ -9,7 +9,7 @@ import edu.hm.cs.rs.powergrid.logic.Rules;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import edu.hm.severin.powergrid.logic.move.HotMoves;
 
-import javax.swing.*;
+
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -17,7 +17,6 @@ import java.util.Set;
 /**
  * calls and orders moves.
  * @author Severin
- * @complexity: xxx
  */
 public class StandardRules implements Rules {
     /**
@@ -25,6 +24,10 @@ public class StandardRules implements Rules {
      */
     private final OpenGame game;
 
+    /**
+     * C-tor.
+     * @param game this game
+     */
     public StandardRules(OpenGame game) {
         this.game = game;
     }
@@ -40,19 +43,22 @@ public class StandardRules implements Rules {
      *               der noch kein Geheimnis hat.
      * @return Set of moves.
      */
+
     @Override
     public Set<Move> getMoves(Optional<String> secret) {
         Set<Move> result = new HashSet<>();
-        Optional<OpenPlayer> player;
+        // to prevent returning from a nested loop returnEarly is introduced, to later return an empty set
+        boolean returnEarly = false;
+        Optional<OpenPlayer> player = Optional.empty();
         if (secret.isPresent()) {
             OpenPlayer openplayer = game.findPlayer(secret.get());
-            if (openplayer != null)
-                player = Optional.of(openplayer);
-            else
-                return result;
+            player = Optional.ofNullable(openplayer);
+            if (openplayer == null)
+                returnEarly = true;
+
         }
-        else
-            player = Optional.empty();
+        if(returnEarly)
+            return result;
         // gets possible Moves from Companion-Class HotMoves
         for(HotMove prototype : new HotMoves().getPrototypes()) {
 

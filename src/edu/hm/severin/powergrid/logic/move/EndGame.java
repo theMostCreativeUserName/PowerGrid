@@ -33,25 +33,29 @@ public class EndGame implements HotMove {
 
     @Override
     public Optional<Problem> run(boolean real) {
-        List<OpenPlayer> players = game.getOpenPlayers();
+
         if (game.getPhase() != Phase.PlantOperation) return Optional.of(Problem.NotNow);
-        // list of pass-State of every player
-        boolean allPassed = players.stream()
+        final List<OpenPlayer> players = game.getOpenPlayers();
+        // list of pass-State of every player, mainly to find out if all players passed already
+        final boolean notPassed = players.stream()
                 .map(player -> player.hasPassed())
                 .collect(Collectors.toList())
                 .contains(false);
-        if (!allPassed) return Optional.of(Problem.PlayersRemaining);
+        if (notPassed) return Optional.of(Problem.PlayersRemaining);
 
         //get biggest amount of cities of all players, to see if cityLimit is reached
-        int maxCities = players.stream()
+        final int maxCities = players.stream()
                 .mapToInt(player -> player.getCities().size())
-                .max().getAsInt();
-        if (maxCities == game.getEdition().getPlayersEndgameCities()
-                .get(players.size())) return Optional.of(Problem.PlayersRemaining);
-
+                .max()
+                .getAsInt();
+        if (maxCities != game.getEdition().getPlayersEndgameCities()
+                .get(players.size()))
+            // city limit is not reached
+            return Optional.of(Problem.PlayersRemaining);
         if (real) {
-            List<OpenPlayer> sorted = players.stream()
-                    .sorted((p1, p2)->leaderBoard(p1, p2))
+            // sort players into the leaderboard and end the game
+            final List<OpenPlayer> sorted = players.stream()
+                    .sorted(this::leaderBoard)
                     .collect(Collectors.toList());
             players.clear();
             players.addAll(sorted);
@@ -60,10 +64,17 @@ public class EndGame implements HotMove {
         return Optional.empty();
     }
 
-    private int leaderBoard(Player p1, Player p2){
-        int result = p2.getPlants().size()- p1.getPlants().size();
-        if(result == 0)
-            result = p2.getElectro()-p2.getElectro();
+    /**
+     * compares the players to create the leaderboard.
+     *
+     * @param first first player
+     * @param second second player
+     * @return compare Number
+     */
+    private int leaderBoard(Player first, Player second) {
+        int result = second.getPlants().size() - first.getPlants().size();
+        if (result == 0)
+            result = second.getElectro() - first.getElectro();
         return result;
     }
 
@@ -72,11 +83,18 @@ public class EndGame implements HotMove {
         return Objects.requireNonNull(game);
     }
 
+    /**
+     * could the move be run.
+     *
+     * @param game   Aktuelles Spiel.
+     * @param player der Spieler um den es geht.
+     * @return this move, if it could be run
+     */
     @Override
     public Set<HotMove> collect(OpenGame game, Optional<OpenPlayer> player) {
         if (player.isPresent()) return Set.of();
         if (this.game != null) throw new IllegalStateException("this is not a prototype!");
-        HotMove move = new EndGame(game);
+        final HotMove move = new EndGame(game);
         Set<HotMove> result;
         if (move.run(false).isEmpty())
             result = Set.of(move);

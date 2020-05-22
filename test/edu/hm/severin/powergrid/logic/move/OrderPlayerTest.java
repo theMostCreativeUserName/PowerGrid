@@ -1,14 +1,12 @@
 package edu.hm.severin.powergrid.logic.move;
 
 import edu.hm.cs.rs.powergrid.EditionGermany;
-import edu.hm.cs.rs.powergrid.datastore.City;
 import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.mutable.*;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
-import edu.hm.cs.rs.powergrid.logic.Rules;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -18,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static junit.framework.TestCase.*;
 
@@ -31,7 +28,7 @@ public class OrderPlayerTest {
     public OrderPlayerTest() {
         System.setProperty("powergrid.factory", "edu.hm.severin.powergrid.datastore.NeutralFactory");
         System.setProperty("powergrid.rules", "edu.hm.severin.powergrid.logic.StandardRules");
-        System.setProperty("powergrid.randomsource", "edu.hm.cs.rs.powergrid.logic.SortingRandomSource");
+        System.setProperty("powergrid.randomsource","edu.hm.severin.powergrid.logic.SortingRandom");
     }
 
     public OrderPlayers getSut() throws ReflectiveOperationException {
@@ -163,10 +160,53 @@ public class OrderPlayerTest {
         }
         assertEquals("[blue, red]", sorted.toString());
     }
-    @Test public void testRun() throws ReflectiveOperationException {
+    @Test public void testRun3() throws ReflectiveOperationException {
         OrderPlayers sut = getSutProto();
         OpenGame g = factory.newGame(new EditionGermany());
         g.setPhase(Phase.Opening);
         assertEquals(Set.of(), sut.collect(g,Optional.empty()));
+    }
+    @Test public void testRun4() throws ReflectiveOperationException {
+        OrderPlayers sut = getSut();
+        OpenGame g = factory.newGame(new EditionGermany());
+        g.setPhase(Phase.PlayerOrdering);
+        OpenPlayer player1 = factory.newPlayer("abc", "c");
+        OpenPlayer player2 = factory.newPlayer("abc", "b");
+        OpenPlayer player3 = factory.newPlayer("abc", "a");
+        g.getOpenPlayers().add(player1);
+        g.getOpenPlayers().add(player2);
+        g.getOpenPlayers().add(player3);
+        sut.run(true);
+        assertEquals("a", g.getOpenPlayers().get(0).getColor());
+        assertEquals("b", g.getOpenPlayers().get(1).getColor());
+        assertEquals("c", g.getOpenPlayers().get(2).getColor());
+    }
+    @Test public void testRun5() throws ReflectiveOperationException {
+        OrderPlayers sut = getSut();
+        OpenGame g = factory.newGame(new EditionGermany());
+        g.setPhase(Phase.PlayerOrdering);
+        OpenPlayer player1 = factory.newPlayer("c", "c");
+        OpenPlayer player2 = factory.newPlayer("b", "b");
+        OpenPlayer player3 = factory.newPlayer("a", "a");
+        g.getOpenPlayers().add(player1);
+        player2.getOpenPlants().add(factory.newPlant(80, Plant.Type.Coal, 3, 4));
+        g.getOpenPlayers().add(player2);
+        player1.getOpenPlants().add(factory.newPlant(2, Plant.Type.Coal, 3, 4));
+        g.getOpenPlayers().add(player3);
+        player3.getOpenPlants().add(factory.newPlant(13, Plant.Type.Coal, 3, 4));
+
+        List<String> before = new ArrayList<>();
+        for (Player player : g.getPlayers()) {
+            before.add(player.getColor());
+        }
+        sut.run(true);
+        List<String> sorted = new ArrayList<>();
+
+        // so the thing is actually understandable... and can be read by humans
+        for (Player player : g.getPlayers()) {
+            sorted.add(player.getColor());
+        }
+        assertEquals("[b, a, c]", sorted.toString());
+        assertFalse(before.toString().equals(sorted.toString()));
     }
 }

@@ -127,8 +127,11 @@ public class UpdatePlantMarketTest {
         game.getPlantMarket().getOpenActual().add(p);
         game.getPlantMarket().getOpenFuture().add(p1);
         assertTrue( sut.run(false).isEmpty());
+        assertEquals(1,game.getPlantMarket().getFuture().size());
+        assertEquals(1,game.getPlantMarket().getOpenActual().size());
         sut.run(true);
         assertEquals(0,game.getPlantMarket().getFuture().size());
         assertEquals(2,game.getPlantMarket().getOpenActual().size());
     }
+
 }

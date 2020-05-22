@@ -12,12 +12,19 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * creates a new player for the Game-Session.
+ * @author Severin
+ */
 class NewPlayerJoins implements HotMove {
     /**
      * the game.
      */
     private final OpenGame game;
 
+    /**
+     * Prototype - CTor.
+     */
     public NewPlayerJoins() {
         game = null;
     }
@@ -41,11 +48,11 @@ class NewPlayerJoins implements HotMove {
         if (game.getPlayers().size() >= game.getEdition().getPlayersMaximum()) return Optional.of(Problem.MaxPlayers);
         if (real) {
             //player color
-            String newColor = game.getEdition().getPlayerColors().get(game.getPlayers().size());
+            final String newColor = game.getEdition().getPlayerColors().get(game.getPlayers().size());
             // secret for player
-            String newSecret = RandomSource.make().babbled(newColor);
+            final String newSecret = RandomSource.make().babbled(newColor);
             //create Player
-            OpenPlayer player = game.getFactory().newPlayer(newSecret, newColor);
+            final OpenPlayer player = game.getFactory().newPlayer(newSecret, newColor);
             // insert in Game
             game.getOpenPlayers().add(player);
             //game.getPlayers().add(player);
@@ -60,12 +67,12 @@ class NewPlayerJoins implements HotMove {
 
     @Override
     public Set<HotMove> collect(OpenGame game, Optional<OpenPlayer> player) {
-        if(player.isPresent()) return Set.of();
-        if(this.game != null)
+        if (player.isPresent()) return Set.of();
+        if (this.game != null)
             throw new IllegalStateException("this is not a prototype");
-        HotMove move = new NewPlayerJoins(game);
+        final HotMove move = new NewPlayerJoins(game);
         Set<HotMove> result;
-        if(move.run(false).isEmpty())
+        if (move.run(false).isEmpty())
             result = Set.of(move);
         else
             result = Set.of();

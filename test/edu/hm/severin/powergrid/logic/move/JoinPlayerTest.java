@@ -25,6 +25,10 @@ public class JoinPlayerTest {
     private final OpenFactory factory = OpenFactory.newFactory("edu.hm.severin.powergrid.datastore.NeutralFactory");
     private final OpenGame game = factory.newGame(new EditionGermany());
 
+    public JoinPlayerTest() {
+        System.setProperty("powergrid.randomsource","edu.hm.severin.powergrid.logic.SortingRandom");
+    }
+
     public NewPlayerJoins getSut() throws ReflectiveOperationException {
        Constructor<NewPlayerJoins> cTor =  NewPlayerJoins.class
                 .getDeclaredConstructor(OpenGame.class);
@@ -59,18 +63,25 @@ public class JoinPlayerTest {
         sut.run(true);
         sut.run(true);
         Optional<Problem>problem = sut.run(true);
+        // tries to add 7 players
         assertSame(Problem.MaxPlayers, problem.get());
     }
     @Test public void addPlayers() throws ReflectiveOperationException {
         NewPlayerJoins sut = getSut();
         sut.run(true);
         assertSame(game.getOpenPlayers().size(), 1);
+        assertEquals("FF0001X", game.getOpenPlayers().get(0).getSecret());
         sut.run(true);
         sut.run(true);
         sut.run(true);
+        assertEquals("0000F2X", game.getOpenPlayers().get(1).getSecret());
+        assertEquals("00FF03X", game.getOpenPlayers().get(2).getSecret());
+        assertEquals("FFFF04X", game.getOpenPlayers().get(3).getSecret());
         assertSame(game.getOpenPlayers().size(), 4);
         sut.run(true);
         sut.run(true);
+        assertEquals("000005X", game.getOpenPlayers().get(4).getSecret());
+        assertEquals("8000F6X", game.getOpenPlayers().get(5).getSecret());
         assertSame(game.getOpenPlayers().size(), 6);
     }
     @Test public void getGame() throws ReflectiveOperationException {

@@ -4,8 +4,16 @@ import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
 import java.util.Set;
 
+/**
+ * Companions class to collect all possible moves of the game.
+ * @author Severin
+ */
 public class HotMoves {
 
+    /**
+     * collects Prototypes of all possible moves.
+     * @return list of possible moves
+     */
     public Set<HotMove> getPrototypes() {
         return Set.of(new NewPlayerJoins(),
                 new ConnectNoCity(),
@@ -13,7 +21,10 @@ public class HotMoves {
                 new TurnOver(),
                 new Build1stCity(),
                 new UpdatePlantMarket(),
-                new OrderPlayers());
+                new OrderPlayers(),
+                new EndGame()
+        );
+
 
     }
 }

@@ -2,24 +2,31 @@ package edu.hm.severin.powergrid.logic;
 
 import edu.hm.cs.rs.powergrid.EditionGermany;
 import edu.hm.cs.rs.powergrid.datastore.Game;
+import edu.hm.cs.rs.powergrid.datastore.Phase;
+import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import static edu.hm.cs.rs.powergrid.logic.MoveType.JoinPlayer;
+import static edu.hm.cs.rs.powergrid.logic.MoveType.UpdatePlantMarket;
 import static org.junit.Assert.*;
 
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
+import edu.hm.severin.powergrid.datastore.NeutralFactory;
+import edu.hm.severin.powergrid.logic.move.EndGame;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.Set;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -27,6 +34,7 @@ import java.util.stream.IntStream;
 /**
  * Erste Tests fuer eine Rules-Implementierung.
  * @author R. Schiedermeier, rs@cs.hm.edu
+ * @author Severin
  * @version last modified 2020-04-30
  */
 public class RulesTest {
@@ -34,7 +42,7 @@ public class RulesTest {
     public Timeout globalTimeout = Timeout.seconds(1); // max seconds per test
 
     /** Spielstand. */
-    private final Game game;
+    private final OpenGame game;
 
     /** Spielregeln. */
     private final Rules sut;
@@ -88,6 +96,7 @@ public class RulesTest {
         final Move move = have.iterator().next();
         // assert
         assertEquals("Ein moeglicher Zug", 1, have.size());
+
         assertSame("Zug ist Mitspielen", JoinPlayer, move.getType());
     }
 
@@ -125,7 +134,52 @@ public class RulesTest {
         assertTrue("keine weiteren Spieler", moves.isEmpty());
     }
 
+    @Test public void testGetMoves(){
+        OpenPlayer p = new NeutralFactory().newPlayer("mm", "red");
+        final Set<Move> moves = sut.getMoves(Optional.of("nn"));
+        assertTrue(moves.isEmpty());
+    }
+    @Test public void testFire1(){
+        game.setPhase(Phase.Opening);
+        OpenPlayer p = new NeutralFactory().newPlayer("mm", "red");
+        game.getOpenPlayers().add(p);
+        Set<Move> move = sut.getMoves(Optional.empty());
+        assertFalse(move.isEmpty());
+        Object[] m = move.toArray();
+        Optional<Problem> problem = sut.fire(Optional.of("mm"), (Move) m[0]);
+        assertTrue(problem.isEmpty());
+    }
 
+    @Test public void testFire2() {
+        NeutralFactory factory = new NeutralFactory();
+        game.setPhase(Phase.Bureaucracy);
+        OpenPlayer p = factory.newPlayer("mm", "red");
+
+        game.getOpenPlayers().add(p);
+        p.setPassed(false);
+        OpenPlant p2 = factory.newPlant(1, Plant.Type.Coal, 2,3);
+        OpenPlant p1 = factory.newPlant(2, Plant.Type.Coal, 2,3);
+        game.getPlantMarket().getOpenActual().add(p2);
+        game.getPlantMarket().getOpenFuture().add(p1);
+        Set<Move> move = sut.getMoves(Optional.empty());
+        System.out.println(move);
+        assertFalse(move.isEmpty());
+        Object[] m = move.toArray();
+
+        Optional<Problem> problem = sut.fire(Optional.of("mm"), (Move) m[0]);
+        assertTrue(problem.isEmpty());
+    }
+    @Test public void testGetMoves3() {
+        game.setPhase(Phase.Bureaucracy);
+        OpenPlayer p = new NeutralFactory().newPlayer("mm", "red");
+
+        game.getOpenPlayers().add(p);
+        p.setPassed(false);
+        Set<Move> move = sut.getMoves(Optional.of("invalid"));
+        Set<Move> result = new HashSet<>();
+        assertTrue(move.isEmpty());
+        assertEquals(result, move);
+    }
 
 
     /**
@@ -153,6 +207,7 @@ public class RulesTest {
                 .map(Player::getSecret)
                 .collect(Collectors.toList());
     }
+
 
 
 }
