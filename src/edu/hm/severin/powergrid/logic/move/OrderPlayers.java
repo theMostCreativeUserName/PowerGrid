@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @author Severin
  */
 public class OrderPlayers implements HotMove {
-    /** the game of this session**/
+    /** the game of this session.**/
     private final OpenGame game;
 
     OrderPlayers() {
@@ -65,10 +65,10 @@ public class OrderPlayers implements HotMove {
     }
 
     @Override
-    public Set<HotMove> collect(OpenGame game, Optional<OpenPlayer> player) {
+    public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> player) {
         if (player.isPresent()) return Set.of();
         if (this.game != null) throw new IllegalStateException("this is not a prototype!");
-        final HotMove move = new OrderPlayers(game);
+        final HotMove move = new OrderPlayers(openGame);
         Set<HotMove> result;
         if (move.run(false).isEmpty())
             result = Set.of(move);

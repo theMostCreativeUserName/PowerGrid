@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * move Update PlantMarket
+ * move Update PlantMarket.
  *
  * @author Severin
  */
@@ -67,11 +67,11 @@ public class UpdatePlantMarket implements HotMove {
     }
 
     @Override
-    public Set<HotMove> collect(OpenGame game, Optional<OpenPlayer> player) {
+    public Set<HotMove> collect(OpenGame opengame, Optional<OpenPlayer> player) {
         if (player.isPresent()) return Set.of();
         if (this.game != null)
             throw new IllegalStateException("this is not a prototype");
-        final HotMove move = new UpdatePlantMarket(game);
+        final HotMove move = new UpdatePlantMarket(opengame);
         Set<HotMove> result;
         if (move.run(false).isEmpty())
             result = Set.of(move);

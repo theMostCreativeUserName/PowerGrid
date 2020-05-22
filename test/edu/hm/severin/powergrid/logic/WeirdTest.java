@@ -1,4 +1,4 @@
-package edu.hm.severin.powergrid;
+package edu.hm.severin.powergrid.logic;
 
 import edu.hm.cs.rs.powergrid.EditionGermany;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;

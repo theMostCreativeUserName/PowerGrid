@@ -46,12 +46,13 @@ public class StandardRules implements Rules {
 
     @Override
     public Set<Move> getMoves(Optional<String> secret) {
-        Set<Move> result = new HashSet<>();
+        /////CHECKSTYLE
+        final Set<Move> result = new HashSet<>();
         // to prevent returning from a nested loop returnEarly is introduced, to later return an empty set
         boolean returnEarly = false;
         Optional<OpenPlayer> player = Optional.empty();
         if (secret.isPresent()) {
-            OpenPlayer openplayer = game.findPlayer(secret.get());
+            final OpenPlayer openplayer = game.findPlayer(secret.get());
             player = Optional.ofNullable(openplayer);
             if (openplayer == null)
                 returnEarly = true;
@@ -79,13 +80,13 @@ public class StandardRules implements Rules {
         // is Move a HotMove?
         Optional<Problem> problem = Optional.empty();
         if (move instanceof HotMove) {
-            HotMove hotMove = (HotMove) move;
+            final HotMove hotMove = (HotMove) move;
             //does hotmove reference same game?
             if(!hotMove.getGame().equals(this.getGame())) throw new IllegalStateException("Hackers shall not pass");
             problem = hotMove.fire();
             if (problem.isEmpty()) {
                 //getMoves
-                Set<Move> nextMoves = getMoves(secret);
+                final Set<Move> nextMoves = getMoves(secret);
                 problem = fireNextMoves(nextMoves);
             }
         }else
@@ -97,7 +98,7 @@ public class StandardRules implements Rules {
     private Optional<Problem> fireNextMoves(Set<Move> nextMoves){
         Optional<Problem> problem = Optional.empty();
         for (Move singleMove: nextMoves) {
-            HotMove move = (HotMove) singleMove;
+            final HotMove move = (HotMove) singleMove;
             // does move have priority?
             if(singleMove.hasPriority()) {
                 problem = move.fire();
