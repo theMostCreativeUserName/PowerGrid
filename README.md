@@ -19,7 +19,7 @@ Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
 
 ### Das weinende Lachen. Das Ich. Tag und Nacht. Das Ich. Up and Down. Das Ich. Das strahlende Glänzende. Das Ich. Das dunkle Umheimliche. Das Ich. Ich das alles. Alles Glänzende. Alles Unheimliche. Das Ich. Die Sonne hat Schatten. Ich habe Ich und Ich hat Ich. Doch Ich ist schon längst nicht mehr da.
 
-### MERKWÜRDIG. entschlossen. *Gefahr*. SCHMUNZELN. verwirrung. *Risiko*. FREUDE. unbehagen. *Gewinn?*. LACHEN. angst *Spiel* ERLÖSUNG. wunsch *Klick* *Hebel*. *Rauch*.  LEBEN. VERLOREN. 
+### MERKWÜRDIG. entschlossen. *Gefahr*. SCHMUNZELN. verwirrung. *Risiko*. FREUDE. unbehagen. *Gewinn?*. LACHEN. angst. *Spiel*. ERLÖSUNG. wunsch. *Klick*. *Hebel*. *Rauch*.  LEBEN. VERLOREN. 
 
 ## ------------------------------------------------------------------------------------
 # Wichtige Nebeninfos
