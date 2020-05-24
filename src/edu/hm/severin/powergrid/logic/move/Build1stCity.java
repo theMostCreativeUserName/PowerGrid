@@ -98,12 +98,12 @@ class Build1stCity implements HotMove {
      *          false, if city is not yet taken
      */
     private boolean cityTaken() {
+        boolean result = false;
         for (OpenPlayer openPlayer : game.getOpenPlayers())
             for (OpenCity openCity : openPlayer.getOpenCities())
                 if (openCity.equals(city))
-                    return true;
-
-        return false;
+                    result = true;
+        return result;
     }
 
     @Override
