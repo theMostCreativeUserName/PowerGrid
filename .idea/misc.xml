@@ -3,7 +3,7 @@
   <component name="PDMPlugin">
     <option name="customRuleSets">
       <list>
-        <option value="D:\ss20_se2_komisches_spiel\pmd.xml" />
+        <option value="H:\01_Unistuff\02_Semester 2\Softwareentwicklung\pmd.xml" />
       </list>
     </option>
     <option name="options">

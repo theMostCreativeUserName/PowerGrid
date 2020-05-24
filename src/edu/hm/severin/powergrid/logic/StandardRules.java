@@ -45,7 +45,7 @@ public class StandardRules implements Rules {
 
     @Override
     public Set<Move> getMoves(Optional<String> secret) {
-        /////CHECKSTYLE
+
         final Set<Move> result = new HashSet<>();
         // to prevent returning from a nested loop returnEarly is introduced, to later return an empty set
         boolean returnEarly = false;
@@ -78,7 +78,7 @@ public class StandardRules implements Rules {
         Optional<Problem> problem = Optional.empty();
         if (move instanceof HotMove) {
             final HotMove hotMove = (HotMove) move;
-            //does hotmove reference same game?
+            //does hotMove reference same game?
             if(!hotMove.getGame().equals(this.getGame())) throw new IllegalStateException("Hackers shall not pass");
             problem = hotMove.fire();
             if (problem.isEmpty()) {

@@ -40,6 +40,7 @@ class TurnOver implements HotMove {
 
     /**
      * Non-Prototyp Constructor.
+     *
      * @param game this game.
      */
     private TurnOver(OpenGame game) {
@@ -67,7 +68,11 @@ class TurnOver implements HotMove {
      * Doing all editting work for PlantMarket.
      */
     private void editPlantMarket() {
-        final List<Integer> allNumbers = game.getPlantMarket().getOpenActual().stream().map(OpenPlant::getNumber).collect(Collectors.toList());
+        final List<Integer> allNumbers = game.getPlantMarket()
+                .getOpenActual()
+                .stream()
+                .map(OpenPlant::getNumber)
+                .collect(Collectors.toList());
         if (game.getLevel() == 2) {
             final Optional<Integer> smallestNumber = allNumbers.stream().min(Integer::compareTo);
             if (smallestNumber.isPresent())
