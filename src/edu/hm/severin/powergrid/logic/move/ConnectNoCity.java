@@ -13,14 +13,36 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
- class ConnectNoCity implements edu.hm.cs.rs.powergrid.logic.move.HotMove {
+/**
+ * a player connects no city.
+ *
+ * @author Pietsch
+ */
+class ConnectNoCity implements HotMove {
 
+    /**
+     * Used game.
+     */
     private final OpenGame game;
+
+    /**
+     * User Player.
+     */
     private final Optional<OpenPlayer> player;
+
+    /**
+     * Prototyp Constructor.
+     */
     ConnectNoCity() {
         game = null;
         player = null;
     }
+
+    /**
+     * Non-Prototyp Constructor.
+     * @param game this game.
+     * @param player the player, who connects a city
+     */
     private ConnectNoCity(OpenGame game, Optional<OpenPlayer> player) {
         this.game = game;
         this.player = player;
@@ -45,12 +67,12 @@ import java.util.Set;
     }
 
     @Override
-    public Set<HotMove> collect(OpenGame game, Optional<OpenPlayer> player) {
+    public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> openPlayer) {
         if (this.game != null)
             throw new IllegalStateException("This ist not a protoype");
-        HotMove move = new ConnectNoCity(game, player);
+        final HotMove move = new ConnectNoCity(openGame, openPlayer);
         Set<HotMove> result;
-        if(move.run(false).isEmpty())
+        if (move.run(false).isEmpty())
             result = Set.of(move);
         else
             result = Set.of();

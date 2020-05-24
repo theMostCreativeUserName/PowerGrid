@@ -8,7 +8,11 @@ import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
-import java.util.*;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -86,15 +90,15 @@ public class EndGame implements HotMove {
     /**
      * could the move be run.
      *
-     * @param game   Aktuelles Spiel.
+     * @param openGame   Aktuelles Spiel.
      * @param player der Spieler um den es geht.
      * @return this move, if it could be run
      */
     @Override
-    public Set<HotMove> collect(OpenGame game, Optional<OpenPlayer> player) {
+    public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> player) {
         if (player.isPresent()) return Set.of();
         if (this.game != null) throw new IllegalStateException("this is not a prototype!");
-        final HotMove move = new EndGame(game);
+        final HotMove move = new EndGame(openGame);
         Set<HotMove> result;
         if (move.run(false).isEmpty())
             result = Set.of(move);

@@ -39,8 +39,7 @@ public class StandardRules implements Rules {
 
     /**
      * get all valid moves.
-     * @param secret Geheimnis eines Spielers oder leer bei einem neuen Spieler,
-     *               der noch kein Geheimnis hat.
+     * @param secret secret of player, empty if player doesn't have one yet
      * @return Set of moves.
      */
 
@@ -62,7 +61,6 @@ public class StandardRules implements Rules {
             return result;
         // gets possible Moves from Companion-Class HotMoves
         for(HotMove prototype : new HotMoves().getPrototypes()) {
-
             result.addAll(prototype.collect(game, player));
         }
         return result;
@@ -70,8 +68,7 @@ public class StandardRules implements Rules {
 
     /**
      * executes Code of the Move.
-     * @param secret Geheimnis eines Spielers oder leer bei einem neuen Spieler,
-     *               der noch kein Geheimnis hat.
+     * @param secret secret of player, empty if player doesn't have one yet
      * @param move   Ein Zug.
      * @return
      */
@@ -102,11 +99,13 @@ public class StandardRules implements Rules {
             // does move have priority?
             if(singleMove.hasPriority()) {
                 problem = move.fire();
-                // is move Autofire?
+                // is move Auto-fire?
             }else if (singleMove.isAutoFire()){
                 problem = move.fire();
             }
         }
         return problem;
     }
+
+
 }

@@ -2,6 +2,7 @@ package edu.hm.severin.powergrid.logic.move;
 
 
 import edu.hm.cs.rs.powergrid.datastore.Phase;
+import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
@@ -14,12 +15,28 @@ import java.util.Optional;
 import java.util.Set;
 
 
+/**
+ * player connects cities and end their turn.
+ * @author Pietsch
+ */
 class EndBuilding implements HotMove {
 
+    /**
+     * Used game.
+     */
    private final OpenGame game;
+
+    /**
+     * Prototyp Constructor.
+     */
    EndBuilding() {
        game = null;
    }
+
+    /**
+     * Non-Prototype Constructor.
+     * @param game this game
+     */
    private EndBuilding(OpenGame game) {
        this.game = game;
    }
@@ -30,11 +47,7 @@ class EndBuilding implements HotMove {
        if (game.getPhase() != Phase.Building)
            return Optional.of(Problem.NotNow);
        final List<OpenPlayer> players = game.getOpenPlayers();
-       boolean allPassed = true;
-       for (OpenPlayer player : players)
-           if (!player.hasPassed())
-               allPassed = false;
-       if (!allPassed)
+       if (players.stream().filter(Player::hasPassed).count() == 0)
            return Optional.of(Problem.NotNow);
 
        if (real) {
@@ -51,10 +64,10 @@ class EndBuilding implements HotMove {
    }
 
    @Override
-   public Set<HotMove> collect(OpenGame game, Optional<OpenPlayer> player) {
+   public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> player) {
        if (this.game != null)
            throw new IllegalStateException("This ist not a protoype");
-       HotMove move = new EndBuilding(game);
+       final HotMove move = new EndBuilding(openGame);
        Set<HotMove> result;
        if(move.run(false).isEmpty())
            result = Set.of(move);

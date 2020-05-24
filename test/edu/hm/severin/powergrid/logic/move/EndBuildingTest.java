@@ -33,7 +33,8 @@ import static org.junit.Assert.*;
  * @author R. Schiedermeier, rs@cs.hm.edu
  * @version last modified 2020-04-30
  */
-public class ConnectNoCityTest {
+
+public class EndBuildingTest {
     @Rule
     public Timeout globalTimeout = Timeout.seconds(1); // max seconds per test
 
@@ -60,7 +61,7 @@ public class ConnectNoCityTest {
     /**
      * Initialisiert Factory und Spielregeln.
      */
-    public ConnectNoCityTest() {
+    public EndBuildingTest() {
         // TODO: Fuegen Sie hier Ihre eigenen FQCNs ein.
         System.setProperty("powergrid.factory", "edu.hm.severin.powergrid.datastore.NeutralFactory");
         System.setProperty("powergrid.rules", "edu.hm.severin.powergrid.logic.StandardRules");
@@ -69,78 +70,48 @@ public class ConnectNoCityTest {
         game = openGame;
     }
 
-
-    // Mein Zeug
     @Test
-    public void testConnectNoCityNotPassed() {
+    public void testEndBuilding() {
         // arrange
         OpenGame opengame = (OpenGame) sut.getGame();
         opengame.setPhase(Phase.Building);
         OpenFactory factory = opengame.getFactory();
         OpenPlayer player = factory.newPlayer("Hihi", "red");
-        player.getOpenCities().add(factory.newCity("Testhausen", 666));
-        player.setPassed(false);
-        opengame.getOpenPlayers().add(player);
-        // act
-        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
-        MoveType have = haveMove.iterator().next().getType();
-        // assert
-        assertEquals(have, ConnectNoCity);
-    }
-
-    @Test
-    public void testConnectNoCityPassed() {
-        // arrange
-        OpenGame opengame = (OpenGame) sut.getGame();
-        opengame.setPhase(Phase.Building);
-        OpenFactory factory = opengame.getFactory();
-        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
         player.getOpenCities().add(factory.newCity("Testhausen", 666));
         player.setPassed(true);
+        player2.setPassed(true);
         opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
         MoveType have = haveMove.iterator().next().getType();
         // assert
-
         assertEquals(have, EndBuilding);
     }
 
     @Test
-    public void testConnectNoCityPassedAfterGetMoves() {
+    public void testEndBuildingFire() {
         // arrange
         OpenGame opengame = (OpenGame) sut.getGame();
         opengame.setPhase(Phase.Building);
         OpenFactory factory = opengame.getFactory();
         OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
         player.getOpenCities().add(factory.newCity("Testhausen", 666));
-        player.setPassed(false);
-        opengame.getOpenPlayers().add(player);
-        // act
-        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
         player.setPassed(true);
-        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), haveMove.iterator().next());
-        // assert
-
-        assertEquals(problem.get(), Problem.AlreadyPassed);
-    }
-
-    @Test
-    public void testConnectNoCityFire() {
-        // arrange
-        OpenGame opengame = (OpenGame) sut.getGame();
-        opengame.setPhase(Phase.Building);
-        OpenFactory factory = opengame.getFactory();
-        OpenPlayer player = factory.newPlayer("Hihi", "red");
-        player.getOpenCities().add(factory.newCity("Testhausen", 666));
-        player.setPassed(false);
+        player2.setPassed(true);
         opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
         Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), haveMove.iterator().next());
         // assert
+        assertFalse(player.hasPassed());
+        assertFalse(player2.hasPassed());
         assertTrue(problem.isEmpty());
-        assertTrue(player.hasPassed());
+        assertSame(opengame.getPhase(), Phase.PlantOperation);
     }
 
+    // Mein Zeug
 }

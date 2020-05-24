@@ -2,11 +2,12 @@ package edu.hm.cs.rs.powergrid.logic;
 
 import java.util.Objects;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 /**
  * Ein Spielzug.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version last modified 2020-04-30
+ * @version last modified 2020-05-15
  */
 public interface Move {
     /**
@@ -53,4 +54,16 @@ public interface Move {
         return Objects.requireNonNull(getProperties().getProperty(name));
     }
 
+    /** Textdarstellung dieses Zuges.
+     * @return Zug als String.
+     */
+    default String asText() {
+        Properties properties = getProperties();
+        return getType().name()
+                + properties.stringPropertyNames().stream()
+                .filter(name -> !name.equals("type"))
+                .sorted()
+                .map(name -> name + '=' + properties.getProperty(name))
+                .collect(Collectors.joining(", ", "{", "}"));
+    }
 }

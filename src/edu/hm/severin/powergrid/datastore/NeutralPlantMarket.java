@@ -29,9 +29,10 @@ public class NeutralPlantMarket implements OpenPlantMarket {
     private List<OpenPlant> hidden;
 
     /**
-     * factory of plantmarket.
+     * factory of plant market.
      */
     private final OpenFactory factory;
+
     public NeutralPlantMarket(final Edition edition, OpenFactory factory) {
         this.factory = factory;
 
@@ -40,25 +41,25 @@ public class NeutralPlantMarket implements OpenPlantMarket {
         hidden = new ArrayList<OpenPlant>();
 
         List <String> plantsFromEdition = edition.getPlantSpecifications();
-        for (String plantspecification : plantsFromEdition) {
-            final String numberOfPlant = plantspecification.substring(0, plantspecification.indexOf(' '));
-            final String typeAndConsumption = plantspecification.substring(plantspecification.indexOf(' ') + 1, plantspecification.lastIndexOf(' '));
-            final String citySupply = plantspecification.substring(plantspecification.lastIndexOf(' ') + 1);
+        for (String plantSpecification : plantsFromEdition) {
+            final String numberOfPlant = plantSpecification.substring(0, plantSpecification.indexOf(' '));
+            final String typeAndConsumption = plantSpecification.substring(plantSpecification.indexOf(' ') + 1, plantSpecification.lastIndexOf(' '));
+            final String citySupply = plantSpecification.substring(plantSpecification.lastIndexOf(' ') + 1);
 
             final int number = Integer.parseInt(numberOfPlant);
             final int consumption = typeAndConsumption.length();
             final int cities = Integer.parseInt(citySupply);
 
-            final Plant.Type typOfPLant;
+            final Plant.Type typeOfPlant;
             switch (typeAndConsumption.charAt(0)) {
-                case 'O' -> typOfPLant = Plant.Type.Oil;
-                case 'C' -> typOfPLant = Plant.Type.Coal;
-                case 'H' -> typOfPLant = Plant.Type.Hybrid;
-                case 'G' -> typOfPLant = Plant.Type.Garbage;
-                case 'F' -> typOfPLant = Plant.Type.Fusion;
-                default -> typOfPLant = Plant.Type.Eco;
+                case 'O' -> typeOfPlant = Plant.Type.Oil;
+                case 'C' -> typeOfPlant = Plant.Type.Coal;
+                case 'H' -> typeOfPlant = Plant.Type.Hybrid;
+                case 'G' -> typeOfPlant = Plant.Type.Garbage;
+                case 'F' -> typeOfPlant = Plant.Type.Fusion;
+                default -> typeOfPlant = Plant.Type.Eco;
             }
-            OpenPlant plant = factory.newPlant(number, typOfPLant, consumption, cities);
+            OpenPlant plant = factory.newPlant(number, typeOfPlant, consumption, cities);
             hidden.add(plant);
         }
     }

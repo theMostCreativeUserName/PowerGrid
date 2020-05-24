@@ -3,9 +3,16 @@ package edu.hm.severin.powergrid;
 
 import edu.hm.cs.rs.powergrid.Bag;
 
-import java.util.*;
-
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.AbstractCollection;
+import java.util.NoSuchElementException;
+import java.util.Map;
+import java.util.HashMap;
 /**
  * a Bag with elements of no specific order.
  *
@@ -137,7 +144,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      *
      * @param element element.
      * @param times   number of elements, non negative.
-     * @return bag with added elemenets.
+     * @return bag with added elements.
      * @complexity: 3
      */
     @Override
@@ -304,7 +311,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     /**
      * number of elements of the Bag.
      *
-     * @return size, non negativ.
+     * @return size, non negative.
      * @complexity 2
      */
     @Override
@@ -356,4 +363,5 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
         }
         return result;
     }
+
 }

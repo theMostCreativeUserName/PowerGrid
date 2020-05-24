@@ -42,7 +42,7 @@ public class NeutralPlayer implements OpenPlayer {
      */
     private boolean passed;
     /**
-     * electro of player.
+     * money of player.
      */
     private int electro;
     /**
@@ -98,7 +98,7 @@ public class NeutralPlayer implements OpenPlayer {
     }
 
     /**
-     * all ressources of player.
+     * all resources of player.
      */
     @Override
     public Bag<Resource> getOpenResources() {
@@ -106,7 +106,7 @@ public class NeutralPlayer implements OpenPlayer {
     }
 
     /**
-     * electro of player.
+     * money of player.
      */
     @Override
     public int getElectro() {
@@ -114,7 +114,7 @@ public class NeutralPlayer implements OpenPlayer {
     }
 
     /**
-     * new electro value.
+     * new money value.
      */
     @Override
     public void setElectro(int electro) {
@@ -194,10 +194,10 @@ public class NeutralPlayer implements OpenPlayer {
     }
 
     /**
-     * new compareTo, compare Players. 1) Connected Cities (des), 2) highest nummber of plant (des) 3) Color alphabetic.
+     * new compareTo, compare Players. 1) Connected Cities (des), 2) highest number of plant (des) 3) Color alphabetic.
      *
      * @param other Other Player to compare with
-     * @return Comparevalue
+     * @return CompareValue
      */
     @Override
     public int compareTo(Player other) {

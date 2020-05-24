@@ -123,14 +123,9 @@ public class NeutralPlant implements OpenPlant {
     }
 
     /**
-     * Rohstoffsammlungen, die dieses Kraftwerk verbrennen kann.
-     * Wenn das Kw nur eine Sorte verbraucht, hat die Menge nur ein Element.
-     * Wenn das Kw verschiedene Sorten akzeptiert,
-     * enthaelt die Menge alle zulaessigen Kombinationen.
-     * Wenn das Kw nichts braucht, enthaelt die Menge eine leere Sammlung als einziges Element.
+     * resources, that can be used by a plant.
      *
-     * @return Verschiedene Rohstoffsammlungen. Nicht null und nicht leer.
-     * Menge und Elemente unveraenderlich.
+     * @return unmodifiable set of resources, non null
      */
     @Override
     public Set<Bag<Resource>> getResources() {
@@ -138,11 +133,11 @@ public class NeutralPlant implements OpenPlant {
     }
 
     private Set<Bag<Resource>> getUsableResources() {
-        final Plant.Type type = getType();
+        final Plant.Type plantType = getType();
         final Set<Bag<Resource>> plantCanUse = new HashSet<>();
         Bag<Resource> usable = new ListBag<>();
 
-        switch (type) {
+       switch (plantType) {
             case Coal -> usable = new ListBag<>(Resource.Coal);
             case Oil -> usable = new ListBag<>(Resource.Oil);
             case Garbage -> usable = new ListBag<>(Resource.Garbage);
@@ -150,8 +145,8 @@ public class NeutralPlant implements OpenPlant {
             case Hybrid -> usable = new ListBag<>(Resource.Coal, Resource.Oil);
         }
 
-        final Bag<Resource> imutableUsable = usable.immutable();
-        plantCanUse.add(imutableUsable);
+        final Bag<Resource> immutableUsable = usable.immutable();
+        plantCanUse.add(immutableUsable);
         return plantCanUse;
     }
 

@@ -27,7 +27,7 @@ class NeutralResourceMarket implements OpenResourceMarket {
     private final Bag<Resource> supply;
 
     /**
-     * edition of game/resourcemarket.
+     * edition of game/resource market.
      */
     private final Edition edition;
 

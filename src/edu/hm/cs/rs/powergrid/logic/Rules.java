@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Spielregeln.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version last modified 2020-05-12
+ * @version last modified 2020-05-23
  */
 public interface Rules {
     /**
@@ -64,4 +64,11 @@ public interface Rules {
      */
     Optional<Problem> fire(Optional<String> secret, Move move);
 
+    /**
+     * Prototypen.
+     * @return Menge der Prototypen. Nicht null.
+     */
+    default Set<Move> getPrototypes() {
+        throw new UnsupportedOperationException("please override this default method");
+    }
 }
