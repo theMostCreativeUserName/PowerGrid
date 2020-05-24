@@ -19,6 +19,10 @@ Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
 
 ### Das weinende Lachen. Das Ich. Tag und Nacht. Das Ich. Up and Down. Das Ich. Das strahlende Glänzende. Das Ich. Das dunkle Umheimliche. Das Ich. Ich das alles. Alles Glänzende. Alles Unheimliche. Das Ich. Die Sonne hat Schatten. Ich habe Ich und Ich hat Ich. Doch Ich ist schon längst nicht mehr da.
 
+### MERKWÜRDIG. entschlossen. *Gefahr*. SCHMUNZELN. verwirrung. *Risiko*. FREUDE. unbehagen. *Gewinn?*. LACHEN. angst. *Spiel*. ERLÖSUNG. wunsch. *Klick*. *Hebel*. *Rauch*.  LEBEN. VERLOREN. 
+
+### Stich. Schnitt. Die Luft bleibt aus. Das Herz setzt aus. Körperlich nichts. Und wieder. wieder. Blutung. Zusammenbruch. Es wird monoton. Aber keineR hört es. Keine der Stimmen. Heilung? – Bei einem gesunden Körper? Und wieder. wieder. Das Herz steht still. Der Körper geht.
+
 ## ------------------------------------------------------------------------------------
 # Wichtige Nebeninfos
 bitte tragt die Standard-Konstuktoren eurer Logikklassen in die Companions-Klasse "HotMoves" ein (in Methode getPrototypes)
