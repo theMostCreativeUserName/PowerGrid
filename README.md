@@ -21,6 +21,8 @@ Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
 
 ### MERKWÜRDIG. entschlossen. *Gefahr*. SCHMUNZELN. verwirrung. *Risiko*. FREUDE. unbehagen. *Gewinn?*. LACHEN. angst. *Spiel*. ERLÖSUNG. wunsch. *Klick*. *Hebel*. *Rauch*.  LEBEN. VERLOREN. 
 
+### Stich. Schnitt. Die Luft bleibt aus. Das Herz setzt aus. Körperlich nichts. Und wieder. wieder. Blutung. Zusammenbruch. Es wird monoton. Aber keineR hört es. Keine der Stimmen. Heilung? – Bei einem gesunden Körper? Und wieder. wieder. Das Herz steht still. Der Körper geht.
+
 ## ------------------------------------------------------------------------------------
 # Wichtige Nebeninfos
 bitte tragt die Standard-Konstuktoren eurer Logikklassen in die Companions-Klasse "HotMoves" ein (in Methode getPrototypes)
