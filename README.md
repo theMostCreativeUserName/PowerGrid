@@ -23,6 +23,18 @@ Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
 
 ### Stich. Schnitt. Die Luft bleibt aus. Das Herz setzt aus. Körperlich nichts. Und wieder. wieder. Blutung. Zusammenbruch. Es wird monoton. Aber keineR hört es. Keine der Stimmen. Heilung? – Bei einem gesunden Körper? Und wieder. wieder. Das Herz steht still. Der Körper geht.
 
+##### --------------------------------------------------------------------------------------
+##### Warum? Ich will nicht. Warum muss ich dieses Fell haben? Ich möchte weißes. Ich möchte Ich sein. Ich möchte raus gehen und Spaß haben. Keine Blicke die Töten. Lachen wäre so schön. Freude wäre so schön. Aber keiner mag mich.
+
+##### Oh, das ist schön. Und es würde mir stehen. Aber die Träumereien müssen aufhören. Die Erwartungen der Anderen erfülle ich sowieso nicht. Zwei Kasten, die nicht zueinander passen. Wie schön wäre es zu Lachen oder Freude zu spüren. Aber Verachtung ist die Realität.
+     
+##### Jeder schaut mich an. Ich bin besonders. Jeder hat Mitleid mit mir. Dabei bin ich doch normal. Aber mit dem Freak will keiner Spielen oder Kontakt haben. Zumindest mein Schafkissen begleitet mich, wenn ich mich in den Schlaf weine.
+
+##### Meine Freunde und ich wollen ein Café besuchen. Wir gehen durch die Stadt, jedeR lächelt und hat Spaß. Der Small Talk mit den Passantinnen ist wirklich toll. Schließlich kommen wir am Café an. Wir hatten uns geradegesetzt, da begannen meine Freunde zu sprechen, dass sie mir etwas sagen möchten. Nachdem sie gesprochen hatten, sagte ich „Das wusste ich, aber ihr seid mir wichtig, aber nicht eure Umwelt. Trotzdem lebe ich gerne mit euch zusammen“ 
+
+##### Ist das eine Geschichte von einem geschmückten Elefanten, einem goldenen Fuchs und einem weißen Einhorn, die nach Humanity gezogen sind oder etwas anderes?
+
+##### --------------------------------------------------------------------------------------
 ## ------------------------------------------------------------------------------------
 # Wichtige Nebeninfos
 bitte tragt die Standard-Konstuktoren eurer Logikklassen in die Companions-Klasse "HotMoves" ein (in Methode getPrototypes)
