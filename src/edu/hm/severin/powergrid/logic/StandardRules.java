@@ -107,5 +107,9 @@ public class StandardRules implements Rules {
         return problem;
     }
 
+    @Override
+    public Set<Move> getPrototypes(){
+        return new HashSet<>(HotMoves.getPrototypes());
+    }
 
 }
