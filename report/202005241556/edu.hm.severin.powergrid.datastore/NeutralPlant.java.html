@@ -1,0 +1,2578 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>NeutralPlant.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package edu.hm.severin.powergrid.datastore;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import edu.hm.cs.rs.powergrid.Bag;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import edu.hm.cs.rs.powergrid.datastore.Plant;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import edu.hm.cs.rs.powergrid.datastore.Resource;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import edu.hm.severin.powergrid.ListBag;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.HashSet;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.Set;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * creates the Factory of the game.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * @author Severin, Pietsch</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * @complexity: 20</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>public class NeutralPlant implements OpenPlant {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * number of plant.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private final int number;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * type of plant.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private final Plant.Type type;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * number of resources used by plant.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private final int numberOfResources;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * number of cities that can be provided.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private final int cities;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * is plant operating?</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private boolean operated;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * resource thar can be used by plant.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private final Set&#60;Bag&#60;Resource&#62;&#62; usableResources;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * creates new Neutral Plant.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param number            identifying number</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param type              type of plant</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param numberofResources Number of Resources used in one turn</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param cities            the plant provides to</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    public NeutralPlant(final int number, final Type type, final int numberofResources, final int cities) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_54'/>
+54
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_54'>2</a>
+<span>
+
+1. &#60;init&#62; : changed conditional boundary &rarr; KILLED<br/>
+
+2. &#60;init&#62; : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (number &#60;= 0) throw new IllegalArgumentException(&#34;number of plant cannot be negative or Zero&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_55'/>
+55
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_55'>2</a>
+<span>
+
+1. &#60;init&#62; : changed conditional boundary &rarr; KILLED<br/>
+
+2. &#60;init&#62; : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (cities &#60;= 0) throw new IllegalArgumentException(&#34;plant provides at least one city&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_56'/>
+56
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_56'>2</a>
+<span>
+
+1. &#60;init&#62; : changed conditional boundary &rarr; KILLED<br/>
+
+2. &#60;init&#62; : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (numberofResources &#60;= 0) throw new IllegalArgumentException(&#34;plant uses at least one resource&#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.number = number;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.type = type;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.numberOfResources = numberofResources;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.cities = cities;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.usableResources = getUsableResources();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_63'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * identifying number.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_67'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_68'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return number. not negativ</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_69'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_70'/>
+70
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_70'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_71'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int getNumber() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_72'/>
+72
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_72'>1</a>
+<span>
+
+1. getNumber : replaced int return with 0 for edu/hm/severin/powergrid/datastore/NeutralPlant::getNumber &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return number;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_73'/>
+73
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_73'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_74'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_75'/>
+75
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_75'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_76'/>
+76
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_76'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * number of cities that can be provided.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_77'/>
+77
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_77'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_78'/>
+78
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_78'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return cities</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_79'/>
+79
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_79'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_80'/>
+80
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_80'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_81'/>
+81
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_81'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int getCities() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_82'/>
+82
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_82'>1</a>
+<span>
+
+1. getCities : replaced int return with 0 for edu/hm/severin/powergrid/datastore/NeutralPlant::getCities &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return cities;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_83'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_84'/>
+84
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_84'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_85'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_86'/>
+86
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_86'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Number of resources.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_87'/>
+87
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_87'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_88'/>
+88
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_88'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return resources</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_89'/>
+89
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_89'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_90'/>
+90
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_90'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_91'/>
+91
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_91'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int getNumberOfResources() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_92'/>
+92
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_92'>1</a>
+<span>
+
+1. getNumberOfResources : replaced int return with 0 for edu/hm/severin/powergrid/datastore/NeutralPlant::getNumberOfResources &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return numberOfResources;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_93'/>
+93
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_93'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_94'/>
+94
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_94'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_95'/>
+95
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_95'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_96'/>
+96
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_96'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * type of the plant.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_97'/>
+97
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_97'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_98'/>
+98
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_98'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return type</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_99'/>
+99
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_99'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_100'/>
+100
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_100'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_101'/>
+101
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_101'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public Type getType() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_102'/>
+102
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_102'>1</a>
+<span>
+
+1. getType : replaced return value with null for edu/hm/severin/powergrid/datastore/NeutralPlant::getType &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return type;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_103'/>
+103
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_103'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_104'/>
+104
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_104'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_105'/>
+105
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_105'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_106'/>
+106
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_106'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * tests if plant has provided energy.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_107'/>
+107
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_107'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_108'/>
+108
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_108'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return true, if plant produced energy</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_109'/>
+109
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_109'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_110'/>
+110
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_110'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_111'/>
+111
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_111'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public boolean hasOperated() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_112'/>
+112
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_112'>2</a>
+<span>
+
+1. hasOperated : replaced boolean return with false for edu/hm/severin/powergrid/datastore/NeutralPlant::hasOperated &rarr; KILLED<br/>
+
+2. hasOperated : replaced boolean return with true for edu/hm/severin/powergrid/datastore/NeutralPlant::hasOperated &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return operated;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_113'/>
+113
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_113'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_114'/>
+114
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_114'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_115'/>
+115
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_115'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_116'/>
+116
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_116'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Legt fest, ob  dieses Kraftwerk Strom produziert hat.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_117'/>
+117
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_117'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_118'/>
+118
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_118'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param operated true genau dann, wenn dieses Kw Strom produziert hat.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_119'/>
+119
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_119'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_120'/>
+120
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_120'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_121'/>
+121
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_121'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public void setOperated(boolean operated) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_122'/>
+122
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_122'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.operated = operated;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_123'/>
+123
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_123'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_124'/>
+124
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_124'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_125'/>
+125
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_125'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_126'/>
+126
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_126'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * resources, that can be used by a plant.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_127'/>
+127
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_127'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_128'/>
+128
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_128'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return unmodifiable set of resources, non null</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_129'/>
+129
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_129'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_130'/>
+130
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_130'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_131'/>
+131
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_131'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public Set&#60;Bag&#60;Resource&#62;&#62; getResources() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_132'/>
+132
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_132'>1</a>
+<span>
+
+1. getResources : replaced return value with Collections.emptyList for edu/hm/severin/powergrid/datastore/NeutralPlant::getResources &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return this.usableResources;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_133'/>
+133
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_133'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_134'/>
+134
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_134'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_135'/>
+135
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_135'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private Set&#60;Bag&#60;Resource&#62;&#62; getUsableResources() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_136'/>
+136
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_136'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        final Plant.Type plantType = getType();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_137'/>
+137
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_137'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        final Set&#60;Bag&#60;Resource&#62;&#62; plantCanUse = new HashSet&#60;&#62;();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_138'/>
+138
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_138'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        Bag&#60;Resource&#62; usable = new ListBag&#60;&#62;();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_139'/>
+139
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_139'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_140'/>
+140
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_140'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>       switch (plantType) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_141'/>
+141
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_141'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            case Coal -&#62; usable = new ListBag&#60;&#62;(Resource.Coal);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_142'/>
+142
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_142'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            case Oil -&#62; usable = new ListBag&#60;&#62;(Resource.Oil);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_143'/>
+143
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_143'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            case Garbage -&#62; usable = new ListBag&#60;&#62;(Resource.Garbage);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_144'/>
+144
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_144'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            case Uranium -&#62; usable = new ListBag&#60;&#62;(Resource.Uranium);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_145'/>
+145
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_145'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            case Hybrid -&#62; usable = new ListBag&#60;&#62;(Resource.Coal, Resource.Oil);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_146'/>
+146
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_146'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_147'/>
+147
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_147'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_148'/>
+148
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_148'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        final Bag&#60;Resource&#62; immutableUsable = usable.immutable();</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_149'/>
+149
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_149'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        plantCanUse.add(immutableUsable);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_150'/>
+150
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_150'>1</a>
+<span>
+
+1. getUsableResources : replaced return value with Collections.emptyList for edu/hm/severin/powergrid/datastore/NeutralPlant::getUsableResources &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return plantCanUse;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_151'/>
+151
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_151'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_152'/>
+152
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_152'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_153'/>
+153
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_153'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Override</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_154'/>
+154
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_154'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int compareTo(Plant other) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_155'/>
+155
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_155'>2</a>
+<span>
+
+1. compareTo : Replaced integer subtraction with addition &rarr; KILLED<br/>
+
+2. compareTo : replaced int return with 0 for edu/hm/severin/powergrid/datastore/NeutralPlant::compareTo &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return this.getNumber() - other.getNumber();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_156'/>
+156
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_156'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1829184b_157'/>
+157
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_157'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1829184b_54'>54</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_54'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant4(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> changed conditional boundary &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant1(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1829184b_55'>55</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_55'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant6(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> changed conditional boundary &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant6(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1829184b_56'>56</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_56'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant5(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> changed conditional boundary &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant2(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1829184b_72'>72</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_72'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getNumber<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlants1(edu.hm.severin.powergrid.datastore.FactoryTest)</span></span> replaced int return with 0 for edu/hm/severin/powergrid/datastore/NeutralPlant::getNumber &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1829184b_82'>82</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_82'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getCities<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newPlant(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> replaced int return with 0 for edu/hm/severin/powergrid/datastore/NeutralPlant::getCities &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1829184b_92'>92</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_92'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getNumberOfResources<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newPlant(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> replaced int return with 0 for edu/hm/severin/powergrid/datastore/NeutralPlant::getNumberOfResources &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1829184b_102'>102</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_102'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getType<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.PlayerGetPlants(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> replaced return value with null for edu/hm/severin/powergrid/datastore/NeutralPlant::getType &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1829184b_112'>112</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_112'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>hasOperated<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantSetOperated2(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> replaced boolean return with false for edu/hm/severin/powergrid/datastore/NeutralPlant::hasOperated &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>hasOperated<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantHasOperated1(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> replaced boolean return with true for edu/hm/severin/powergrid/datastore/NeutralPlant::hasOperated &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1829184b_132'>132</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_132'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getResources<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources6(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> replaced return value with Collections.emptyList for edu/hm/severin/powergrid/datastore/NeutralPlant::getResources &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1829184b_150'>150</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_150'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getUsableResources<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources6(edu.hm.severin.powergrid.datastore.PlantPlayerTest)</span></span> replaced return value with Collections.emptyList for edu/hm/severin/powergrid/datastore/NeutralPlant::getUsableResources &rarr; KILLED</p> 
+</td>
+</tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1829184b_155'>155</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1829184b_155'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>compareTo<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlants1(edu.hm.severin.powergrid.datastore.FactoryTest)</span></span> Replaced integer subtraction with addition &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>compareTo<br/><b>Killed by : </b>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlants1(edu.hm.severin.powergrid.datastore.FactoryTest)</span></span> replaced int return with 0 for edu/hm/severin/powergrid/datastore/NeutralPlant::compareTo &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+
+<li class='mutator'>BOOLEAN_FALSE_RETURN</li>
+
+<li class='mutator'>BOOLEAN_TRUE_RETURN</li>
+
+<li class='mutator'>CONDITIONALS_BOUNDARY_MUTATOR</li>
+
+<li class='mutator'>EMPTY_RETURN_VALUES</li>
+
+<li class='mutator'>INCREMENTS_MUTATOR</li>
+
+<li class='mutator'>INVERT_NEGS_MUTATOR</li>
+
+<li class='mutator'>MATH_MUTATOR</li>
+
+<li class='mutator'>NEGATE_CONDITIONALS_MUTATOR</li>
+
+<li class='mutator'>NULL_RETURN_VALUES</li>
+
+<li class='mutator'>PRIMITIVE_RETURN_VALS_MUTATOR</li>
+
+<li class='mutator'>VOID_METHOD_CALL_MUTATOR</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetPlayers(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndGameTest.runNotPassed1(edu.hm.severin.powergrid.logic.move.EndGameTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.Build1stCityTest.Build1stCityTwoPlayer(edu.hm.severin.powergrid.logic.move.Build1stCityTest) (2 ms)</li><li>edu.hm.cs.rs.powergrid.logic.Smoke7Test.testFireJoinPlayer(edu.hm.cs.rs.powergrid.logic.Smoke7Test) (13 ms)</li><li>edu.hm.cs.rs.powergrid.logic.Smoke7Test.testGetMovesInvalidSecret(edu.hm.cs.rs.powergrid.logic.Smoke7Test) (5 ms)</li><li>edu.hm.severin.powergrid.logic.RulesTest.testJoinPlayer(edu.hm.severin.powergrid.logic.RulesTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetAndSetLevel(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.newPlantMarket(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.OrderPlayerTest.testCollect2(edu.hm.severin.powergrid.logic.move.OrderPlayerTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.auctionGetAndSetPlayer(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.cs.sol.powergrid.logic.Smoke7Test.testFireFakeMove(edu.hm.cs.sol.powergrid.logic.Smoke7Test) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndGameTest.runNotPassed3(edu.hm.severin.powergrid.logic.move.EndGameTest) (1 ms)</li><li>edu.hm.cs.sol.powergrid.logic.Smoke7Test.testJoinPlayer(edu.hm.cs.sol.powergrid.logic.Smoke7Test) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndBuildingTest.testEndBuildingFire(edu.hm.severin.powergrid.logic.move.EndBuildingTest) (3 ms)</li><li>edu.hm.severin.powergrid.logic.move.JoinPlayerTest.maxPlayersAlready(edu.hm.severin.powergrid.logic.move.JoinPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.PlayerGetPlants(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.Build1stCityTest.Build1stCityOnePlayer3(edu.hm.severin.powergrid.logic.move.Build1stCityTest) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.OrderPlayerTest.testRunDifferentCities(edu.hm.severin.powergrid.logic.move.OrderPlayerTest) (3 ms)</li><li>edu.hm.severin.powergrid.logic.RulesTest.testGetGame(edu.hm.severin.powergrid.logic.RulesTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketRemovePlantWithRealPlant(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlayers2(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.cs.rs.powergrid.logic.Smoke7Test.testFireFakeMove(edu.hm.cs.rs.powergrid.logic.Smoke7Test) (4 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndGameTest.runWrongPhase(edu.hm.severin.powergrid.logic.move.EndGameTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.newOtherPlant(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant5(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest.testCollect4(edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest) (20 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources4(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketGetFuture(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.JoinPlayerTest.addPlayers(edu.hm.severin.powergrid.logic.move.JoinPlayerTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.playerCompare1(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndGameTest.collect3(edu.hm.severin.powergrid.logic.move.EndGameTest) (3 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlants2(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetResourceMarket(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant6(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (0 ms)</li><li>edu.hm.severin.powergrid.logic.move.OrderPlayerTest.testRun2(edu.hm.severin.powergrid.logic.move.OrderPlayerTest) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndGameTest.collectNoProto(edu.hm.severin.powergrid.logic.move.EndGameTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetBoard(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources7(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.cs.sol.powergrid.logic.Smoke7Test.testGetGame(edu.hm.cs.sol.powergrid.logic.Smoke7Test) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.OrderPlayerTest.getGame(edu.hm.severin.powergrid.logic.move.OrderPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.Build1stCityTest.Build1stCityOnePlayer2(edu.hm.severin.powergrid.logic.move.Build1stCityTest) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.JoinPlayerTest.illegalCollect(edu.hm.severin.powergrid.logic.move.JoinPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameFindPlayers(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketFutureRemoveAndGet(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest.testRun2(edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest.getGame(edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.auctionGetPlant(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketFindPlantOut(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant2(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndBuildingTest.testEndBuilding(edu.hm.severin.powergrid.logic.move.EndBuildingTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantSetOperated3(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetAndSetNumMoves(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newPlant(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources3(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest.testCollect2(edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest) (1 ms)</li><li>edu.hm.cs.sol.powergrid.datastore.Smoke6Test.testCollectionMutability(edu.hm.cs.sol.powergrid.datastore.Smoke6Test) (5 ms)</li><li>edu.hm.severin.powergrid.logic.move.JoinPlayerTest.getType(edu.hm.severin.powergrid.logic.move.JoinPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketRemovePlantWithNullPlant(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetPlantMarket(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest.testRun1(edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.Build1stCityTest.Build1stCityFire(edu.hm.severin.powergrid.logic.move.Build1stCityTest) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.JoinPlayerTest.newClass(edu.hm.severin.powergrid.logic.move.JoinPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources6(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.cs.rs.powergrid.logic.Smoke7Test.testCommenceGameTooFewPlayers(edu.hm.cs.rs.powergrid.logic.Smoke7Test) (14 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketActualRemoveAndGet(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketGetNumberHidden(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest.testCollect3(edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest) (1 ms)</li><li>edu.hm.cs.sol.powergrid.logic.Smoke7Test.testCommenceGameTooFewPlayers(edu.hm.cs.sol.powergrid.logic.Smoke7Test) (3 ms)</li><li>edu.hm.severin.powergrid.logic.move.OrderPlayerTest.testCollect1(edu.hm.severin.powergrid.logic.move.OrderPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest.testPhases(edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest) (3 ms)</li><li>edu.hm.severin.powergrid.logic.move.ConnectNoCityTest.testConnectNoCityNotPassed(edu.hm.severin.powergrid.logic.move.ConnectNoCityTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.JoinPlayerTest.illegalPhase(edu.hm.severin.powergrid.logic.move.JoinPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.RulesTest.testGetMoves3(edu.hm.severin.powergrid.logic.RulesTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndGameTest.runNotPassed2(edu.hm.severin.powergrid.logic.move.EndGameTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.ConnectNoCityTest.testConnectNoCityFire(edu.hm.severin.powergrid.logic.move.ConnectNoCityTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.OrderPlayerTest.testCollect3(edu.hm.severin.powergrid.logic.move.OrderPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketGetHidden(edu.hm.severin.powergrid.datastore.DatastoreTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameFindPlayerOK(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketFindPlantIn(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndGameTest.runNotEndCity(edu.hm.severin.powergrid.logic.move.EndGameTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetAndSetAuction(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.RulesTest.testFireJoinPlayer(edu.hm.severin.powergrid.logic.RulesTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant3(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetAndSetRound(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.auctionGetAndSetAmount(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantSetOperated2(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.newAuction(edu.hm.severin.powergrid.datastore.DatastoreTest) (0 ms)</li><li>edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest.getType(edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest) (3 ms)</li><li>edu.hm.severin.powergrid.logic.move.TurnOverTest.testTurnOver(edu.hm.severin.powergrid.logic.move.TurnOverTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.RulesTest.testCommenceGameTooFewPlayers(edu.hm.severin.powergrid.logic.RulesTest) (3 ms)</li><li>edu.hm.severin.powergrid.logic.move.OrderPlayerTest.testRun3(edu.hm.severin.powergrid.logic.move.OrderPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlayers3(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetAndSetPhase(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources2(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.OrderPlayerTest.testRun5(edu.hm.severin.powergrid.logic.move.OrderPlayerTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.auctionGetPlayers(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources5(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.RulesTest.testJoinPlayerMaxPlayers(edu.hm.severin.powergrid.logic.RulesTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.RulesTest.testFireFakeMove(edu.hm.severin.powergrid.logic.RulesTest) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.OrderPlayerTest.testRun1(edu.hm.severin.powergrid.logic.move.OrderPlayerTest) (2 ms)</li><li>edu.hm.severin.powergrid.logic.RulesTest.testFire1(edu.hm.severin.powergrid.logic.RulesTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.RulesTest.testGetMoves(edu.hm.severin.powergrid.logic.RulesTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantHasOperated1(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndGameTest.collect2(edu.hm.severin.powergrid.logic.move.EndGameTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.ConnectNoCityTest.testConnectNoCityPassedAfterGetMoves(edu.hm.severin.powergrid.logic.move.ConnectNoCityTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.RulesTest.testFire2(edu.hm.severin.powergrid.logic.RulesTest) (4 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.PlantMarketGetActual(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.ConnectNoCityTest.testConnectNoCityPassed(edu.hm.severin.powergrid.logic.move.ConnectNoCityTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.newSamePlant(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.cs.sol.powergrid.logic.Smoke7Test.testFireJoinPlayer(edu.hm.cs.sol.powergrid.logic.Smoke7Test) (0 ms)</li><li>edu.hm.cs.rs.powergrid.logic.Smoke7Test.testJoinPlayer(edu.hm.cs.rs.powergrid.logic.Smoke7Test) (8 ms)</li><li>edu.hm.severin.powergrid.logic.move.TurnOverTest.testTurnOverFireNotLevel3(edu.hm.severin.powergrid.logic.move.TurnOverTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.Build1stCityTest.Build1stCityOnePlayer(edu.hm.severin.powergrid.logic.move.Build1stCityTest) (3 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.plantMarketFindPlant(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.JoinPlayerTest.testRun(edu.hm.severin.powergrid.logic.move.JoinPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.GameGetEdition(edu.hm.severin.powergrid.datastore.DatastoreTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.DatastoreTest.newGame(edu.hm.severin.powergrid.datastore.DatastoreTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlants3(edu.hm.severin.powergrid.datastore.FactoryTest) (0 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant1(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlayers1(edu.hm.severin.powergrid.datastore.FactoryTest) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest.testCollect1(edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.JoinPlayerTest.collect(edu.hm.severin.powergrid.logic.move.JoinPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndGameTest.runNotPassed4(edu.hm.severin.powergrid.logic.move.EndGameTest) (1 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.plantGetResources1(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (0 ms)</li><li>edu.hm.severin.powergrid.logic.RulesTest.testGetMovesInvalidSecret(edu.hm.severin.powergrid.logic.RulesTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest.newClass(edu.hm.severin.powergrid.logic.move.UpdatePlantMarketTest) (1 ms)</li><li>edu.hm.cs.rs.powergrid.logic.Smoke7Test.testGetGame(edu.hm.cs.rs.powergrid.logic.Smoke7Test) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.PlantPlayerTest.newIllegalPlant4(edu.hm.severin.powergrid.datastore.PlantPlayerTest) (1 ms)</li><li>edu.hm.cs.sol.powergrid.datastore.Smoke6Test.testMutability(edu.hm.cs.sol.powergrid.datastore.Smoke6Test) (3 ms)</li><li>edu.hm.severin.powergrid.logic.move.OrderPlayerTest.testRun4(edu.hm.severin.powergrid.logic.move.OrderPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndGameTest.getGame(edu.hm.severin.powergrid.logic.move.EndGameTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.OrderPlayerTest.getType(edu.hm.severin.powergrid.logic.move.OrderPlayerTest) (2 ms)</li><li>edu.hm.severin.powergrid.datastore.FactoryTest.comparePlants1(edu.hm.severin.powergrid.datastore.FactoryTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.JoinPlayerTest.getGame(edu.hm.severin.powergrid.logic.move.JoinPlayerTest) (1 ms)</li><li>edu.hm.severin.powergrid.logic.move.TurnOverTest.testTurnOverFireLevel3(edu.hm.severin.powergrid.logic.move.TurnOverTest) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.OrderPlayerTest.testRunSameCities(edu.hm.severin.powergrid.logic.move.OrderPlayerTest) (2 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndGameTest.runWinner(edu.hm.severin.powergrid.logic.move.EndGameTest) (2 ms)</li><li>edu.hm.cs.sol.powergrid.logic.Smoke7Test.testGetMovesInvalidSecret(edu.hm.cs.sol.powergrid.logic.Smoke7Test) (3 ms)</li><li>edu.hm.severin.powergrid.logic.move.EndGameTest.runWinner2(edu.hm.severin.powergrid.logic.move.EndGameTest) (2 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='http://pitest.org'>PIT</a> 1.5.1
+
+</body>
+</html>

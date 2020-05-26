@@ -188,6 +188,8 @@ public class Build1stCityTest {
         player2.getOpenCities().add(city2);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        haveMove.removeIf(move -> move.getType() != MoveType.Build1stCity);
+
 
         Optional<Problem> problem = sut.fire(Optional.of("Hihi"), haveMove.iterator().next());
 
