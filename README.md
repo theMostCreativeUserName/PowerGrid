@@ -36,7 +36,9 @@ Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
 
 ##### --------------------------------------------------------------------------------------
 
-### Die Pfütze. Gefüllt mit Wasser. Unscheinbar und doch so reich. In diesem nichts ist so viel. Begrenzt auf eine Vertiefung aber mit unendlich Platz für alle. Nicht die Pfützen, keine Mauern, sondern das gemeinsame System. So Banal aber progressiv. Lasset uns unsere Pfütze bauen.  
+### Die Pfütze. Gefüllt mit Wasser. Unscheinbar und doch so reich. In diesem nichts ist so viel. Begrenzt auf eine Vertiefung aber mit unendlich Platz für alle. Nicht die Pfützen, keine Mauern, sondern das gemeinsame System. So Banal aber progressiv. Lasset uns unsere Pfütze bauen. 
+
+### Regen. Grass. Fällt regen, dann sprießt das Gras. Eine Reaktion der Pflanzen. Nase. Tempo. Läuft die Nase, dann greifen wir zum Tempo. Eine Reaktion des Menschen. Die Natur. Actio und Reactio. Aber sollten wir dann nicht schon das Oxymoron sein?
 
 ## ------------------------------------------------------------------------------------
 # Wichtige Nebeninfos
