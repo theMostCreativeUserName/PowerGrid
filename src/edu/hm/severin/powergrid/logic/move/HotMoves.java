@@ -22,7 +22,11 @@ public class HotMoves {
                 new ConnectNoCity(),
                 new TurnOver(),
                 new Build1stCity(),
-                new OrderPlayers()
+                new OrderPlayers(),
+                new SupplyElectricity(),
+                new OperateNoPlant(),
+                new BuyNoResource(),
+                new EndResourceBuying()
         );
     }
 }

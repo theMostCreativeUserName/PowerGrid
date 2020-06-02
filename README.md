@@ -35,6 +35,11 @@ Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
 ##### Ist das eine Geschichte von einem geschmückten Elefanten, einem goldenen Fuchs und einem weißen Einhorn, die nach Humanity gezogen sind oder etwas anderes?
 
 ##### --------------------------------------------------------------------------------------
+
+### Die Pfütze. Gefüllt mit Wasser. Unscheinbar und doch so reich. In diesem nichts ist so viel. Begrenzt auf eine Vertiefung aber mit unendlich Platz für alle. Nicht die Pfützen, keine Mauern, sondern das gemeinsame System. So Banal aber progressiv. Lasset uns unsere Pfütze bauen. 
+
+### Regen. Grass. Fällt regen, dann sprießt das Gras. Eine Reaktion der Pflanzen. Nase. Tempo. Läuft die Nase, dann greifen wir zum Tempo. Eine Reaktion des Menschen. Die Natur. Actio und Reactio. Aber sollten wir dann nicht schon das Oxymoron sein?
+
 ## ------------------------------------------------------------------------------------
 # Wichtige Nebeninfos
 bitte tragt die Standard-Konstuktoren eurer Logikklassen in die Companions-Klasse "HotMoves" ein (in Methode getPrototypes)
