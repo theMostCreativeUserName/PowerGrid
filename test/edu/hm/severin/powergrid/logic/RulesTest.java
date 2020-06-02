@@ -181,6 +181,26 @@ public class RulesTest {
         assertEquals(result, move);
     }
 
+    @Test
+    public void checkPrototypes() {
+        Set<MoveType> types = sut.getPrototypes().stream().map(Move::getType).collect(Collectors.toSet());
+        System.out.println(types.toString());
+        assertTrue("Prototypen enthalten JoinPlayer", types.contains(JoinPlayer));
+        //assertTrue("Prototypen enthalten CommenceGame", types.contains(CommenceGame));
+    }
+
+    @Test
+    public void prototypesDontTest() {
+        for(Move move: sut.getPrototypes())
+            try {
+                ((HotMove)move).test();
+                fail("Prototype akzeptiert test-Aufruf: " + move);
+            } catch(RuntimeException e) {
+                // required
+            }
+    }
+
+
 
     /**
      * Fuehrt einen Zug aus, der gelingen muss.

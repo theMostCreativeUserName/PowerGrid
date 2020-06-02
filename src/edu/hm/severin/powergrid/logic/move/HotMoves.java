@@ -14,16 +14,15 @@ public class HotMoves {
      * collects Prototypes of all possible moves.
      * @return list of possible hotMoves
      */
-    public Set<HotMove> getPrototypes() {
-        return Set.of(
-                new NewPlayerJoins(),
-                new ConnectNoCity(),
+    public static Set<HotMove> getPrototypes() {
+        return Set.of(new NewPlayerJoins(),
+                new UpdatePlantMarket(),
                 new EndBuilding(),
+                new EndGame(),
+                new ConnectNoCity(),
                 new TurnOver(),
                 new Build1stCity(),
-                new UpdatePlantMarket(),
-                new OrderPlayers(),
-                new EndGame()
+                new OrderPlayers()
         );
     }
 }

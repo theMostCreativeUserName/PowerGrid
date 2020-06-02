@@ -83,7 +83,6 @@ public class OrderPlayers implements HotMove {
 
     @Override
     public MoveType getType() {
-        Objects.requireNonNull(game);
         return MoveType.OrderPlayers;
     }
 }

@@ -52,7 +52,7 @@ public class UpdatePlantMarket implements HotMove {
 
         if (real) {
             //take one plant of future-plants and sort it into actual-plants
-            final Optional<OpenPlant> plant = game.getPlantMarket().getOpenFuture().stream().findFirst();
+            final Optional<OpenPlant> plant = game.getPlantMarket().getOpenFuture().stream().sequential().findFirst();
             game.getPlantMarket()
                     .getOpenFuture()
                     .remove(plant.get());
@@ -82,7 +82,6 @@ public class UpdatePlantMarket implements HotMove {
 
     @Override
     public MoveType getType() {
-        Objects.requireNonNull(game);
         return MoveType.UpdatePlantMarket;
     }
 }

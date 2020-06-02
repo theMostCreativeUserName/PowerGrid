@@ -125,7 +125,6 @@ class Build1stCity implements HotMove {
 
     @Override
     public MoveType getType() {
-        Objects.requireNonNull(game);
         return MoveType.Build1stCity;
     }
 }
