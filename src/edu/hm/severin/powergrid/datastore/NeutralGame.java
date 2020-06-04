@@ -166,7 +166,7 @@ public class NeutralGame implements OpenGame {
     public OpenPlayer findPlayer(String secret) {
         OpenPlayer result = null;
         for (OpenPlayer player : players)
-            if (player.getSecret() == secret)
+            if (player.hasSecret(secret))
                 result = player;
 
         return result;

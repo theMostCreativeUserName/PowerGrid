@@ -367,7 +367,6 @@ public class BagTest<E> {
     public void removeBag2() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'l', 'd', 'u');
         Bag<Character> sat = sut.remove(sut);
-        System.out.println(sat.size());
         assertSame(0, sat.size());
     }
 

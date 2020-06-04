@@ -21,7 +21,6 @@ import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static edu.hm.cs.rs.powergrid.logic.MoveType.TurnOver;
 import static org.junit.Assert.*;
 
 /**
@@ -81,9 +80,9 @@ public class TurnOverTest {
         opengame.getOpenPlayers().add(player);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
-        MoveType have = haveMove.iterator().next().getType();
+        List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
         // assert
-        assertEquals(have, TurnOver);
+        assertTrue(moveTypes.contains(MoveType.EnterLevel2));
     }
 
     @Test
@@ -101,12 +100,13 @@ public class TurnOverTest {
         opengame.setLevel(1);
 
         //Plants
-        OpenPlant biggestPlant = factory.newPlant(666, Plant.Type.Eco, 2, 2);
         Set<OpenPlant> plantsActual = opengame.getPlantMarket().getOpenActual();
+        Set<OpenPlant> plantsFuture = opengame.getPlantMarket().getOpenFuture();
         List<OpenPlant> plantsHidden = opengame.getPlantMarket().getOpenHidden();
-        plantsActual.add(biggestPlant);
-        plantsActual.add(factory.newPlant(4, Plant.Type.Coal, 10, 10));
-        plantsHidden.add(factory.newPlant(5, Plant.Type.Oil, 5, 2));
+        plantsActual.add(factory.newPlant(400, Plant.Type.Coal, 10, 10));
+        plantsHidden.add(factory.newPlant(500, Plant.Type.Oil, 5, 2));
+        OpenPlant plant = factory.newPlant(600, Plant.Type.Coal, 10000, 1);
+        plantsFuture.add(plant);
 
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
@@ -144,9 +144,9 @@ public class TurnOverTest {
         assertSame(game.getPhase(), Phase.PlayerOrdering);
         assertTrue(problem.isEmpty());
 
-        assertEquals(opengame.getPlantMarket().getOpenActual().size(), 1);
+        assertEquals(opengame.getPlantMarket().getOpenFuture().size(), 0);
         assertEquals(opengame.getPlantMarket().getOpenHidden().size(), 44);
-        assertTrue(plantsHidden.contains(biggestPlant));
+        assertTrue(plantsHidden.contains(plant));
     }
 
     @Test

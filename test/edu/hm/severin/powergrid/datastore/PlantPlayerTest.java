@@ -99,31 +99,34 @@ public class PlantPlayerTest {
     @Test
     public void plantGetResources1() {
         Plant plant = factory.newPlant(1, Plant.Type.Coal, 2, 1);
-        assertEquals("[[Coal]]", plant.getResources().toString());
+        assertEquals("[[Coal, Coal]]", plant.getResources().toString());
     }
 
     @Test
     public void plantGetResources2() {
         Plant plant = factory.newPlant(1, Plant.Type.Oil, 2, 1);
-        assertEquals("[[Oil]]", plant.getResources().toString());
+        assertEquals("[[Oil, Oil]]", plant.getResources().toString());
     }
 
     @Test
     public void plantGetResources3() {
         Plant plant = factory.newPlant(1, Plant.Type.Garbage, 2, 1);
-        assertEquals("[[Garbage]]", plant.getResources().toString());
+        assertEquals("[[Garbage, Garbage]]", plant.getResources().toString());
     }
 
     @Test
     public void plantGetResources4() {
         Plant plant = factory.newPlant(1, Plant.Type.Uranium, 2, 1);
-        assertEquals("[[Uranium]]", plant.getResources().toString());
+        assertEquals("[[Uranium, Uranium]]", plant.getResources().toString());
     }
 
     @Test
     public void plantGetResources5() {
         Plant plant = factory.newPlant(1, Plant.Type.Hybrid, 2, 1);
-        assertEquals("[[Coal, Oil]]", plant.getResources().toString());
+
+        assertTrue( plant.getResources().toString().contains("[Coal, Coal]"));
+        assertTrue( plant.getResources().toString().contains("[Oil, Oil]"));
+        assertEquals(3,plant.getResources().size());
     }
 
     @Test

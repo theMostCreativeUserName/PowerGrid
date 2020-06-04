@@ -47,13 +47,16 @@ class EndBuilding implements HotMove {
        if (game.getPhase() != Phase.Building)
            return Optional.of(Problem.NotNow);
        final List<OpenPlayer> players = game.getOpenPlayers();
-       if (players.stream().filter(Player::hasPassed).count() == 0)
+       if (players.stream().filter(Player::hasPassed).count() != players.size())
            return Optional.of(Problem.NotNow);
 
        if (real) {
+           System.out.println("Ja dieses Scheiß Ding führt diesen Kack aus");
            game.setPhase(Phase.PlantOperation);
-           for (OpenPlayer player : players )
+           for (OpenPlayer player : players ) {
                player.setPassed(false);
+               System.out.println(player.hasPassed());
+           }
        }
        return Optional.empty();
    }

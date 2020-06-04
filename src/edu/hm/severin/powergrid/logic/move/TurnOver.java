@@ -79,7 +79,7 @@ class TurnOver implements HotMove {
                 game.getPlantMarket().removePlant(smallestNumber.get());
 
         } else {
-            final Optional<Integer> biggestNumber = allNumbers.stream().max(Integer::compareTo);
+            final Optional<Integer> biggestNumber = game.getPlantMarket().getOpenFuture().stream().map(x -> x.getNumber()).max(Integer::compareTo);
             if (biggestNumber.isPresent()) {
                 final OpenPlant plant = game.getPlantMarket().findPlant(biggestNumber.get());
                 game.getPlantMarket().removePlant(biggestNumber.get());

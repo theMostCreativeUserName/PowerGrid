@@ -109,6 +109,7 @@ public class Smoke7Test {
         // act
         final String secret1 = reapSecrets().get(0);
         Set<Move> moves = sut.getMoves(Optional.of(secret1));
+
         // assert
         assertTrue(moves.isEmpty());
     }

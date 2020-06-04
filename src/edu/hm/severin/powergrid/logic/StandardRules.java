@@ -4,6 +4,7 @@ import edu.hm.cs.rs.powergrid.datastore.Game;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.Move;
+import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
@@ -13,6 +14,7 @@ import edu.hm.severin.powergrid.logic.move.HotMoves;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * calls and orders moves.
@@ -48,17 +50,31 @@ public class StandardRules implements Rules {
 
         final Set<Move> result = new HashSet<>();
         // to prevent returning from a nested loop returnEarly is introduced, to later return an empty set
-        boolean returnEarly = false;
+        boolean returnEarly = true;
         Optional<OpenPlayer> player = Optional.empty();
         if (secret.isPresent()) {
-            final OpenPlayer openplayer = game.findPlayer(secret.get());
-            player = Optional.ofNullable(openplayer);
-            if (openplayer == null)
-                returnEarly = true;
+            String secretString = secret.get();
+            final OpenPlayer openplayer = game.findPlayer(secretString);
+            if (openplayer != null) {
+                returnEarly = false;
+                player = Optional.of(openplayer);
+                System.out.println("-------------------------------");
+                System.out.println(openplayer);
+            } else
+                return new HashSet<>();
 
         }
-        if(returnEarly)
+        if(returnEarly) {
+            Set<HotMove> hotMoves = new HotMoves().getPrototypes();
+            Set<HotMove> joinMove = hotMoves
+                    .stream()
+                    .filter(x -> x.getType() == MoveType.JoinPlayer)
+                    .collect(Collectors.toSet());
+            Set<HotMove> joinMoveInSet = joinMove.iterator().next().collect(game, Optional.empty());
+            if (joinMoveInSet.size() > 0)
+                result.add(joinMoveInSet.iterator().next());
             return result;
+        }
         // gets possible Moves from Companion-Class HotMoves
         for(HotMove prototype : new HotMoves().getPrototypes()) {
             result.addAll(prototype.collect(game, player));
@@ -81,17 +97,21 @@ public class StandardRules implements Rules {
             //does hotMove reference same game?
             if(!hotMove.getGame().equals(this.getGame())) throw new IllegalStateException("Hackers shall not pass");
             problem = hotMove.fire();
+            System.out.println(problem + "++++++");
             if (problem.isEmpty()) {
                 //getMoves
                 final Set<Move> nextMoves = getMoves(secret);
                 problem = fireNextMoves(nextMoves);
+                System.out.println(problem + "*******");
             }
         }else
             throw new IllegalArgumentException("move is invalid");
 
+            System.out.println(problem);
             return problem;
 
     }
+
     private Optional<Problem> fireNextMoves(Set<Move> nextMoves){
         Optional<Problem> problem = Optional.empty();
         for (Move singleMove: nextMoves) {
@@ -100,10 +120,14 @@ public class StandardRules implements Rules {
             if(singleMove.hasPriority()) {
                 problem = move.fire();
                 // is move Auto-fire?
-            }else if (singleMove.isAutoFire()){
+            } if (singleMove.isAutoFire() && nextMoves.size() == 1){
                 problem = move.fire();
             }
+            System.out.println("########" + move);
+            System.out.println("*******" + problem);
         }
+        System.out.println("LOLOLOLOLOLOLOLOLOLOLOLOLOLOL" + problem);
+
         return problem;
     }
 

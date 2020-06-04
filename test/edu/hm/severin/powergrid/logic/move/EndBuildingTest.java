@@ -1,11 +1,10 @@
 package edu.hm.severin.powergrid.logic.move;
 
 import edu.hm.cs.rs.powergrid.EditionGermany;
-import edu.hm.cs.rs.powergrid.datastore.Game;
-import edu.hm.cs.rs.powergrid.datastore.Phase;
-import edu.hm.cs.rs.powergrid.datastore.Player;
+import edu.hm.cs.rs.powergrid.datastore.*;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
@@ -79,15 +78,16 @@ public class EndBuildingTest {
         OpenPlayer player = factory.newPlayer("Hihi", "red");
         OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
         player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player2.getOpenCities().add(factory.newCity("LOL Dat is ne Stadt", 999));
         player.setPassed(true);
         player2.setPassed(true);
         opengame.getOpenPlayers().add(player);
         opengame.getOpenPlayers().add(player2);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
-        MoveType have = haveMove.iterator().next().getType();
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == EndBuilding).collect(Collectors.toList());
         // assert
-        assertEquals(have, EndBuilding);
+        assertEquals(moves.size(), 1);
     }
 
     @Test
@@ -97,6 +97,12 @@ public class EndBuildingTest {
         opengame.setPhase(Phase.Building);
         OpenFactory factory = opengame.getFactory();
         OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(300, Plant.Type.Uranium, 2, 1);
+        player.getOpenPlants().add(plant);
+        plant.setOperated(false);
+        player.getOpenResources().add(Resource.Uranium);
+        player.getOpenResources().add(Resource.Uranium);
+        player.getOpenResources().add(Resource.Uranium);
         OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
         player.getOpenCities().add(factory.newCity("Testhausen", 666));
         player.setPassed(true);
@@ -105,8 +111,11 @@ public class EndBuildingTest {
         opengame.getOpenPlayers().add(player2);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
-        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), haveMove.iterator().next());
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == EndBuilding).collect(Collectors.toList());
+        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moves.get(0));
         // assert
+        System.out.println(player.hasPassed());
+        System.out.println(player2.hasPassed());
         assertFalse(player.hasPassed());
         assertFalse(player2.hasPassed());
         assertTrue(problem.isEmpty());

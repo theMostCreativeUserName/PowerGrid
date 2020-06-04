@@ -54,6 +54,10 @@ public enum Problem {
     GameRunning,
     /** Spiel ist vorbei. */
     GameOver,
+    /** Es gibt noch wenigstens 1 Kraftwerk im Markt. */
+    PlantsUnsold,
+    /** Kraftwerk gehoert nicht diesem Spieler. */
+    OtherPlant,
     /** Zu wenig Spieler zum Start. */
     TooFewPlayers
 }

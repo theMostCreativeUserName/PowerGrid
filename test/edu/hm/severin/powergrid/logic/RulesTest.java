@@ -131,6 +131,9 @@ public class RulesTest {
         // act
         final Set<Move> moves = sut.getMoves(Optional.empty());
         // assert
+        final Set<Move> haveMove = sut.getMoves(Optional.empty());
+        List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
+
         assertTrue("keine weiteren Spieler", moves.isEmpty());
     }
 
@@ -150,25 +153,6 @@ public class RulesTest {
         assertTrue(problem.isEmpty());
     }
 
-    @Test public void testFire2() {
-        NeutralFactory factory = new NeutralFactory();
-        game.setPhase(Phase.Bureaucracy);
-        OpenPlayer p = factory.newPlayer("mm", "red");
-
-        game.getOpenPlayers().add(p);
-        p.setPassed(false);
-        OpenPlant p2 = factory.newPlant(1, Plant.Type.Coal, 2,3);
-        OpenPlant p1 = factory.newPlant(2, Plant.Type.Coal, 2,3);
-        game.getPlantMarket().getOpenActual().add(p2);
-        game.getPlantMarket().getOpenFuture().add(p1);
-        Set<Move> move = sut.getMoves(Optional.empty());
-        System.out.println(move);
-        assertFalse(move.isEmpty());
-        Object[] m = move.toArray();
-
-        Optional<Problem> problem = sut.fire(Optional.of("mm"), (Move) m[0]);
-        assertTrue(problem.isEmpty());
-    }
     @Test public void testGetMoves3() {
         game.setPhase(Phase.Bureaucracy);
         OpenPlayer p = new NeutralFactory().newPlayer("mm", "red");
@@ -184,7 +168,7 @@ public class RulesTest {
     @Test
     public void checkPrototypes() {
         Set<MoveType> types = sut.getPrototypes().stream().map(Move::getType).collect(Collectors.toSet());
-        System.out.println(types.toString());
+
         assertTrue("Prototypen enthalten JoinPlayer", types.contains(JoinPlayer));
         //assertTrue("Prototypen enthalten CommenceGame", types.contains(CommenceGame));
     }

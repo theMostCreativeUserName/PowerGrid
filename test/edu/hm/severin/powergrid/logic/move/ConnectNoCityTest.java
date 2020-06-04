@@ -83,27 +83,9 @@ public class ConnectNoCityTest {
         opengame.getOpenPlayers().add(player);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
-        MoveType have = haveMove.iterator().next().getType();
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == ConnectNoCity).collect(Collectors.toList());
         // assert
-        assertEquals(have, ConnectNoCity);
-    }
-
-    @Test
-    public void testConnectNoCityPassed() {
-        // arrange
-        OpenGame opengame = (OpenGame) sut.getGame();
-        opengame.setPhase(Phase.Building);
-        OpenFactory factory = opengame.getFactory();
-        OpenPlayer player = factory.newPlayer("Hihi", "red");
-        player.getOpenCities().add(factory.newCity("Testhausen", 666));
-        player.setPassed(true);
-        opengame.getOpenPlayers().add(player);
-        // act
-        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
-        MoveType have = haveMove.iterator().next().getType();
-        // assert
-
-        assertEquals(have, EndBuilding);
+        assertEquals(moves.size(), 1);
     }
 
     @Test
@@ -118,8 +100,9 @@ public class ConnectNoCityTest {
         opengame.getOpenPlayers().add(player);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == ConnectNoCity).collect(Collectors.toList());
         player.setPassed(true);
-        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), haveMove.iterator().next());
+        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moves.get(0));
         // assert
 
         assertEquals(problem.get(), Problem.AlreadyPassed);
@@ -134,7 +117,13 @@ public class ConnectNoCityTest {
         OpenPlayer player = factory.newPlayer("Hihi", "red");
         player.getOpenCities().add(factory.newCity("Testhausen", 666));
         player.setPassed(false);
+        OpenPlayer player2 = factory.newPlayer("I Dont Care", "Literally");
+        player2.setPassed(false);
+        OpenPlayer player3 = factory.newPlayer("There are many Questions", "Do Ghosts exist?");
+        player3.setPassed(false);
         opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+        opengame.getOpenPlayers().add(player3);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
         Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), haveMove.iterator().next());

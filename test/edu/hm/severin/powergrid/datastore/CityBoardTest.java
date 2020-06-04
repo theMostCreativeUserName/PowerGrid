@@ -206,7 +206,7 @@ public class CityBoardTest{
         OpenBoard sut = getBoardGermany();
         sut.closeRegions(2);
         City city = sut.findCity("Berlin");
-        System.out.println(city.getName()+city.getConnections());
+
         Assert.assertTrue(sut.findCity("Berlin").getConnections().size() == 4);
     }
     @Test public void getCitiesOfBoard1(){
@@ -219,7 +219,7 @@ public class CityBoardTest{
     }
     @Test public void getCitiesOfBoard3(){
         Board sut = getBoardGermany();
-        System.out.println(sut.findCity("W\u00FCrzburg").getConnections().isEmpty());
+
         Assert.assertFalse( sut.findCity("W\u00FCrzburg").getConnections().isEmpty());
     }
     @Test (expected = UnsupportedOperationException.class)

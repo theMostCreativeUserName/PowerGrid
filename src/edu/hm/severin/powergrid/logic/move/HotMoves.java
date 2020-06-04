@@ -26,7 +26,17 @@ public class HotMoves {
                 new SupplyElectricity(),
                 new OperateNoPlant(),
                 new BuyNoResource(),
-                new EndResourceBuying()
+                new EndResourceBuying(),
+                new PassAuction(),
+                new RaiseBid(),
+                new BuyResource(),
+                new DropPlant(),
+                new EnterLevel2(),
+                new EnterLevel3(),
+                new ScrapPlant(),
+                new DropResource(),
+                new ConnectCity(),
+                new OperatePlant()
         );
     }
 }

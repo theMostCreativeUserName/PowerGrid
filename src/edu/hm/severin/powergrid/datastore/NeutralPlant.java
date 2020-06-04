@@ -7,6 +7,7 @@ import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
 import edu.hm.severin.powergrid.ListBag;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -59,7 +60,7 @@ public class NeutralPlant implements OpenPlant {
         this.type = type;
         this.numberOfResources = numberofResources;
         this.cities = cities;
-        this.usableResources = getUsableResources();
+        this.usableResources = getUsableResources(this.numberOfResources);
     }
 
     /**
@@ -132,22 +133,39 @@ public class NeutralPlant implements OpenPlant {
         return this.usableResources;
     }
 
-    private Set<Bag<Resource>> getUsableResources() {
+    private Set<Bag<Resource>> getUsableResources(int amount) {
         final Plant.Type plantType = getType();
         final Set<Bag<Resource>> plantCanUse = new HashSet<>();
         Bag<Resource> usable = new ListBag<>();
 
        switch (plantType) {
-            case Coal -> usable = new ListBag<>(Resource.Coal);
-            case Oil -> usable = new ListBag<>(Resource.Oil);
-            case Garbage -> usable = new ListBag<>(Resource.Garbage);
-            case Uranium -> usable = new ListBag<>(Resource.Uranium);
-            case Hybrid -> usable = new ListBag<>(Resource.Coal, Resource.Oil);
+            case Coal -> usable = usable.add(Resource.Coal, amount);
+            case Oil -> usable = usable.add(Resource.Oil, amount);
+            case Garbage -> usable = usable.add(Resource.Garbage, amount);
+            case Uranium -> usable = usable.add(Resource.Uranium, amount);
         }
-
-        final Bag<Resource> immutableUsable = usable.immutable();
-        plantCanUse.add(immutableUsable);
+        if (plantType == Type.Hybrid){
+            plantCanUse.addAll(generateHybridBags(amount));
+        }else {
+            final Bag<Resource> immutableUsable = usable.immutable();
+            plantCanUse.add(immutableUsable);
+        }
         return plantCanUse;
+    }
+
+    private Set<Bag<Resource>> generateHybridBags(int amount) {
+        Set<Bag<Resource>> allBags = new HashSet<>();
+        allBags.add(new ListBag<Resource>().add(Resource.Coal, amount));
+        allBags.add(new ListBag<Resource>().add(Resource.Oil, amount));
+        int currentAmount = amount-1;
+        while (currentAmount != 0){
+            Bag<Resource> oneBagOfCombination = new ListBag<>();
+            oneBagOfCombination = oneBagOfCombination.add(Resource.Coal, currentAmount);
+            oneBagOfCombination = oneBagOfCombination.add(Resource.Oil, amount-currentAmount);
+            allBags.add(oneBagOfCombination);
+            currentAmount--;
+        }
+        return allBags;
     }
 
     @Override
