@@ -306,16 +306,11 @@ public class BagTest<E> {
         assertTrue(added);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void addIllegalTimes() {
-        Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
-        sut.add('s', 0);
-    }
 
     @Test(expected = IllegalArgumentException.class)
     public void removeIllegalTimes() {
         Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
-        sut.remove('s', 0);
+        sut.remove('s', -1);
     }
 
     @Test
