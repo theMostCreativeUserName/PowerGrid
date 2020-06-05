@@ -19,12 +19,9 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import static org.junit.Assert.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-public class EndResourceBuyingTest {
-
+public class OperateNoPlantTest {
     @Rule
     public Timeout globalTimeout = Timeout.seconds(1); //max sec for test
 
@@ -33,7 +30,7 @@ public class EndResourceBuyingTest {
     private final String NO_SECRET = "";
     private static BiConsumer<Integer, Runnable> times = (n, runnable) -> IntStream.range(0, n).forEach(__ -> runnable.run());
 
-    public EndResourceBuyingTest(){
+    public OperateNoPlantTest(){
         // TODO: Fuegen Sie hier Ihre eigenen FQCNs ein.
         System.setProperty("powergrid.factory", "edu.hm.severin.powergrid.datastore.NeutralFactory");
         System.setProperty("powergrid.rules", "edu.hm.severin.powergrid.logic.StandardRules");
@@ -42,14 +39,16 @@ public class EndResourceBuyingTest {
         game = openGame;
     }
 
-    //Lets Test
+    //Hold my spaghetti code
+    //This doesn't require a lot of testing
+    //It doesnt affect other players or the electro count of the player itself
 
     @Test
-    public void EndResourceBuyingOnePlayer(){
+    public void OperateNoPlantOnePlayer(){
         //arrange
         OpenGame opengame = (OpenGame) sut.getGame();
         OpenFactory factory = opengame.getFactory();
-        opengame.setPhase(Phase.ResourceBuying);
+        opengame.setPhase(Phase.PlantOperation);
 
         OpenPlayer player = factory.newPlayer("ReadyPlayerOne", "red");
         player.setElectro(420);
@@ -61,7 +60,34 @@ public class EndResourceBuyingTest {
         List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
 
         //assert
-        assertTrue(moveTypes.contains(MoveType.BuyNoResource));
+        assertTrue(moveTypes.contains(MoveType.OperateNoPlant));
         assertEquals(moveTypes.size(),1); //Buy no Resource
     }
+
+    @Test
+    public void OperateNoPlantTwoPlayers(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.PlantOperation);
+
+        OpenPlayer player1 = factory.newPlayer("ReadyPlayerOne", "red");
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player1.setElectro(420);
+        player2.setElectro(69);
+        player1.setPassed(false);
+        player2.setPassed(false);
+        opengame.getOpenPlayers().add(player1);
+        opengame.getOpenPlayers().add(player2);
+
+        //act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
+        List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
+
+        //assert
+        assertTrue(moveTypes.contains(MoveType.OperateNoPlant));
+        assertEquals(moveTypes.size(),1); //Buy no Resource
+    }
+
 }
+
