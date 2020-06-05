@@ -5,6 +5,7 @@ import edu.hm.cs.rs.powergrid.Bag;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * a Bag with elements of no specific order.
@@ -35,13 +36,10 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * copy cTor for Bag.
      *
      * @param collection to be copied
-     * @complexity: 2
      */
     public ListBag(final Collection<? extends E> collection) {
         this.elements = new ArrayList<>();
-        for (E e : collection) {
-            this.add(e);
-        }
+        this.elements.addAll(collection);
     }
 
     /**
@@ -54,9 +52,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     public ListBag(final E... elements) {
         final E[] vararg = elements;
         final List<E> result = new ArrayList<>();
-        for (E arrayPart : vararg) {
-            result.add(arrayPart);
-        }
+        Arrays.stream(elements).forEach(e -> result.add(e));
         this.elements = result;
     }
 
@@ -124,7 +120,6 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     @SuppressWarnings("unchecked")
     public Set<E> distinct() {
         final Set<E> result = new HashSet<>();
-
         getElements().stream().map(Object::toString).forEach(x -> result.add((E) x));
         final Set<E> immutable = Set.copyOf(result);
         return immutable;
@@ -140,14 +135,16 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      */
     @Override
     public Bag<E> add(final E element, final int times) {
+        writeAccess();
         final int compare = this.size();
         if (times < 0) {
             throw new IllegalArgumentException();
         }
         final Bag<E> result = new ListBag<>(getElements());
-        for (int count = 0; count < times; count++) {
-            result.add(element);
-        }
+
+        Stream<Integer> iterate = Stream.iterate(0, count -> count + 1).limit(times);
+        iterate.forEach(i -> result.add(element));
+
         assert compare <= this.size();
         return result;
     }
@@ -163,11 +160,8 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     public Bag<E> add(final Bag<? extends E> that) {
         final int compare = this.size();
         final Bag<E> result = new ListBag<>(getElements());
-        final Iterator<? extends E> thatIterator = that.iterator();
-        while (thatIterator.hasNext()) {
-            result.add(thatIterator.next());
-            that.iterator().next();
-        }
+        that.iterator().forEachRemaining(e -> result.add(e));
+
         assert compare <= this.size();
         return result;
     }
@@ -272,11 +266,8 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
             throw new IllegalArgumentException();
         }
 
-        // Bag<E> result = new ListBag<>(getElements());
-
-        for (int count = 0; count < times; count++) {
-            this.remove(element);
-        }
+        Stream<Integer> iterate = Stream.iterate(0, count -> count + 1).limit(times);
+        iterate.forEach(i -> this.remove(element));
 
         assert compare >= this.size();
 
@@ -358,12 +349,13 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object that) {
-        boolean result = false;
-        if (that instanceof Bag bag) {
-            if (this.contains(bag))
-                if (((Bag) that).contains(this)) result = true;
-        }
-        return result;
+        Set<Object> setForStream = new HashSet<>();
+        setForStream.add(that);
+        return setForStream
+                .stream()
+                .filter(x -> x instanceof Bag bag)
+                .filter(x -> this.contains((Bag) x))
+                .anyMatch(x -> ((Bag) x).contains(this));
     }
 
 }

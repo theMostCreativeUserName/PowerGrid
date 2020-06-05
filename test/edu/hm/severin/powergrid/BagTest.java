@@ -156,7 +156,7 @@ public class BagTest<E> {
         assertEquals(sut.toString(), copy.toString());
     }
 
-    @Test
+    @Test(expected = UnsupportedOperationException.class)
     public void immutable4() {
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
         Bag<String> copy = sut.immutable();
