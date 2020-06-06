@@ -8,6 +8,7 @@ import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
+import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,8 +21,7 @@ import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class EndResourceBuyingTest {
 
@@ -51,17 +51,112 @@ public class EndResourceBuyingTest {
         OpenFactory factory = opengame.getFactory();
         opengame.setPhase(Phase.ResourceBuying);
 
+        //Player1
         OpenPlayer player = factory.newPlayer("ReadyPlayerOne", "red");
         player.setElectro(420);
         player.setPassed(false);
         opengame.getOpenPlayers().add(player);
 
+        //Player2
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player2.setElectro(520);
+        player2.setPassed(true);
+        opengame.getOpenPlayers().add(player2);
+
         //act
         final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
-        List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.EndResourceBuying).collect(Collectors.toList());
 
         //assert
-        assertTrue(moveTypes.contains(MoveType.BuyNoResource));
-        assertEquals(moveTypes.size(),1); //Buy no Resource
+        assertEquals(moves.size(),0);
     }
+
+    @Test
+    public void EndResourceBuyingOnePlayer2(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.ResourceBuying);
+
+        //Player1
+        OpenPlayer player = factory.newPlayer("ReadyPlayerOne", "red");
+        player.setElectro(420);
+        player.setPassed(true);
+        opengame.getOpenPlayers().add(player);
+
+        //Player2
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player2.setElectro(520);
+        player2.setPassed(true);
+        opengame.getOpenPlayers().add(player2);
+
+        //act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.EndResourceBuying).collect(Collectors.toList());
+
+        //assert
+        assertEquals(moves.size(),1);
+    }
+
+    @Test
+    public void EndResourceBuyingFire(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.ResourceBuying);
+
+        //Player1
+        OpenPlayer player = factory.newPlayer("ReadyPlayerOne", "red");
+        player.setElectro(420);
+        player.setPassed(true);
+        opengame.getOpenPlayers().add(player);
+
+        //Player2
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player2.setElectro(520);
+        player2.setPassed(true);
+        opengame.getOpenPlayers().add(player2);
+
+        //act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.EndResourceBuying).collect(Collectors.toList());
+        Optional<Problem> problem =  sut.fire(Optional.of("ReadyPlayerOne"), moves.get(0));
+
+        //assert
+        assertTrue(problem.isEmpty());
+        assertFalse(player.hasPassed());
+        assertFalse(player2.hasPassed());
+        assertSame(opengame.getPhase(), Phase.Building);
+    }
+
+    @Test
+    public void EndResourceBuyingFire2(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.ResourceBuying);
+
+        //Player1
+        OpenPlayer player = factory.newPlayer("ReadyPlayerOne", "red");
+        player.setElectro(420);
+        player.setPassed(true);
+        opengame.getOpenPlayers().add(player);
+
+        //Player2
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player2.setElectro(520);
+        player2.setPassed(true);
+        opengame.getOpenPlayers().add(player2);
+
+        //act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.EndResourceBuying).collect(Collectors.toList());
+        player.setPassed(false);
+        Optional<Problem> problem =  sut.fire(Optional.of("ReadyPlayerOne"), moves.get(0));
+
+        //assert
+        assertSame(problem.get(), Problem.PlayersRemaining);
+    }
+
+
 }

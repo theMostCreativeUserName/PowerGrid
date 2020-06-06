@@ -10,6 +10,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.severin.powergrid.ListBag;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -356,6 +357,8 @@ public class BuyResourceTest {
         OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
         OpenPlant plant2 = factory.newPlant(201, Plant.Type.Oil, 2, 12);
         player2.getOpenPlants().add(plant2);
+        OpenPlant plant3 = factory.newPlant(210, Plant.Type.Oil, 2, 12);
+        player2.getOpenPlants().add(plant3);
         player2.getOpenResources().add(Resource.Oil);
         player2.getOpenResources().add(Resource.Oil);
         player2.getOpenResources().add(Resource.Oil);
@@ -402,6 +405,9 @@ public class BuyResourceTest {
         player2.setElectro(5);
         player2.setPassed(false);
 
+        System.out.println(player);
+        System.out.println(player2);
+
         opengame.getOpenPlayers().add(player);
         opengame.getOpenPlayers().add(player2);
 
@@ -419,6 +425,213 @@ public class BuyResourceTest {
         assertEquals(game.getResourceMarket().getAvailable().count(Resource.Oil), 18);
 
     }
+
+    //Since here with Hybrid Plants
+    @Test
+    public void testBuyResource8() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.ResourceBuying);
+        OpenFactory factory = opengame.getFactory();
+
+
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(200, Plant.Type.Coal, 3, 12);
+        player.getOpenPlants().add(plant);
+        player.setElectro(100);
+        player.setPassed(false);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        OpenPlant plant2 = factory.newPlant(201, Plant.Type.Oil, 2, 12);
+        OpenPlant plant3 = factory.newPlant(202, Plant.Type.Hybrid, 2, 12);
+        player2.getOpenPlants().add(plant2);
+        player2.getOpenPlants().add(plant3);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+
+        player2.setElectro(5);
+        player2.setPassed(false);
+
+        System.out.println(player);
+        System.out.println(player2);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("NOOOOO"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.BuyResource).collect(Collectors.toList());
+
+
+        // assert
+        assertSame( moves.size(), 2); // Kauf von Kohle und Öl
+    }
+
+    @Test
+    public void testBuyResource9() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.ResourceBuying);
+        OpenFactory factory = opengame.getFactory();
+
+
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(200, Plant.Type.Coal, 3, 12);
+        player.getOpenPlants().add(plant);
+        player.setElectro(100);
+        player.setPassed(false);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        OpenPlant plant2 = factory.newPlant(201, Plant.Type.Oil, 2, 12);
+        OpenPlant plant3 = factory.newPlant(202, Plant.Type.Hybrid, 2, 12);
+        OpenPlant plant4 = factory.newPlant(203, Plant.Type.Coal, 2, 12);
+        player2.getOpenPlants().add(plant2);
+        player2.getOpenPlants().add(plant3);
+        player2.getOpenPlants().add(plant4);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Coal);
+        player2.getOpenResources().add(Resource.Coal);
+        player2.getOpenResources().add(Resource.Coal);
+        player2.getOpenResources().add(Resource.Coal);
+        player2.getOpenResources().add(Resource.Coal);
+        player2.getOpenResources().add(Resource.Coal);
+
+        player2.setElectro(5);
+        player2.setPassed(false);
+
+        System.out.println(player);
+        System.out.println(player2);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("NOOOOO"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.BuyResource).collect(Collectors.toList());
+
+
+        // assert
+        assertSame( moves.size(), 0); // Kauf von Kohle und Öl
+    }
+
+    @Test
+    public void testBuyResource10() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.ResourceBuying);
+        OpenFactory factory = opengame.getFactory();
+
+
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(200, Plant.Type.Coal, 3, 12);
+        player.getOpenPlants().add(plant);
+        player.setElectro(100);
+        player.setPassed(false);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        OpenPlant plant2 = factory.newPlant(201, Plant.Type.Coal, 2, 12);
+        OpenPlant plant3 = factory.newPlant(202, Plant.Type.Hybrid, 2, 12);
+        plant3.getResources().clear();
+        plant3.getResources().add(new ListBag<>(Resource.Oil, Resource.Oil));
+        plant3.getResources().add(new ListBag<>(Resource.Oil, Resource.Coal));
+        plant3.getResources().add(new ListBag<>(Resource.Coal, Resource.Coal));
+        OpenPlant plant4 = factory.newPlant(203, Plant.Type.Oil, 2, 12);
+        player2.getOpenPlants().add(plant2);
+        player2.getOpenPlants().add(plant3);
+        player2.getOpenPlants().add(plant4);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Coal);
+        player2.getOpenResources().add(Resource.Coal);
+        player2.getOpenResources().add(Resource.Coal);
+        player2.getOpenResources().add(Resource.Coal);
+        player2.getOpenResources().add(Resource.Coal);
+        player2.getOpenResources().add(Resource.Coal);
+
+        player2.setElectro(5);
+        player2.setPassed(false);
+
+        System.out.println(player);
+        System.out.println(player2);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("NOOOOO"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.BuyResource).collect(Collectors.toList());
+
+
+        // assert
+        assertSame( moves.size(), 0); // Kauf von Kohle und Öl
+    }
+
+    @Test
+    public void testBuyResource11() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.ResourceBuying);
+        OpenFactory factory = opengame.getFactory();
+
+
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(200, Plant.Type.Coal, 3, 12);
+        player.getOpenPlants().add(plant);
+        player.setElectro(100);
+        player.setPassed(false);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        OpenPlant plant2 = factory.newPlant(201, Plant.Type.Oil, 2, 12);
+        OpenPlant plant3 = factory.newPlant(202, Plant.Type.Hybrid, 2, 12);
+        player2.getOpenPlants().add(plant2);
+        player2.getOpenPlants().add(plant3);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Coal);
+        player2.getOpenResources().add(Resource.Coal);
+        player2.getOpenResources().add(Resource.Coal);
+
+        player2.setElectro(5);
+        player2.setPassed(false);
+
+        System.out.println(player);
+        System.out.println(player2);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("NOOOOO"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.BuyResource).collect(Collectors.toList());
+
+
+        // assert
+        assertSame( moves.size(), 2); // Kauf von Kohle und Öl
+    }
+
 
 
 

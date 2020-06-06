@@ -137,7 +137,8 @@ public class BagTest<E> {
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
         // act
         Bag<String> copy = sut.immutable();
-        assertEquals(sut.toString(), copy.toString());
+        assertEquals("ListBag{elements=[1st, 2nd, 3rd, 2nd], readOnly=false}",sut.toString());
+        assertEquals("ListBag{elements=[1st, 2nd, 3rd, 2nd], readOnly=true}", copy.toString());
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -215,7 +216,7 @@ public class BagTest<E> {
     @Test
     public void equals1() {
         Bag<Integer> sut = getSUT(1, 2, 2, 3);
-        assertEquals(sut, sut);
+        assertSame(sut, sut);
     }
 
     @Test
@@ -454,7 +455,8 @@ public class BagTest<E> {
         Set<String> sat = new HashSet<>();
         sat.add("w");
         sat.add("r");
-        assertEquals(sut.distinct(), sat);
+        Set<String> s = Collections.unmodifiableSet(sat);
+        assertEquals(s.toString(),sut.distinct().toString());
     }
 
     @Test
@@ -462,7 +464,8 @@ public class BagTest<E> {
         Bag<Character> sut = getSUT('w', 'w', 'w', 'w');
         Set<String> sat = new HashSet<>();
         sat.add("w");
-        assertEquals(sut.distinct(), sat);
+        Set<String> s = Collections.unmodifiableSet(sat);
+        assertEquals(s.toString(),sut.distinct().toString());
     }
 
     @Test

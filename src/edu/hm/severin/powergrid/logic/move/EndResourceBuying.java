@@ -48,7 +48,7 @@ class EndResourceBuying implements HotMove {
         if (game.getPhase() != Phase.ResourceBuying)
             return Optional.of(Problem.NotNow);
         final List<OpenPlayer> players = game.getOpenPlayers();
-        if (players.stream().filter(Player::hasPassed).count() == 0)
+        if (players.stream().filter(player -> !player.hasPassed()).count() != 0)
             return Optional.of(Problem.PlayersRemaining);
 
         if (real) {

@@ -64,8 +64,6 @@ class ConnectCity implements HotMove {
         final Optional<Problem> result = allRequirements();
         if (result.isPresent())
             return result;
-        if (player.isEmpty())
-            return Optional.of(Problem.Expired);
 
         final int costCity = game.getEdition().levelToCityCost().get(game.getLevel());
         final List<Integer> costConnectionList = player.get()
@@ -80,7 +78,6 @@ class ConnectCity implements HotMove {
 
         if (cost > player.get().getElectro())
             return Optional.of(Problem.NoCash);
-
 
         if (real) {
             player.get().getOpenCities().add(city);
@@ -117,7 +114,7 @@ class ConnectCity implements HotMove {
     private Optional<Problem> testPlayerLastNotPassed() {
         final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
         if (allRemainingPlayer.size() == 0)
-            return Optional.of(Problem.AlreadyPassed);
+            return Optional.of(Problem.NotYourTurn);
         final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(allRemainingPlayer.size() - 1);
         if (!lastPlayerOfList.equals(player.get()))
             return Optional.of(Problem.NotYourTurn);

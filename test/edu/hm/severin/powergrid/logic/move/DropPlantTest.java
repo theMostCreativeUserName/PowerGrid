@@ -264,4 +264,54 @@ public class DropPlantTest {
         assertTrue(problem.isPresent());
     }
 
+    @Test
+    public void testDropPlantFire3() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.ResourceBuying);
+        OpenFactory factory = opengame.getFactory();
+
+
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(200, Plant.Type.Coal, 3, 12);
+        OpenPlant plant3 = factory.newPlant(202, Plant.Type.Coal, 3, 12);
+        OpenPlant plant4 = factory.newPlant(203, Plant.Type.Coal, 3, 12);
+        OpenPlant plant5 = factory.newPlant(204, Plant.Type.Coal, 3, 12);
+        player.getOpenPlants().add(plant);
+        player.getOpenPlants().add(plant3);
+        player.getOpenPlants().add(plant4);
+        player.getOpenPlants().add(plant5);
+        player.setElectro(100);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        OpenPlant plant2 = factory.newPlant(201, Plant.Type.Oil, 3, 12);
+        player2.getOpenPlants().add(plant2);
+        player2.setElectro(200);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().sequential().filter(Move -> Move.getType() == MoveType.DropPlant).collect(Collectors.toList());
+
+        // Neue Kraftwerke für Spieler und entfernen aller Alten, damit size größer als 3 und Kraftwerk nicht Spieler gehört
+        player.getOpenPlants().add(factory.newPlant(206, Plant.Type.Eco, 3, 3));
+        player.getOpenPlants().add(factory.newPlant(207, Plant.Type.Eco, 3, 3));
+        player.getOpenPlants().add(factory.newPlant(208, Plant.Type.Eco, 3, 3));
+        player.getOpenPlants().add(factory.newPlant(209, Plant.Type.Eco, 3, 3));
+
+        player.getOpenPlants().remove(plant);
+        player.getOpenPlants().remove(plant3);
+        player.getOpenPlants().remove(plant4);
+        player.getOpenPlants().remove(plant5);
+
+        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moves.get(0));
+
+        // assert
+        assertSame(problem.get(), Problem.OtherPlant);
+    }
+
 }

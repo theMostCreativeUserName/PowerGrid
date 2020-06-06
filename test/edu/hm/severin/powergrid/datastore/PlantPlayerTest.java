@@ -99,46 +99,43 @@ public class PlantPlayerTest {
     @Test
     public void plantGetResources1() {
         Plant plant = factory.newPlant(1, Plant.Type.Coal, 2, 1);
-        assertEquals("[[Coal, Coal]]", plant.getResources().toString());
+        assertEquals("[ListBag{elements=[Coal, Coal], readOnly=true}]", plant.getResources().toString());
     }
 
     @Test
     public void plantGetResources2() {
         Plant plant = factory.newPlant(1, Plant.Type.Oil, 2, 1);
-        assertEquals("[[Oil, Oil]]", plant.getResources().toString());
+        assertEquals("[ListBag{elements=[Oil, Oil], readOnly=true}]", plant.getResources().toString());
     }
 
     @Test
     public void plantGetResources3() {
         Plant plant = factory.newPlant(1, Plant.Type.Garbage, 2, 1);
-        assertEquals("[[Garbage, Garbage]]", plant.getResources().toString());
+        assertEquals("[ListBag{elements=[Garbage, Garbage], readOnly=true}]", plant.getResources().toString());
     }
 
     @Test
     public void plantGetResources4() {
         Plant plant = factory.newPlant(1, Plant.Type.Uranium, 2, 1);
-        assertEquals("[[Uranium, Uranium]]", plant.getResources().toString());
+        assertEquals("[ListBag{elements=[Uranium, Uranium], readOnly=true}]", plant.getResources().toString());
     }
 
     @Test
     public void plantGetResources5() {
         Plant plant = factory.newPlant(1, Plant.Type.Hybrid, 2, 1);
-
-        assertTrue( plant.getResources().toString().contains("[Coal, Coal]"));
-        assertTrue( plant.getResources().toString().contains("[Oil, Oil]"));
-        assertEquals(3,plant.getResources().size());
+        assertEquals("[ListBag{elements=[Coal, Oil], readOnly=false}, ListBag{elements=[Oil, Oil], readOnly=false}, ListBag{elements=[Coal, Coal], readOnly=false}]", plant.getResources().toString());
     }
 
     @Test
     public void plantGetResources6() {
         Plant plant = factory.newPlant(1, Plant.Type.Eco, 2, 1);
-        assertEquals("[[]]", plant.getResources().toString());
+        assertEquals("[ListBag{elements=[], readOnly=true}]", plant.getResources().toString());
     }
 
     @Test
     public void plantGetResources7() {
         Plant plant = factory.newPlant(1, Plant.Type.Fusion, 2, 1);
-        assertEquals("[[]]", plant.getResources().toString());
+        assertEquals("[ListBag{elements=[], readOnly=true}]", plant.getResources().toString());
     }
 
     @Test

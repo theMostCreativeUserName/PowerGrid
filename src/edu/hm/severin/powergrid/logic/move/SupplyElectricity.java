@@ -51,8 +51,8 @@ class SupplyElectricity implements HotMove {
         if (game.getPhase() != Phase.PlantOperation)
             return Optional.of(Problem.NotNow);
         final List<OpenPlayer> players = game.getOpenPlayers();
-        if (players.stream().filter(Player::hasPassed).count() == 0)
-            return Optional.of(Problem.NotNow);
+        if (players.stream().filter(player -> !player.hasPassed()).count() != 0)
+            return Optional.of(Problem.PlayersRemaining);
 
         if (real) {
             game.setPhase(Phase.Bureaucracy);
@@ -74,13 +74,9 @@ class SupplyElectricity implements HotMove {
         final List<Integer> moneyGainedPerPlants = game.getEdition().getPoweredCitiesIncome();
 
         for (OpenPlayer player : players) {
-            final long maximalCitiesSupply = player.getOpenPlants().stream().map(Plant::getCities).count();
+            final long maximalCitiesSupply = player.getOpenPlants().stream().mapToInt(Plant::getCities).sum();
             final int maximalCitiesPlayer = player.getOpenCities().size();
-            final int suppliedCities;
-            if (maximalCitiesSupply >= maximalCitiesPlayer)
-                suppliedCities = maximalCitiesPlayer;
-            else
-                suppliedCities = (int) maximalCitiesSupply;
+            final int suppliedCities = Math.min((int)maximalCitiesSupply, maximalCitiesPlayer);
 
             //Money Editing
             final int currentAmountMoney = player.getElectro();

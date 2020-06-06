@@ -58,8 +58,6 @@ public class StandardRules implements Rules {
             if (openplayer != null) {
                 returnEarly = false;
                 player = Optional.of(openplayer);
-                System.out.println("-------------------------------");
-                System.out.println(openplayer);
             } else
                 return new HashSet<>();
 
@@ -97,17 +95,14 @@ public class StandardRules implements Rules {
             //does hotMove reference same game?
             if(!hotMove.getGame().equals(this.getGame())) throw new IllegalStateException("Hackers shall not pass");
             problem = hotMove.fire();
-            System.out.println(problem + "++++++");
             if (problem.isEmpty()) {
                 //getMoves
                 final Set<Move> nextMoves = getMoves(secret);
                 problem = fireNextMoves(nextMoves);
-                System.out.println(problem + "*******");
             }
         }else
             throw new IllegalArgumentException("move is invalid");
 
-            System.out.println(problem);
             return problem;
 
     }
@@ -123,10 +118,7 @@ public class StandardRules implements Rules {
             } if (singleMove.isAutoFire() && nextMoves.size() == 1){
                 problem = move.fire();
             }
-            System.out.println("########" + move);
-            System.out.println("*******" + problem);
         }
-        System.out.println("LOLOLOLOLOLOLOLOLOLOLOLOLOLOL" + problem);
 
         return problem;
     }
