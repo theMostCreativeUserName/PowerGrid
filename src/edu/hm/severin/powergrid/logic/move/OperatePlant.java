@@ -82,7 +82,7 @@ class OperatePlant implements HotMove {
         if (real) {
             plant.setOperated(true);
             player.get().getOpenResources().remove(resource);
-            game.getResourceMarket().getOpenSupply().add(resource);
+            game.getResourceMarket().getOpenSupply().addAll(resource);
         }
         return Optional.empty();
     }
