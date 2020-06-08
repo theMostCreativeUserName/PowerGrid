@@ -90,6 +90,9 @@ Das Plugin zählt den CNN der kompletten Klasse relativ unschön, hier müssen d
 1. in IntelliJ unten rechts klickt ihr dann auf das SpotBugs-Käfer Symbol
 1. klickt auf **"Anylize Project files not including Test sources"** (das blaue Quadrat mit grünen Pfeil)
 
+## Prüfen der Abgaben
+An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen Suchen) keine Möglichkeit gefunden die auftretenden Probleme zu lösen. Diese wurden aber mit einem Kommentar markiert.
+
 ### Version 1.10 / BER
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
