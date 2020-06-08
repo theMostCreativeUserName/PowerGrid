@@ -8,15 +8,15 @@
 ### 2) PMD
 1. Herunterladen/Speichern von [PMD-Vorlagen](https://sol.cs.hm.edu/course/st/download.do?filename=pmd.xml&mimetype=text/xml "Schiedermeier-PMD")
 1. INtelliJ Menüpunkt **"Files"** --> Settings --> Other Settings --> PMD --> beim Seitenlabel *RuleSet* auf das '+' --> auf "Browse" --> PMD-File auswählen
-1. Laufen lassen könnt ihr das PMD indem ihr, auf den zu testenden Ordner rechts-klickt und Run **PMD auswählt**
+1. Laufen lassen könnt ihr das PMD indem ihr, auf den zu testenden Ordner rechts-klickt und Run **PMD auswählt** --> Custom Rules --> eure PMD-Datei
 
 ### 3) Checkstyle
 1. Herunterladen/Speichern con [Checkstyle-Vorlagen](https://sol.cs.hm.edu/course/st/download.do?filename=checkstyle.xml&mimetype=text/xml "Schiedermeier Checkstyle")
 **stellt sicher dass ihr die neuste Version des Checkstyle-Plugins habt**
 1. IntelliJ Menüpunkt **"Files"** --> Settings --> Other Settings --> Checkstyle --> auf '+' bei "Configuration File" --> im Pop-Up Fenster einen Namen eingeben und über "Browse" Checkstyle-File auswählen
 ####falls ihr trotzdem noch Probleme habt
-1. versucht eure Java-Version auf "13 - SDK default" zu setzen und nochmal zu parsen.
-1. prüft ob ihr Rechtschreibfehler in der Datei habt (grün unterringelt von IntelliJ) --> Worte wie *Electro* könnt ihr zum Wörtebuch von IntelliJ hinzufügen
+1. versucht eure Java-Version auf "13 - SDK default" zu setzen und nochmal zu parsen. (siehe unten)
+1. prüft ob ihr Rechtschreibfehler in der Datei habt (grün unterringelt von IntelliJ) --> Worte wie *Electro* könnt ihr zum Wörtebuch von IntelliJ hinzufügen. (siehe unten)
 ##### Ändern der Java-Version
 1. intelliJ Menüpunkt **"Files"** --> Project Settings
 1. heir auf **Project** und dann die Projekt SDK ändern
@@ -34,6 +34,7 @@ In IntelliJ oben rechts neben dem grünen Run-Button auf das Schild-Symbol mit B
 1. in IntelliJ --> auf **Edit Configuration**, im Drop-Down Menü neben dem Run-Symbol
 1. im Pop-Up Fenster auf das '+' --> im Drop-Down Menü "Pit Runner" auswählen
 1. bennent diese Datei und tragt folgende Daten ein:
+
 |im Feld | Daten | wird automatisch generiert |
 | --- | --- | --- |
 | Target classes | edu.hm.severin.powergrid.* | Nein |
@@ -41,6 +42,7 @@ In IntelliJ oben rechts neben dem grünen Run-Button auf das Schild-Symbol mit B
 | Source dir | <Euer-PATH-zum-Project> | Ja |
 | Report dir | <Euer-PATH-zum-Project>/report | Ja |
 | Other params | --jvmArgs "--enable-preview" --outputFormats XML,HTML | Nein |
+      
 1. Apply und OK
 1. um Mutations-Tests laufen zu lassen, wählt im Drop-Down Menü eure Pit Konfiguration und lasst diese laufen
 
@@ -50,6 +52,7 @@ In IntelliJ oben rechts neben dem grünen Run-Button auf das Schild-Symbol mit B
 das Plugin von IntelliJ, dass automatisch den CNN zählt heißt **Code Metrics**
 1. File --> Other Settings --> Code Metrics
 1. im Seiten-Label stellt ihr folgendes ein:
+
 |Name | Daten |
 |--- | --- |
 | Complexity level low | 0|
@@ -57,6 +60,7 @@ das Plugin von IntelliJ, dass automatisch den CNN zählt heißt **Code Metrics**
 | Complexity level high | 5 |
 | Complexity level extreme | 10 |
 | Show metrics above complexity | 1|
+
 für die Auswahlmöglichkeiten darunter wählt ihr alle aus
 1. im Seiten-Label Advanced setzt ihr die folgenden Optionen aus **1** und jeglichen Rest auf **0**
       1. anonymous Class
@@ -75,7 +79,11 @@ für die Auswahlmöglichkeiten darunter wählt ihr alle aus
       1. while
       1. polyadic expr.
 1. Apply + OK
-Das Plugin zählt den CNN der kompletten Klasse relativ unschön, hier müssen die einzelnen Zahlen im Drop-Down Menü aufaddiert werden.
+
+Das Plugin zählt den CNN der kompletten Klasse relativ unschön, hier müssen die einzelnen Zahlen im Drop-Down Menü aufaddiert werden
+1. im Kopf der Klasse --> klickt auf den Code Metrics Kommentar (das orangene Feld) 
+1. dann öffnet sich ein Drop-Down Menü in dem die CNN-Zahlen der einzelnen Methoden angezeigt werden
+1. diese müssen dann aufaddiert werden
 
 ### SpotBugs
 1. Installiert das **SpotBugs** Plugin
@@ -83,7 +91,7 @@ Das Plugin zählt den CNN der kompletten Klasse relativ unschön, hier müssen d
 1. klickt auf **"Anylize Project files not including Test sources"** (das blaue Quadrat mit grünen Pfeil)
 
 ### Version 1.10 / BER
-| Art der Testung           | Phillip   | Severin   | Teressa   | Tobias    |
+| Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |    |     |      |
 | PMD                       |    Ja   |      |      |      |
@@ -97,7 +105,7 @@ Das Plugin zählt den CNN der kompletten Klasse relativ unschön, hier müssen d
 
 
 ### Version2.10 / Nyancat
-| Art der Testung           | Phillip   | Severin   | Teressa   | Tobias    |
+| Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |    |     |      |
 | PMD                       |    Ja   |      |      |      |
