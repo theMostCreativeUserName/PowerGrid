@@ -23,7 +23,7 @@
 1. heir auf **Project** und dann die Projekt SDK ändern
 ##### Aufnehmen neuer Worte ins Wörterbuch
 1. klickt auf das Wort, dass ihr hinzufügen wollt
-1. presst **ALT** + **ENTETR** auf der Tastatur oder klickt auf die Glühbirne, die in der Zeile des Wortes erscheint 
+1. presst **ALT** + **ENTER** auf der Tastatur oder klickt auf die Glühbirne, die in der Zeile des Wortes erscheint 
 1. wählt: save "Wort" in project-level dictionary
 
 ### IntelliJ Line Coverage
@@ -46,6 +46,7 @@ In IntelliJ oben rechts neben dem grünen Run-Button auf das Schild-Symbol mit B
       
 1. Apply und OK
 1. um Mutations-Tests laufen zu lassen, wählt im Drop-Down Menü eure Pit Konfiguration und lasst diese laufen
+1. Sobald die Tests abgeschlossen wurden, erscheint im Terminal mit weißer Schrift "Im Browser öffnen". Im geöffneten Browserfenster könnt ihr dann die ermittelt Coverage sowie die Mutation einsehen und weitere Informationen bekommen.
 
 **Wichtig**: wenn ihr euer Projekt auf GitHub hochladet -> löscht vorher den report-Ordner, der durch die Mutationen entstanden ist
 
