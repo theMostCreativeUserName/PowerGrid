@@ -15,6 +15,7 @@
 **stellt sicher dass ihr die neuste Version des Checkstyle-Plugins habt**
 1. IntelliJ Menüpunkt **"Files"** --> Settings --> Other Settings --> Checkstyle --> auf '+' bei "Configuration File" --> im Pop-Up Fenster einen Namen eingeben und über "Browse" Checkstyle-File auswählen
 ####falls ihr trotzdem noch Probleme habt
+1. versucht Bestandteile von Java 14 Preview aus zu kommentieren. Beachtet bei Fehlern, welche Auswirkungen sie auf den auskommentierten Teil haben.
 1. versucht eure Java-Version auf "13 - SDK default" zu setzen und nochmal zu parsen. (siehe unten)
 1. prüft ob ihr Rechtschreibfehler in der Datei habt (grün unterringelt von IntelliJ) --> Worte wie *Electro* könnt ihr zum Wörtebuch von IntelliJ hinzufügen. (siehe unten)
 ##### Ändern der Java-Version
