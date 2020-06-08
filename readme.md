@@ -93,7 +93,7 @@ Das Plugin zählt den CNN der kompletten Klasse relativ unschön, hier müssen d
 ## Prüfen der Abgaben
 An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen Suchen) keine Möglichkeit gefunden die auftretenden Probleme zu lösen. Diese wurden aber mit einem Kommentar markiert.
 
-### Version 1.10 / BER
+### Version 1.11 / BER
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |   Ja  |     |      |
@@ -107,7 +107,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Externe Tests             |    Ja   |  Ja    |      |       |
 
 
-### Version2.10 / Nyancat
+### Version2.11 / Nyancat
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |   Ja |     |      |
@@ -121,7 +121,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Externe Tests             |    Ja   |  Ja    |      |       |
 
 
-### Version3.10 / Berlin
+### Version3.11 / Berlin
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |   Ja |     |      |
