@@ -39,8 +39,8 @@ In IntelliJ oben rechts neben dem grünen Run-Button auf das Schild-Symbol mit B
 | --- | --- | --- |
 | Target classes | edu.hm.severin.powergrid.* | Nein |
 | Target tests | edu.* | Nein |
-| Source dir | <Euer-PATH-zum-Project> | Ja |
-| Report dir | <Euer-PATH-zum-Project>/report | Ja |
+| Source dir | < Euer-PATH-zum-Project > | Ja |
+| Report dir | < Euer-PATH-zum-Project >/report | Ja |
 | Other params | --jvmArgs "--enable-preview" --outputFormats XML,HTML | Nein |
       
 1. Apply und OK
