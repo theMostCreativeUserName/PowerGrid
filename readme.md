@@ -95,7 +95,11 @@ Das Plugin zählt den CNN der kompletten Klasse relativ unschön, hier müssen d
 ## Prüfen der Abgaben
 An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen Suchen) keine Möglichkeit gefunden die auftretenden Probleme zu lösen. Diese wurden aber mit einem Kommentar markiert.
 
-### Version 1.11 / BER
+### Anmerkungen:
+1. Bei 5.13 Lasagne, weiß ich nicht ob (reine) 5er Test drinnen sind wirklich.  
+1. Die ListBag class muss überarbeitet werden, da diese allerdings immer als eine Einheit funktioniert, und auch von dem "Open"-Wechsel unabhängig ist und die Funktionalität stets gegeben, wird diese seperat ausgebessert und dann über ein Versionsupdate ab Version 3.x integriert.
+
+### Version 1.13 / BER
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |   Ja  |     |      |
@@ -109,7 +113,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Externe Tests             |    Ja   |  Ja    |      |       |
 
 
-### Version2.11 / Nyancat
+### Version2.13 / Nyancat
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |   Ja |     |      |
@@ -123,7 +127,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Externe Tests             |    Ja   |  Ja    |      |       |
 
 
-### Version3.12 / Berlin
+### Version3.13 / Berlin
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |   Ja |     |      |
@@ -136,7 +140,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Spotbugs               |    Ja   |   Ja   |      |      |
 | Externe Tests             |    Ja   |  Ja    |      |       |
 
-### Version4.12 / Pikachu
+### Version4.13 / Pikachu
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |   Ja |     |      |
@@ -148,3 +152,16 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | CCN Methods               |    Ja   |   Ja   |      |      |
 | Spotbugs               |    Ja   |   Ja   |      |      |
 | Externe Tests             |    Ja   |  Ja    |      |       |
+
+### Version5.13 / Lasagne
+| Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
+| ---                       | ---       | ---       | ---       | ---       |
+| JavaDoc                   |    Ja   |    |     |      |
+| PMD                       |    Ja   |      |      |      |
+| Checkstyle                |    Ja   |      |      |      |
+| IntelliJ Line Coverage    |    Ja   |      |      |      |
+| Mutations                 |    Ja   |      |      |      |
+| CCN Class                 |    Ja   |      |      |      |
+| CCN Methods               |    Ja   |      |      |      |
+| Spotbugs               |    Ja   |      |      |      |
+| Externe Tests             |    Ja   |      |      |       |
