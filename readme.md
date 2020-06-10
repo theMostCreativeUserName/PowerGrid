@@ -96,8 +96,7 @@ Das Plugin zählt den CNN der kompletten Klasse relativ unschön, hier müssen d
 An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen Suchen) keine Möglichkeit gefunden die auftretenden Probleme zu lösen. Diese wurden aber mit einem Kommentar markiert.
 
 ### Anmerkungen:
-1. Bei 5.13 Lasagne, weiß ich nicht ob (reine) 5er Test drinnen sind wirklich.  !! Habe 5er Tests bekommen und integriere diese !!
-1. Die ListBag class muss überarbeitet werden, da diese allerdings immer als eine Einheit funktioniert, und auch von dem "Open"-Wechsel unabhängig ist und die Funktionalität stets gegeben, wird diese seperat ausgebessert und dann über ein Versionsupdate ab Version 3.x integriert.
+1. Bei der ListBag kommt es bei der Hashmethode wegen dem "" dazu das checkstyle meckert. Eine evtl. überarbeitung kann folgen. 
 
 ### Version 1.13 / BER
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
