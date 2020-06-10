@@ -75,6 +75,8 @@ public class PassAuctionTest {
         OpenFactory factory = opengame.getFactory();
 
         OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player1 = factory.newPlayer("Hihi", "bulb");
+        player1.setPassed(false);
         player.getOpenCities().add(factory.newCity("Testhausen", 666));
         player.getOpenPlants().add(factory.newPlant(666, Plant.Type.Coal, 3, 3));
         player.setPassed(false);
@@ -98,16 +100,20 @@ public class PassAuctionTest {
         OpenFactory factory = opengame.getFactory();
 
         OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player1 = factory.newPlayer("mmm", "bulb");
         player.getOpenCities().add(factory.newCity("Testhausen", 666));
         player.setPassed(false);
         player.setElectro(10);
 
         opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player1);
+        player1.setPassed(false);
 
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
         List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
         // assert
+        System.out.println(moveTypes);
         assertTrue(moveTypes.size() == 0);
     }
 
@@ -125,6 +131,8 @@ public class PassAuctionTest {
         player.setElectro(10);
 
         OpenPlayer player2 = factory.newPlayer("NEEEIIINNN", "pink");
+        OpenPlayer player1 = factory.newPlayer("Hihi", "bulb");
+        player1.setPassed(false);
         player2.getOpenCities().add(factory.newCity("Berlin", 767));
         player2.getOpenPlants().add(factory.newPlant(767, Plant.Type.Coal, 3, 3));
         player2.setPassed(false);
@@ -149,6 +157,8 @@ public class PassAuctionTest {
         OpenFactory factory = opengame.getFactory();
 
         OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player1 = factory.newPlayer("Hihi", "bulb");
+        player1.setPassed(false);
         player.getOpenCities().add(factory.newCity("Testhausen", 666));
         player.getOpenPlants().add(factory.newPlant(666, Plant.Type.Coal, 3, 3));
         player.setPassed(true);
@@ -162,6 +172,7 @@ public class PassAuctionTest {
 
         opengame.getOpenPlayers().add(player);
         opengame.getOpenPlayers().add(player2);
+        opengame.getOpenPlayers().add(player1);
 
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("NEEEIIINNN"));
@@ -180,17 +191,25 @@ public class PassAuctionTest {
         OpenFactory factory = opengame.getFactory();
 
         OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player1 = factory.newPlayer("Hihi", "bulb");
+        //player.getOpenPlants().add(factory.newPlant(6666, Plant.Type.Coal, 3, 3));
+        player1.setPassed(false);
         player.getOpenCities().add(factory.newCity("Testhausen", 666));
         player.getOpenPlants().add(factory.newPlant(666, Plant.Type.Coal, 3, 3));
         player.setPassed(false);
         player.setElectro(10);
 
+
         opengame.getOpenPlayers().add(player);
+
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        assertEquals(1 , haveMove.size());
+        assertEquals(MoveType.PassAuction, haveMove.stream().findFirst().get().getType());
+
         Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), haveMove.iterator().next());
         // assert
-        assertTrue(player.hasPassed());
+        //assertTrue(player.hasPassed());
         assertTrue(problem.isEmpty());
     }
 

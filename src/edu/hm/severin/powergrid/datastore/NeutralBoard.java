@@ -50,7 +50,7 @@ public class NeutralBoard implements OpenBoard {
     private Set<OpenCity> cityNames;
 
     /**
-     * A new board.
+     * A new board. Electro
      *
      * @param edition Edition of the board. Not Null.
      */

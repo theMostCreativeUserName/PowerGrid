@@ -36,7 +36,11 @@ public class HotMoves {
                 new ScrapPlant(),
                 new DropResource(),
                 new ConnectCity(),
-                new OperatePlant()
+                new OperatePlant(),
+                new EndAuctions(),
+                new GameBegins(),
+                new LeaveAuction(),
+                new StartAuction()
         );
     }
 }

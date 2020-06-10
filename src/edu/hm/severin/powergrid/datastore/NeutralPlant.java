@@ -124,9 +124,11 @@ public class NeutralPlant implements OpenPlant {
     }
 
     /**
-     * resources, that can be used by a plant.
+     * set of resources, that this plant can use.
+     * if plant uses no resources at all set is empty.
      *
-     * @return unmodifiable set of resources, non null
+     * @return different resources. not null, not empty.
+     * sets and elements are immutable.
      */
     @Override
     public Set<Bag<Resource>> getResources() {
