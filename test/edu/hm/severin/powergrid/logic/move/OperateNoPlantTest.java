@@ -8,6 +8,7 @@ import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
+import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
 import org.junit.Rule;
 import org.junit.Test;
@@ -88,6 +89,89 @@ public class OperateNoPlantTest {
         assertTrue(moveTypes.contains(MoveType.OperateNoPlant));
         assertEquals(moveTypes.size(),1); //Buy no Resource
     }
+
+    @Test
+    public void OperateNoPlantFire(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.PlantOperation);
+
+        OpenPlayer player1 = factory.newPlayer("ReadyPlayerOne", "red");
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player1.setElectro(420);
+        player2.setElectro(69);
+        player1.setPassed(false);
+        player2.setPassed(false);
+        opengame.getOpenPlayers().add(player1);
+        opengame.getOpenPlayers().add(player2);
+
+
+        //assert
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.OperateNoPlant).collect(Collectors.toList());
+        opengame.setLevel(2);
+        Optional<Problem> problem =  sut.fire(Optional.of("ReadyPlayerOne"), moves.get(0));
+
+        assertTrue(problem.isEmpty());
+        assertTrue(player1.hasPassed());
+    }
+
+    @Test
+    public void OperateNoPlantFire2(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.PlantOperation);
+
+        OpenPlayer player1 = factory.newPlayer("ReadyPlayerOne", "red");
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player1.setElectro(420);
+        player2.setElectro(69);
+        player1.setPassed(false);
+        player2.setPassed(false);
+        opengame.getOpenPlayers().add(player1);
+        opengame.getOpenPlayers().add(player2);
+
+
+        //assert
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.OperateNoPlant).collect(Collectors.toList());
+        player1.setPassed(true);
+        Optional<Problem> problem =  sut.fire(Optional.of("ReadyPlayerOne"), moves.get(0));
+
+        assertSame(problem.get(), Problem.NotYourTurn);
+    }
+
+    @Test
+    public void OperateNoPlantFire3(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.PlantOperation);
+
+        OpenPlayer player1 = factory.newPlayer("ReadyPlayerOne", "red");
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player1.setElectro(420);
+        player2.setElectro(69);
+        player1.setPassed(false);
+        player2.setPassed(false);
+        opengame.getOpenPlayers().add(player1);
+        opengame.getOpenPlayers().add(player2);
+
+
+        //assert
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.OperateNoPlant).collect(Collectors.toList());
+        player1.setPassed(true);
+        player2.setPassed(true);
+        Optional<Problem> problem =  sut.fire(Optional.of("ReadyPlayerOne"), moves.get(0));
+
+        assertSame(problem.get(), Problem.NotYourTurn);
+    }
+
+
+
 
 }
 

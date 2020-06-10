@@ -159,7 +159,7 @@ public class BagTest{
         // act
         Set<Integer> have = sut.distinct();
         // assert
-        assertEquals(want.toString(), have.toString());
+        assertEquals(want, have);
     }
 
     @Test public void add() {
@@ -249,8 +249,8 @@ public class BagTest{
         final Bag<Integer> empty = getSut();
         // act
         // assert
-        assertEquals(sut, sut.remove(empty));
-        assertEquals(empty, sut.remove(sut));
+        assertEquals(sut.toString(), sut.remove(empty).toString());
+        assertEquals(empty.toString(), sut.remove(sut).toString());
     }
 
     @Test public void removeSome() {

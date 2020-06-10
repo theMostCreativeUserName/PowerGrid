@@ -71,7 +71,6 @@ public class EnterLevel3 implements HotMove {
                 game.getPlantMarket().removePlant(smallestNumberOfPlant);
                 RandomSource.make().shufflePlants(game.getPlantMarket().getOpenHidden());
                 game.setLevel(2);
-
             }
         return Optional.empty();
     }
@@ -90,7 +89,6 @@ public class EnterLevel3 implements HotMove {
      */
     @Override
     public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> player) {
-        if (player.isPresent()) return Set.of();
         if (this.game != null) throw new IllegalStateException("this is not a prototype!");
         final HotMove move = new EnterLevel3(openGame);
         Set<HotMove> result;

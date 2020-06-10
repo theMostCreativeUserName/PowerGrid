@@ -3,6 +3,7 @@ package edu.hm.severin.powergrid.logic.move;
 
 import edu.hm.cs.rs.powergrid.Bag;
 import edu.hm.cs.rs.powergrid.datastore.Phase;
+import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.Resource;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
@@ -66,8 +67,6 @@ class DropResource implements HotMove {
         Objects.requireNonNull(game);
         if (game.getPhase() == Phase.Terminated || game.getPhase() == Phase.Opening)
             return Optional.of(Problem.GameRunning);
-        if (player.isEmpty())
-            return Optional.of(Problem.NoResource);
         if (player.get().getOpenResources().count(resource) == 0)
             return Optional.of(Problem.NoResource);
 
@@ -86,24 +85,67 @@ class DropResource implements HotMove {
      * Check if a player have enough Space.
      * @return optional of problem
      */
-    private Optional<Problem> storageOfPlayer(){
-        final Bag<Resource> bagWithResources= new ListBag<>();
-        bagWithResources.add(resource);
+    private Optional<Problem> storageOfPlayer() {
         int amountOfStorage = 0;
-        for (OpenPlant plant : player.get().getOpenPlants()){
-            if (plant.getResources().size() == 1) {
-                final Optional<Integer> spaceFromPlant = plant.getResources()
-                        .stream()
-                        .filter(x -> x.contains(bagWithResources))
-                        .map(Bag::size)
-                        .findFirst();
-                if (spaceFromPlant.isPresent())
-                    amountOfStorage = amountOfStorage + spaceFromPlant.get()*2;
-            }
+        Set<OpenPlant> allHybridPlants = player.get().getOpenPlants()
+                .stream()
+                .filter(x -> x.getType() == Plant.Type.Hybrid)
+                .collect(Collectors.toSet());
+        if (allHybridPlants.size() == 0) {
+            amountOfStorage = storageOfNonHybridPlants(this.resource);
+        } else {
+            // Find Other Resource
+            Resource otherResource = allHybridPlants.stream()
+                    .map(Plant::getResources)
+                    .map(x -> x.stream()
+                            .filter(y -> !y.contains(this.resource))
+                            .map(y -> y.iterator().next())
+                            .findFirst())
+                    .findFirst().get().get();
+
+
+            //Safe Storage of Non-Hybrid of Resource
+            amountOfStorage = storageOfNonHybridPlants(this.resource);
+            //Amount of other stored Resource and stored resources of player
+            final int saveStorageOfOther = storageOfNonHybridPlants(otherResource);
+
+            final int amountOfOtherResource = player.get().getResources().count(otherResource);
+
+            //Amount of mixed storage
+            int storageOfHybrids = allHybridPlants.stream()
+                    .mapToInt(Plant::getNumberOfResources)
+                    .sum();
+            storageOfHybrids = storageOfHybrids * 2; //Number*2 = Storage Space
+
+
+            //Part of Calculations
+            amountOfStorage += (saveStorageOfOther + storageOfHybrids) - amountOfOtherResource;
+
         }
         if (player.get().getOpenResources().count(resource) <= amountOfStorage)
             return Optional.of(Problem.NoResource);
         return Optional.empty();
+    }
+
+    /**
+     * Calculate the storage of the save space of a resource.
+     * @param resource for non Hybrid Plants
+     * @return int amount of save storage
+     */
+
+    private int storageOfNonHybridPlants(Resource resource) {
+        int amountOfStorage = 0;
+
+        final int spaceFromPlant = player.get().getOpenPlants()
+                .stream()
+                .filter(x -> x.getResources().size() == 1)
+                .filter(x -> x.getResources().contains(new ListBag<>().add(resource, x.getNumberOfResources())))
+                .mapToInt(Plant::getNumberOfResources)
+                .sum();
+
+        amountOfStorage = amountOfStorage + spaceFromPlant * 2;
+
+        return amountOfStorage;
     }
 
 

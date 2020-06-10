@@ -200,4 +200,68 @@ public class Build1stCityTest {
         assertTrue(problem.isEmpty());
     }
 
+    @Test
+    public void Build1stCityFire2() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.Building);
+        opengame.setLevel(0);
+        opengame.getBoard().getOpenCities().clear();
+        OpenCity city = factory.newCity("Deathhausen", 666);
+        opengame.getBoard().getOpenCities().add(city);
+        OpenCity city2 = factory.newCity("Zweithausen", 666);
+        opengame.getBoard().getOpenCities().add(city2);
+
+
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player2 = factory.newPlayer("Nein No", "gelb");
+        player.setElectro(666);
+        player.setPassed(false);
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+        player2.getOpenCities().add(city2);
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.Build1stCity).collect(Collectors.toList());
+        player.setPassed(true);
+        Optional<Problem> problem = sut.fire(Optional.of("Hihi"), moves.get(0));
+
+        // assert
+        assertSame(problem.get(), Problem.AlreadyPassed);
+    }
+
+    @Test
+    public void Build1stCityFire3() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.Building);
+        opengame.setLevel(0);
+        opengame.getBoard().getOpenCities().clear();
+        OpenCity city = factory.newCity("Deathhausen", 666);
+        opengame.getBoard().getOpenCities().add(city);
+        OpenCity city2 = factory.newCity("Zweithausen", 666);
+        opengame.getBoard().getOpenCities().add(city2);
+        OpenCity city3 = factory.newCity("Dritthausen", 666);
+        opengame.getBoard().getOpenCities().add(city3);
+
+
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player2 = factory.newPlayer("Nein No", "gelb");
+        player.setElectro(666);
+        player.setPassed(false);
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+        player2.getOpenCities().add(city2);
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.Build1stCity).collect(Collectors.toList());
+        player.getOpenCities().add(city3);
+        Optional<Problem> problem = sut.fire(Optional.of("Hihi"), moves.get(0));
+
+        // assert
+        assertSame(problem.get(), Problem.HasCities);
+    }
+
 }

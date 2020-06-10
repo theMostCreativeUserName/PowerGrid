@@ -175,7 +175,7 @@ public class EnterLevel2Test {
 
 
     @Test
-    public void testEndBuildingFire() {
+    public void testEnterLevel2Fire() {
         //game
         OpenGame opengame = (OpenGame) sut.getGame();
         OpenFactory factory = opengame.getFactory();
@@ -222,6 +222,54 @@ public class EnterLevel2Test {
         assertTrue(problem.isEmpty());
         assertEquals(game.getLevel(), 1);
         assertEquals(game.getPlantMarket().findPlant(3), null);
+    }
+
+    @Test
+    public void testEnterLevel2Fire2() {
+        //game
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.Bureaucracy);
+        opengame.setLevel(0);
+
+
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen2", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen3", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen4", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen5", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen6", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen7", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen8", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen9", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen10", 666));
+
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+        //Plantmarket
+        opengame.getPlantMarket().getOpenHidden().clear();
+        opengame.getPlantMarket().getOpenActual().clear();
+        opengame.getPlantMarket().getOpenFuture().clear();
+
+        OpenPlant plant1 = factory.newPlant(3, Plant.Type.Coal, 12 ,12);
+        OpenPlant plant2 = factory.newPlant(15, Plant.Type.Eco, 10 , 12);
+        opengame.getPlantMarket().getOpenActual().add(plant1);
+        opengame.getPlantMarket().getOpenActual().add(plant2);
+
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.EnterLevel2).collect(Collectors.toList());
+        opengame.setLevel(2);
+        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moves.get(0));
+
+        // assert
+        assertSame(problem.get(), Problem.WrongLevel);
     }
 
     // Mein Zeug

@@ -1,8 +1,10 @@
 package edu.hm.severin.powergrid.logic.move;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
@@ -48,7 +50,11 @@ class BuyNoResource implements HotMove {
         Objects.requireNonNull(game);
         if (game.getPhase() != Phase.ResourceBuying)
             return Optional.of(Problem.NotNow);
-        if (player.get().hasPassed())
+        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
+        if (allRemainingPlayer.size() == 0)
+            return Optional.of(Problem.NotYourTurn);
+        final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(allRemainingPlayer.size() - 1);
+        if (!lastPlayerOfList.equals(player.get()))
             return Optional.of(Problem.NotYourTurn);
 
         if (real) {

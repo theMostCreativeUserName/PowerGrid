@@ -81,8 +81,6 @@ class DropPlant implements HotMove {
    public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> player) {
        if (this.game != null)
            throw new IllegalStateException("This ist not a protoype");
-       if (player.isEmpty())
-           return new HashSet<>();
        return player.get().getOpenPlants()
                .stream()
                .sequential()

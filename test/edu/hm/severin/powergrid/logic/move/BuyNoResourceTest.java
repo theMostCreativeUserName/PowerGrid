@@ -8,6 +8,7 @@ import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
+import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
 import org.junit.Rule;
 import org.junit.Test;
@@ -76,17 +77,91 @@ public class BuyNoResourceTest {
         player1.setElectro(420);
         player2.setElectro(69);
         player1.setPassed(false);
-        player2.setPassed(false);
+        player2.setPassed(true);
         opengame.getOpenPlayers().add(player1);
         opengame.getOpenPlayers().add(player2);
 
         //act
         final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
-        List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.BuyNoResource).collect(Collectors.toList());
 
         //assert
-        assertTrue(moveTypes.contains(MoveType.BuyNoResource));
-        assertEquals(moveTypes.size(),1); //Buy no Resource
+        assertEquals(moves.size(),1); //Buy no Resource
     }
 
+    @Test
+    public void BuyNoResourceTwoPlayers2(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.ResourceBuying);
+
+        OpenPlayer player1 = factory.newPlayer("ReadyPlayerOne", "red");
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player1.setElectro(420);
+        player2.setElectro(69);
+        player1.setPassed(true);
+        player2.setPassed(true);
+        opengame.getOpenPlayers().add(player1);
+        opengame.getOpenPlayers().add(player2);
+
+        //act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.BuyNoResource).collect(Collectors.toList());
+
+        //assert
+        assertEquals(moves.size(),0); //Buy no Resource
+    }
+
+    @Test
+    public void BuyNoResourceTwoPlayersFire(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.ResourceBuying);
+
+        OpenPlayer player1 = factory.newPlayer("ReadyPlayerOne", "red");
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player1.setElectro(420);
+        player2.setElectro(69);
+        player1.setPassed(false);
+        player2.setPassed(false);
+        opengame.getOpenPlayers().add(player1);
+        opengame.getOpenPlayers().add(player2);
+
+        //act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerTwo"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.BuyNoResource).collect(Collectors.toList());
+        Optional<Problem> problem =  sut.fire(Optional.of("ReadyPlayerTwo"), moves.get(0));
+
+        //assert
+        assertTrue(problem.isEmpty());
+        assertEquals(player2.hasPassed(), true);
+    }
+
+    @Test
+    public void BuyNoResourceTwoPlayersFire2(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.ResourceBuying);
+
+        OpenPlayer player1 = factory.newPlayer("ReadyPlayerOne", "red");
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player1.setElectro(420);
+        player2.setElectro(69);
+        player1.setPassed(false);
+        player2.setPassed(false);
+        opengame.getOpenPlayers().add(player1);
+        opengame.getOpenPlayers().add(player2);
+
+        //act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerTwo"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.BuyNoResource).collect(Collectors.toList());
+        player2.setPassed(true);
+        Optional<Problem> problem =  sut.fire(Optional.of("ReadyPlayerTwo"), moves.get(0));
+
+        //assert
+        assertSame(problem.get(), Problem.NotYourTurn);
+    }
 }

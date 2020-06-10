@@ -51,11 +51,9 @@ class EndBuilding implements HotMove {
            return Optional.of(Problem.NotNow);
 
        if (real) {
-           System.out.println("Ja dieses Scheiß Ding führt diesen Kack aus");
            game.setPhase(Phase.PlantOperation);
            for (OpenPlayer player : players ) {
                player.setPassed(false);
-               System.out.println(player.hasPassed());
            }
        }
        return Optional.empty();

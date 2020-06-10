@@ -96,7 +96,6 @@ public class EndGame implements HotMove {
      */
     @Override
     public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> player) {
-        if (player.isPresent()) return Set.of();
         if (this.game != null) throw new IllegalStateException("this is not a prototype!");
         final HotMove move = new EndGame(openGame);
         Set<HotMove> result;
