@@ -101,29 +101,29 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 ### Version 1.15 / BER
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |   Ja  |     |     |
-| PMD                       |    Ja   |  Ja    |      |    |
-| Checkstyle                |    Ja   |  Ja    |      |     |
-| IntelliJ Line Coverage    |    Ja   |  Ja    |      |     |
-| Mutations                 |    Ja   |   Ja   |      |     |
-| CCN Class                 |    Ja   |   Ja   |      |     |
-| CCN Methods               |    Ja   |   Ja   |      |    |
-| Spotbugs               |    Ja   |   Ja   |      |      |
-| Externe Tests             |    Ja   |  Ja    |      |      |
+| JavaDoc                   |    Ja   |   Ja  |     |  Ja   |
+| PMD                       |    Ja   |  Ja    |      |  Ja  |
+| Checkstyle                |    Ja   |  Ja    |      |  Ja   |
+| IntelliJ Line Coverage    |    Ja   |  Ja    |      |  Ja   |
+| Mutations                 |    Ja   |   Ja   |      |  Ja   |
+| CCN Class                 |    Ja   |   Ja   |      |  Ja   |
+| CCN Methods               |    Ja   |   Ja   |      |  Ja  |
+| Spotbugs               |    Ja   |   Ja   |      |   Ja   |
+| Externe Tests             |    Ja   |  Ja    |      |  Ja    |
 
 
 ### Version2.15 / Nyancat
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |   Ja |     |      |
-| PMD                       |    Ja   |   Ja   |      |    |
-| Checkstyle                |    Ja   |   Ja   |      |      |
-| IntelliJ Line Coverage    |    Ja   |   Ja   |      |      |
-| Mutations                 |    Ja   |   Ja   |      |      |
-| CCN Class                 |    Ja   |   Ja   |      |      |
-| CCN Methods               |    Ja   |   Ja   |      |      |
-| Spotbugs               |    Ja   |   Ja   |      |      |
-| Externe Tests             |    Ja   |  Ja    |      |       |
+| JavaDoc                   |    Ja   |   Ja |     |  Ja    |
+| PMD                       |    Ja   |   Ja   |      |  Ja  |
+| Checkstyle                |    Ja   |   Ja   |      |  Ja    |
+| IntelliJ Line Coverage    |    Ja   |   Ja   |      |  Ja    |
+| Mutations                 |    Ja   |   Ja   |      |  Ja    |
+| CCN Class                 |    Ja   |   Ja   |      |   Ja   |
+| CCN Methods               |    Ja   |   Ja   |      |   Ja   |
+| Spotbugs               |    Ja   |   Ja   |      |   Ja   |
+| Externe Tests             |    Ja   |  Ja    |      |  Ja     |
 
 
 ### Version3.15 / Berlin
