@@ -10,9 +10,7 @@ import edu.hm.cs.rs.powergrid.logic.Rules;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import edu.hm.severin.powergrid.logic.move.HotMoves;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -99,9 +97,13 @@ public class StandardRules implements Rules {
             if (!hotMove.getGame().equals(this.getGame())) throw new IllegalStateException("Hackers shall not pass");
             problem = hotMove.fire();
             if (problem.isEmpty()) {
-                //getMoves
-                problem = fireNextMoves();
+                final HotMove xx = fireNextMoves();
+                if (xx != null) {
+                    problem = xx.fire();
+                }
             }
+
+
         } else
             throw new IllegalArgumentException("move is invalid");
 
@@ -110,44 +112,41 @@ public class StandardRules implements Rules {
     }
 
 
-
-    private Optional<Problem> fireNextMoves() {
-        Optional<Problem> problem = Optional.empty();
-        boolean nextMovesCanFire = true;
+    private HotMove fireNextMoves() {
+        Move result;
         HotMoves hotMoves = new HotMoves();
-        while (nextMovesCanFire) {
-            for (OpenPlayer player : game.getOpenPlayers()) {
-                Set<Move> setOfAllMoves = new HashSet<>();
+        for (OpenPlayer player : game.getOpenPlayers()) {
+            Set<Move> setOfAllMoves = new HashSet<>();
 
-                hotMoves.getPrototypes()
-                        .stream()
-                        .anyMatch(i -> setOfAllMoves.addAll(i.collect(game, Optional.of(player))));
+            hotMoves.getPrototypes()
+                    .stream()
+                    .forEach(i -> setOfAllMoves.addAll(i.collect(game, Optional.of(player))));
+            System.out.println("#########################");
+            System.out.println(setOfAllMoves);
+            System.out.println("'''''''''''''''");
 
-                if (setOfAllMoves.size() != 0) {
-                    for (Move singleMove : setOfAllMoves) {
-                        final HotMove move = (HotMove) singleMove;
-                        // does move have priority?
-                        if (singleMove.hasPriority()) {
-                            problem = move.fire();
-                            // is move Auto-fire?
-                        } else {
-                            if (setOfAllMoves.size() == 1)
-                                if (singleMove.isAutoFire()) {
-                                    problem = move.fire();
-                                }
-                                else
-                                    nextMovesCanFire = false;
-                            else
-                                nextMovesCanFire = false;
-                        }
+            if (setOfAllMoves.size() != 0) {
+                for (Move singleMove : setOfAllMoves) {
+                    // does move have priority?
+                    if (singleMove.hasPriority()) {
+                        System.out.println("+++" + singleMove);
+                        return (HotMove) singleMove;
+                        // is move Auto-fire?
+                    } else {
+                        if (setOfAllMoves.size() == 1)
+                            if (singleMove.isAutoFire()) {
+                                System.out.println("~~~ " + singleMove);
+                                return (HotMove) singleMove;
+                            }
                     }
-                } else
-                    nextMovesCanFire = false;
-            }
-        }
-        return problem;
-    }
 
+                }
+
+            }
+            return null;
+        }
+        return null;
+    }
 
 
     @Override

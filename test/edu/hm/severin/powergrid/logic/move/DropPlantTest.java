@@ -13,6 +13,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -314,4 +315,39 @@ public class DropPlantTest {
         assertSame(problem.get(), Problem.OtherPlant);
     }
 
+    @Test (expected = IllegalStateException.class)
+    public void testDropPlantFireException() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.ResourceBuying);
+        OpenFactory factory = opengame.getFactory();
+
+
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(200, Plant.Type.Coal, 3, 12);
+        OpenPlant plant3 = factory.newPlant(202, Plant.Type.Coal, 3, 12);
+        OpenPlant plant4 = factory.newPlant(203, Plant.Type.Coal, 3, 12);
+        OpenPlant plant5 = factory.newPlant(204, Plant.Type.Coal, 3, 12);
+        player.getOpenPlants().add(plant);
+        player.getOpenPlants().add(plant3);
+        player.getOpenPlants().add(plant4);
+        player.getOpenPlants().add(plant5);
+        player.setElectro(100);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        OpenPlant plant2 = factory.newPlant(201, Plant.Type.Oil, 3, 12);
+        player2.getOpenPlants().add(plant2);
+        player2.setElectro(200);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().sequential().filter(Move -> Move.getType() == MoveType.DropPlant).collect(Collectors.toList());
+        HotMove move = (HotMove) moves.get(0);
+        move.collect(opengame, Optional.of(factory.newPlayer("Irgendwas", "Mir egal")));
+    }
 }

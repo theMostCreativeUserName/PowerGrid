@@ -40,7 +40,8 @@ public class HotMoves {
                 new EndAuctions(),
                 new GameBegins(),
                 new LeaveAuction(),
-                new StartAuction()
+                new StartAuction(),
+                new CloseAuction()
         );
     }
 }

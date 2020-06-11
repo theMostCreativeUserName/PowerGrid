@@ -10,6 +10,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -156,6 +157,32 @@ public class EndResourceBuyingTest {
 
         //assert
         assertSame(problem.get(), Problem.PlayersRemaining);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void EndResourceBuyingFireException(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.ResourceBuying);
+
+        //Player1
+        OpenPlayer player = factory.newPlayer("ReadyPlayerOne", "red");
+        player.setElectro(420);
+        player.setPassed(true);
+        opengame.getOpenPlayers().add(player);
+
+        //Player2
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player2.setElectro(520);
+        player2.setPassed(true);
+        opengame.getOpenPlayers().add(player2);
+
+        //act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.EndResourceBuying).collect(Collectors.toList());
+        HotMove move = (HotMove)moves.get(0);
+        move.collect(opengame, Optional.of(factory.newPlayer("Irgendwas", "Mir egal")));
     }
 
 

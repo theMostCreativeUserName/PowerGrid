@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 /**
@@ -54,13 +55,12 @@ class PassAuction implements HotMove {
        Objects.requireNonNull(game);
        if (game.getPhase() != Phase.PlantBuying)
            return Optional.of(Problem.NotNow);
-       final List<OpenPlayer> players = game.getOpenPlayers();
-       final Optional<OpenPlayer> firstNotPassedPlayer = players.stream()
-               .filter(OpenPlayer -> !OpenPlayer.hasPassed())
-               .findFirst();
-       if (firstNotPassedPlayer.stream().filter( x -> x.equals(player.get())).count() == 0 )
+       final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
+       if (allRemainingPlayer.size() == 0)
            return Optional.of(Problem.NotYourTurn);
-
+       final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(0);
+       if (!lastPlayerOfList.equals(player.get()))
+           return Optional.of(Problem.NotYourTurn);
        if (player.get().getOpenPlants().size() == 0)
            return Optional.of(Problem.NoPlants);
 

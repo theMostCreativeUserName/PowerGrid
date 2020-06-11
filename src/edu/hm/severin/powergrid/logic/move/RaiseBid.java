@@ -73,10 +73,8 @@ class RaiseBid implements HotMove {
         auction.setAmount(auction.getAmount() + 1);
         final OpenPlayer currentPlayer = player.get();
         auction.setPlayer(currentPlayer);
-         List<OpenPlayer> players = auction.getOpenPlayers();
-        //TODO: players in nicht mehr bearbeitbar; HELP
-        players.remove(currentPlayer);
-        players.add(currentPlayer); // Geht normales Add oder wieder add(index, player) benötigt?
+        auction.getOpenPlayers().remove(currentPlayer);
+        auction.getOpenPlayers().add(currentPlayer);
     }
 
     /**

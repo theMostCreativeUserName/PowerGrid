@@ -13,6 +13,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -268,12 +269,15 @@ public class RaiseBidTest {
         //Player
         OpenPlayer player = factory.newPlayer("Hihi", "red");
         player.setElectro(200);
+        player.setPassed(false);
 
         OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
         player2.setElectro(200);
+        player.setPassed(false);
 
         OpenPlayer player3 = factory.newPlayer("Rainbow", "pink");
         player3.setElectro(200);
+        player.setPassed(false);
 
         opengame.getOpenPlayers().add(player);
         opengame.getOpenPlayers().add(player2);
@@ -344,6 +348,45 @@ public class RaiseBidTest {
         // assert
 
         assertEquals(problem.get(), Problem.NotRunning);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testRaiseBidFireException() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.Building);
+        OpenFactory factory = opengame.getFactory();
+
+        opengame.setPhase(Phase.PlantAuction);
+
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        player.setElectro(200);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        player2.setElectro(200);
+
+        OpenPlayer player3 = factory.newPlayer("Rainbow", "pink");
+        player3.setElectro(200);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+        opengame.getOpenPlayers().add(player3);
+
+        //Auction
+        List<OpenPlayer> players = List.of(player, player2, player3);
+        OpenAuction auction = factory.newAuction(factory.newPlant(30, Plant.Type.Coal, 2, 3), players);
+        opengame.setAuction(auction);
+        auction.setPlayer(player2);
+        auction.setAmount(110);
+
+        List<OpenPlayer> players2 = List.of(player2, player3, player);
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.RaiseBid).collect(Collectors.toList());
+        HotMove move = (HotMove)moves.get(0);
+        move.collect(opengame, Optional.of(factory.newPlayer("Irgendwas", "Mir egal")));
     }
 
 

@@ -97,7 +97,7 @@ class BuyResource implements HotMove {
     private Optional<Problem> allRequirements() {
         final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
         if (allRemainingPlayer.size() == 0)
-            return Optional.of(Problem.AlreadyPassed);
+            return Optional.of(Problem.NotYourTurn);
         final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(allRemainingPlayer.size() - 1);
         if (!lastPlayerOfList.equals(player.get()))
             return Optional.of(Problem.NotYourTurn);

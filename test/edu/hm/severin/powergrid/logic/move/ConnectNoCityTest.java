@@ -11,6 +11,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -105,7 +106,7 @@ public class ConnectNoCityTest {
         Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moves.get(0));
         // assert
 
-        assertEquals(problem.get(), Problem.AlreadyPassed);
+        assertEquals(problem.get(), Problem.NotYourTurn);
     }
 
     @Test
@@ -121,15 +122,63 @@ public class ConnectNoCityTest {
         player2.setPassed(false);
         OpenPlayer player3 = factory.newPlayer("There are many Questions", "Do Ghosts exist?");
         player3.setPassed(false);
-        opengame.getOpenPlayers().add(player);
-        opengame.getOpenPlayers().add(player2);
         opengame.getOpenPlayers().add(player3);
+        opengame.getOpenPlayers().add(player2);
+        opengame.getOpenPlayers().add(player);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
-        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), haveMove.iterator().next());
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == ConnectNoCity).collect(Collectors.toList());
+        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moves.get(0));
         // assert
         assertTrue(problem.isEmpty());
         assertTrue(player.hasPassed());
+    }
+    @Test
+    public void testConnectNoCityFire2() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.Building);
+        OpenFactory factory = opengame.getFactory();
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player.setPassed(false);
+        OpenPlayer player2 = factory.newPlayer("I Dont Care", "Literally");
+        player2.setPassed(false);
+        OpenPlayer player3 = factory.newPlayer("There are many Questions", "Do Ghosts exist?");
+        player3.setPassed(false);
+        opengame.getOpenPlayers().add(player3);
+        opengame.getOpenPlayers().add(player2);
+        opengame.getOpenPlayers().add(player);
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == ConnectNoCity).collect(Collectors.toList());
+        player.setPassed(true);
+        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moves.get(0));
+        // assert
+        assertSame(problem.get(), Problem.NotYourTurn);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testConnectNoCityException() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.Building);
+        OpenFactory factory = opengame.getFactory();
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player.setPassed(false);
+        OpenPlayer player2 = factory.newPlayer("I Dont Care", "Literally");
+        player2.setPassed(false);
+        OpenPlayer player3 = factory.newPlayer("There are many Questions", "Do Ghosts exist?");
+        player3.setPassed(false);
+        opengame.getOpenPlayers().add(player3);
+        opengame.getOpenPlayers().add(player2);
+        opengame.getOpenPlayers().add(player);
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == ConnectNoCity).collect(Collectors.toList());
+        HotMove move = (HotMove)moves.get(0);
+        move.collect(opengame, Optional.of(factory.newPlayer("Irgendwas", "Mir egal")));
     }
 
 }

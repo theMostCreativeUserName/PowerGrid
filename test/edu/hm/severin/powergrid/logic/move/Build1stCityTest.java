@@ -110,11 +110,13 @@ public class Build1stCityTest {
         OpenPlayer player2 = factory.newPlayer("Nein No", "gelb");
         player.setElectro(666);
         player.setPassed(false);
+        player2.setPassed(false);
+        player2.setElectro(444);
         opengame.getOpenPlayers().add(player);
         opengame.getOpenPlayers().add(player2);
-        player2.getOpenCities().add(city);
+        player.getOpenCities().add(city);
         // act
-        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Nein No"));
         List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
         // assert
         assertTrue(moveTypes.contains(MoveType.Build1stCity));
@@ -183,8 +185,10 @@ public class Build1stCityTest {
         OpenPlayer player2 = factory.newPlayer("Nein No", "gelb");
         player.setElectro(666);
         player.setPassed(false);
-        opengame.getOpenPlayers().add(player);
+        player2.setElectro(444);
+        player2.setPassed(false);
         opengame.getOpenPlayers().add(player2);
+        opengame.getOpenPlayers().add(player);
         player2.getOpenCities().add(city2);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
@@ -218,8 +222,10 @@ public class Build1stCityTest {
         OpenPlayer player2 = factory.newPlayer("Nein No", "gelb");
         player.setElectro(666);
         player.setPassed(false);
-        opengame.getOpenPlayers().add(player);
+        player2.setElectro(666);
+        player2.setPassed(false);
         opengame.getOpenPlayers().add(player2);
+        opengame.getOpenPlayers().add(player);
         player2.getOpenCities().add(city2);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
@@ -228,7 +234,7 @@ public class Build1stCityTest {
         Optional<Problem> problem = sut.fire(Optional.of("Hihi"), moves.get(0));
 
         // assert
-        assertSame(problem.get(), Problem.AlreadyPassed);
+        assertSame(problem.get(), Problem.NotYourTurn);
     }
 
     @Test
@@ -251,8 +257,10 @@ public class Build1stCityTest {
         OpenPlayer player2 = factory.newPlayer("Nein No", "gelb");
         player.setElectro(666);
         player.setPassed(false);
-        opengame.getOpenPlayers().add(player);
+        player2.setElectro(666);
+        player2.setPassed(false);
         opengame.getOpenPlayers().add(player2);
+        opengame.getOpenPlayers().add(player);
         player2.getOpenCities().add(city2);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
@@ -262,6 +270,74 @@ public class Build1stCityTest {
 
         // assert
         assertSame(problem.get(), Problem.HasCities);
+    }
+
+    @Test
+    public void Build1stCityFire4() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.Building);
+        opengame.setLevel(0);
+        opengame.getBoard().getOpenCities().clear();
+        OpenCity city = factory.newCity("Deathhausen", 666);
+        opengame.getBoard().getOpenCities().add(city);
+        OpenCity city2 = factory.newCity("Zweithausen", 666);
+        opengame.getBoard().getOpenCities().add(city2);
+        OpenCity city3 = factory.newCity("Dritthausen", 666);
+        opengame.getBoard().getOpenCities().add(city3);
+
+
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player2 = factory.newPlayer("Nein No", "gelb");
+        player.setElectro(666);
+        player.setPassed(false);
+        player2.setElectro(666);
+        player2.setPassed(false);
+        opengame.getOpenPlayers().add(player2);
+        opengame.getOpenPlayers().add(player);
+        player2.getOpenCities().add(city2);
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.Build1stCity).collect(Collectors.toList());
+        player.setPassed(true);
+        player2.setPassed(true);
+        Optional<Problem> problem = sut.fire(Optional.of("Hihi"), moves.get(0));
+
+        // assert
+        assertSame(problem.get(), Problem.NotYourTurn);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void Build1stCityFireException() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.Building);
+        opengame.setLevel(0);
+        opengame.getBoard().getOpenCities().clear();
+        OpenCity city = factory.newCity("Deathhausen", 666);
+        opengame.getBoard().getOpenCities().add(city);
+        OpenCity city2 = factory.newCity("Zweithausen", 666);
+        opengame.getBoard().getOpenCities().add(city2);
+        OpenCity city3 = factory.newCity("Dritthausen", 666);
+        opengame.getBoard().getOpenCities().add(city3);
+
+
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player2 = factory.newPlayer("Nein No", "gelb");
+        player.setElectro(666);
+        player.setPassed(false);
+        player2.setElectro(666);
+        player2.setPassed(false);
+        opengame.getOpenPlayers().add(player2);
+        opengame.getOpenPlayers().add(player);
+        player2.getOpenCities().add(city2);
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.Build1stCity).collect(Collectors.toList());
+        HotMove move = (HotMove)moves.get(0);
+        move.collect(opengame, Optional.of(factory.newPlayer("Irgendwas", "Mir egal")));
     }
 
 }

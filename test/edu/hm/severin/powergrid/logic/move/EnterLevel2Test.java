@@ -12,6 +12,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -272,5 +273,48 @@ public class EnterLevel2Test {
         assertSame(problem.get(), Problem.WrongLevel);
     }
 
-    // Mein Zeug
+    @Test (expected = IllegalStateException.class)
+    public void testEnterLevel2FireException() {
+        //game
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.Bureaucracy);
+        opengame.setLevel(0);
+
+
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen2", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen3", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen4", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen5", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen6", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen7", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen8", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen9", 666));
+        player.getOpenCities().add(factory.newCity("Testhausen10", 666));
+
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+        //Plantmarket
+        opengame.getPlantMarket().getOpenHidden().clear();
+        opengame.getPlantMarket().getOpenActual().clear();
+        opengame.getPlantMarket().getOpenFuture().clear();
+
+        OpenPlant plant1 = factory.newPlant(3, Plant.Type.Coal, 12 ,12);
+        OpenPlant plant2 = factory.newPlant(15, Plant.Type.Eco, 10 , 12);
+        opengame.getPlantMarket().getOpenActual().add(plant1);
+        opengame.getPlantMarket().getOpenActual().add(plant2);
+
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.EnterLevel2).collect(Collectors.toList());
+        HotMove move = (HotMove)moves.get(0);
+        move.collect(opengame, Optional.of(factory.newPlayer("Irgendwas", "Mir egal")));
+    }
 }

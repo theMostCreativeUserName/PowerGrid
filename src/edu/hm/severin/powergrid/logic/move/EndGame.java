@@ -55,7 +55,7 @@ public class EndGame implements HotMove {
         if (maxCities != game.getEdition().getPlayersEndgameCities()
                 .get(players.size()))
             // city limit is not reached
-            return Optional.of(Problem.PlayersRemaining);
+            return Optional.of(Problem.GameRunning);
         if (real) {
             // sort players into the leaderboard and end the game
             final List<OpenPlayer> sorted = players.stream()

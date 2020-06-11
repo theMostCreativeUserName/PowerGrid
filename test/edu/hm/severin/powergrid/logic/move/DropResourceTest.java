@@ -13,6 +13,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -322,7 +323,7 @@ public class DropResourceTest {
 
         // assert
         assertTrue(problem.isEmpty());
-        assertEquals(player.getOpenResources().size(), 5);
+        assertEquals(player.getOpenResources().size(), 4);
     }
 
     @Test
@@ -371,5 +372,45 @@ public class DropResourceTest {
         assertSame(player.getOpenResources().count(Resource.Coal), 4);
     }
 
+    @Test (expected = IllegalStateException.class)
+    public void testDropResourceFireException() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.PlantOperation);
+        OpenFactory factory = opengame.getFactory();
+
+
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(200, Plant.Type.Oil, 2, 12);
+        OpenPlant plant3 = factory.newPlant(202, Plant.Type.Coal, 2, 12);
+        player.getOpenPlants().add(plant);
+        player.getOpenPlants().add(plant3);
+        player.setElectro(100);
+        player.getOpenResources().add(Resource.Oil);
+        player.getOpenResources().add(Resource.Oil);
+        player.getOpenResources().add(Resource.Oil);
+        player.getOpenResources().add(Resource.Oil);
+        player.getOpenResources().add(Resource.Oil);
+        player.getOpenResources().add(Resource.Coal);
+        player.getOpenResources().add(Resource.Coal);
+        player.getOpenResources().add(Resource.Coal);
+        player.getOpenResources().add(Resource.Coal);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        OpenPlant plant2 = factory.newPlant(201, Plant.Type.Oil, 3, 12);
+        player2.getOpenPlants().add(plant2);
+        player2.setElectro(200);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.DropResource).collect(Collectors.toList());
+        HotMove move = (HotMove)moves.get(0);
+        move.collect(opengame, Optional.of(factory.newPlayer("Irgendwas", "Mir egal")));
+    }
 
 }

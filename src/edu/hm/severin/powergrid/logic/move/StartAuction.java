@@ -41,11 +41,11 @@ public class StartAuction implements HotMove {
     private Optional<Problem> meetRequirements() {
         if (game.getPhase() != Phase.PlantBuying)
             return Optional.of(Problem.NotNow);
-        final List<OpenPlayer> players = game.getOpenPlayers();
-        final Optional<OpenPlayer> notPassedPlayer = players.stream()
-                .filter(OpenPlayer -> !OpenPlayer.hasPassed())
-                .findFirst();
-        if (notPassedPlayer.stream().filter(x -> x.equals(player.get())).count() == 0)
+        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
+        if (allRemainingPlayer.size() == 0)
+            return Optional.of(Problem.NotYourTurn);
+        final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(0);
+        if (!lastPlayerOfList.equals(player.get()))
             return Optional.of(Problem.NotYourTurn);
         if (!game.getPlantMarket().getOpenActual().contains(plant)) {
             return Optional.of(Problem.PlantNotAvailable);

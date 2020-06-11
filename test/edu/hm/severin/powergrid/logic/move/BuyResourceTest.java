@@ -10,6 +10,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import edu.hm.severin.powergrid.ListBag;
 import org.junit.Rule;
 import org.junit.Test;
@@ -630,6 +631,45 @@ public class BuyResourceTest {
 
         // assert
         assertSame( moves.size(), 2); // Kauf von Kohle und Öl
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testResourceFireException() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.ResourceBuying);
+        OpenFactory factory = opengame.getFactory();
+
+
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(200, Plant.Type.Coal, 3, 12);
+        player.getOpenPlants().add(plant);
+        player.setElectro(100);
+        player.setPassed(false);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        OpenPlant plant2 = factory.newPlant(201, Plant.Type.Oil, 2, 12);
+        player2.getOpenPlants().add(plant2);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.getOpenResources().add(Resource.Oil);
+        player2.setElectro(5);
+        player2.setPassed(false);
+
+        System.out.println(player);
+        System.out.println(player2);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("NOOOOO"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.BuyResource).collect(Collectors.toList());
+        HotMove move = (HotMove)moves.get(0);
+        move.collect(opengame, Optional.of(factory.newPlayer("Irgendwas", "Mir egal")));
+
     }
 
 

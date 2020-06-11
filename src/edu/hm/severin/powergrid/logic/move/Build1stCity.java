@@ -9,6 +9,7 @@ import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -82,8 +83,12 @@ class Build1stCity implements HotMove {
     private Optional<Problem> allRequirements() {
         if (game.getPhase() != Phase.Building)
             return Optional.of(Problem.NotNow);
-        if (player.get().hasPassed())
-            return Optional.of(Problem.AlreadyPassed);
+        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
+        if (allRemainingPlayer.size() == 0)
+            return Optional.of(Problem.NotYourTurn);
+        final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(allRemainingPlayer.size() - 1);
+        if (!lastPlayerOfList.equals(player.get()))
+            return Optional.of(Problem.NotYourTurn);
         if (player.get().getOpenCities().size() != 0)
             return Optional.of(Problem.HasCities);
         final int cost = game.getEdition().levelToCityCost().get(game.getLevel());

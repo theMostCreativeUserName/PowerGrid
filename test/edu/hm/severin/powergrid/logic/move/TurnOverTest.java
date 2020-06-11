@@ -8,6 +8,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -183,5 +184,34 @@ public class TurnOverTest {
         assertEquals(opengame.getPlantMarket().getOpenActual().size(), 1);
         assertEquals(opengame.getPlantMarket().getOpenHidden().size(), 43);
         assertSame(opengame.getPlantMarket().findPlant(666), null);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testTurnOverFireLevelException() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.Bureaucracy);
+        OpenFactory factory = opengame.getFactory();
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player2 = factory.newPlayer("NONONONO", "blue");
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+        opengame.setRound(20);
+        opengame.setLevel(2);
+
+        //Plants
+        OpenPlant biggestPlant = factory.newPlant(666, Plant.Type.Eco, 2, 2);
+        Set<OpenPlant> plantsActual = opengame.getPlantMarket().getOpenActual();
+        List<OpenPlant> plantsHidden = opengame.getPlantMarket().getOpenHidden();
+        plantsActual.add(biggestPlant);
+        plantsActual.add(factory.newPlant(8000, Plant.Type.Coal, 10, 10));
+        plantsHidden.add(factory.newPlant(5, Plant.Type.Oil, 5, 2));
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.TurnOver).collect(Collectors.toList());
+        HotMove move = (HotMove)moves.get(0);
+        move.collect(opengame, Optional.of(factory.newPlayer("Irgendwas", "Mir egal")));
     }
 }

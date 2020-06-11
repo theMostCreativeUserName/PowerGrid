@@ -10,6 +10,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -122,5 +123,29 @@ public class EndBuildingTest {
         assertSame(opengame.getPhase(), Phase.PlantOperation);
     }
 
-    // Mein Zeug
+    @Test (expected = IllegalStateException.class)
+    public void testEndBuildingException() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.Building);
+        OpenFactory factory = opengame.getFactory();
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(300, Plant.Type.Uranium, 2, 1);
+        player.getOpenPlants().add(plant);
+        plant.setOperated(false);
+        player.getOpenResources().add(Resource.Uranium);
+        player.getOpenResources().add(Resource.Uranium);
+        player.getOpenResources().add(Resource.Uranium);
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player.setPassed(true);
+        player2.setPassed(true);
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == EndBuilding).collect(Collectors.toList());
+        HotMove move = (HotMove)moves.get(0);
+        move.collect(opengame, Optional.of(factory.newPlayer("Irgendwas", "Mir egal")));
+    }
 }

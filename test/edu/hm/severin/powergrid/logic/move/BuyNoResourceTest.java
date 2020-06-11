@@ -10,6 +10,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -163,5 +164,28 @@ public class BuyNoResourceTest {
 
         //assert
         assertSame(problem.get(), Problem.NotYourTurn);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void BuyNoResourceTwoPlayersFireException(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.ResourceBuying);
+
+        OpenPlayer player1 = factory.newPlayer("ReadyPlayerOne", "red");
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player1.setElectro(420);
+        player2.setElectro(69);
+        player1.setPassed(false);
+        player2.setPassed(false);
+        opengame.getOpenPlayers().add(player1);
+        opengame.getOpenPlayers().add(player2);
+
+        //act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerTwo"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.BuyNoResource).collect(Collectors.toList());
+        HotMove move = (HotMove)moves.get(0);
+        move.collect(opengame, Optional.of(factory.newPlayer("Irgendwas", "Mir egal")));
     }
 }

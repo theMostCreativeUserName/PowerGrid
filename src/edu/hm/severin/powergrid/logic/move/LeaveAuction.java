@@ -42,6 +42,7 @@ public class LeaveAuction implements HotMove {
             return Optional.of(Problem.NotYourTurn);
         if (game.getAuction().getPlayer().equals(player.get()))
             return Optional.of(Problem.TopBidder);
+        System.out.println(player.get() + " '''''''' ");
         if (real){
             game.getAuction().getOpenPlayers().remove(player.get());
         }

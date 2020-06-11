@@ -8,6 +8,7 @@ import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -45,8 +46,11 @@ public class UpdatePlantMarket implements HotMove {
         if (!phases.contains(game.getPhase()))
             return Optional.of(Problem.NotNow);
         // do plants actually exist?
-        if (getGame().getPlantMarket().getActual().isEmpty())
+        if (getGame().getPlantMarket().getActual().size() >= game.getEdition().getActualPlants(game.getLevel()))
             return Optional.of(Problem.NoPlants);
+
+        Set<OpenPlant> plantFutureAndHidden= new HashSet<>(game.getPlantMarket().getOpenFuture());
+        plantFutureAndHidden.addAll(game.getPlantMarket().getOpenHidden());
         if (getGame().getPlantMarket().getFuture().isEmpty())
             return Optional.of(Problem.NoPlants);
 

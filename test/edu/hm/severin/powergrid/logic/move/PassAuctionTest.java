@@ -11,6 +11,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -213,5 +214,88 @@ public class PassAuctionTest {
         assertTrue(problem.isEmpty());
     }
 
-    // Mein Zeug
+    @Test
+    public void testPassAuctionFire2() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.PlantBuying);
+        OpenFactory factory = opengame.getFactory();
+
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player1 = factory.newPlayer("OLOLOL", "bulb");
+        //player.getOpenPlants().add(factory.newPlant(6666, Plant.Type.Coal, 3, 3));
+        player1.setPassed(false);
+        player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player.getOpenPlants().add(factory.newPlant(666, Plant.Type.Coal, 3, 3));
+        player.setPassed(false);
+        player.setElectro(10);
+
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player1);
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.PassAuction).collect(Collectors.toList());
+        player.setPassed(true);
+        Optional<Problem> problem = sut.fire(Optional.of("Hihi"), moves.get(0));
+
+        assertSame(problem.get(), Problem.NotYourTurn);
+    }
+
+    @Test
+    public void testPassAuctionFire3() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.PlantBuying);
+        OpenFactory factory = opengame.getFactory();
+
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player1 = factory.newPlayer("OLOLOL", "bulb");
+        //player.getOpenPlants().add(factory.newPlant(6666, Plant.Type.Coal, 3, 3));
+        player1.setPassed(false);
+        player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player.getOpenPlants().add(factory.newPlant(666, Plant.Type.Coal, 3, 3));
+        player.setPassed(false);
+        player.setElectro(10);
+
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player1);
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.PassAuction).collect(Collectors.toList());
+        player.setPassed(true);
+        player1.setPassed(true);
+        Optional<Problem> problem = sut.fire(Optional.of("Hihi"), moves.get(0));
+
+        assertSame(problem.get(), Problem.NotYourTurn);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testPassAuctionFireException() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.PlantBuying);
+        OpenFactory factory = opengame.getFactory();
+
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player1 = factory.newPlayer("Hihi", "bulb");
+        //player.getOpenPlants().add(factory.newPlant(6666, Plant.Type.Coal, 3, 3));
+        player1.setPassed(false);
+        player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player.getOpenPlants().add(factory.newPlant(666, Plant.Type.Coal, 3, 3));
+        player.setPassed(false);
+        player.setElectro(10);
+
+
+        opengame.getOpenPlayers().add(player);
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.PassAuction).collect(Collectors.toList());
+        HotMove move = (HotMove)moves.get(0);
+        move.collect(opengame, Optional.of(factory.newPlayer("Irgendwas", "Mir egal")));
+    }
 }

@@ -121,7 +121,7 @@ public class EndGameTest {
         game.setPhase(Phase.PlantOperation);
         List<OpenPlayer>before = game.getOpenPlayers();
         Optional<Problem> problem = sut.run(false);
-        assertEquals(Problem.PlayersRemaining, problem.get());
+        assertEquals(Problem.GameRunning, problem.get());
     }
     @Test public void runNotPassed4() throws ReflectiveOperationException {
         EndGame sut = getSut();
@@ -157,7 +157,7 @@ public class EndGameTest {
         p2.setPassed(true);
 
         Optional<Problem> problem = sut.run(true);
-        assertEquals(Problem.PlayersRemaining, problem.get());
+        assertEquals(Problem.GameRunning, problem.get());
     }
     @Test public void runWinner() throws ReflectiveOperationException {
         EndGame sut = getSut();
