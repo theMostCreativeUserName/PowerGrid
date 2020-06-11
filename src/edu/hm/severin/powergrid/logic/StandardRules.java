@@ -10,7 +10,6 @@ import edu.hm.cs.rs.powergrid.logic.Rules;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import edu.hm.severin.powergrid.logic.move.HotMoves;
 
-
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -18,6 +17,7 @@ import java.util.stream.Collectors;
 
 /**
  * calls and orders moves.
+ *
  * @author Severin
  */
 public class StandardRules implements Rules {
@@ -28,6 +28,7 @@ public class StandardRules implements Rules {
 
     /**
      * C-tor.
+     *
      * @param game this game
      */
     public StandardRules(OpenGame game) {
@@ -41,6 +42,7 @@ public class StandardRules implements Rules {
 
     /**
      * get all valid moves.
+     *
      * @param secret secret of player, empty if player doesn't have one yet
      * @return Set of moves.
      */
@@ -62,7 +64,7 @@ public class StandardRules implements Rules {
                 return new HashSet<>();
 
         }
-        if(returnEarly) {
+        if (returnEarly) {
             Set<HotMove> hotMoves = new HotMoves().getPrototypes();
             Set<HotMove> joinMove = hotMoves
                     .stream()
@@ -74,7 +76,7 @@ public class StandardRules implements Rules {
             return result;
         }
         // gets possible Moves from Companion-Class HotMoves
-        for(HotMove prototype : new HotMoves().getPrototypes()) {
+        for (HotMove prototype : new HotMoves().getPrototypes()) {
             result.addAll(prototype.collect(game, player));
         }
         return result;
@@ -82,6 +84,7 @@ public class StandardRules implements Rules {
 
     /**
      * executes Code of the Move.
+     *
      * @param secret secret of player, empty if player doesn't have one yet
      * @param move   Ein Zug.
      * @return
@@ -93,38 +96,62 @@ public class StandardRules implements Rules {
         if (move instanceof HotMove) {
             final HotMove hotMove = (HotMove) move;
             //does hotMove reference same game?
-            if(!hotMove.getGame().equals(this.getGame())) throw new IllegalStateException("Hackers shall not pass");
+            if (!hotMove.getGame().equals(this.getGame())) throw new IllegalStateException("Hackers shall not pass");
             problem = hotMove.fire();
             if (problem.isEmpty()) {
                 //getMoves
-                final Set<Move> nextMoves = getMoves(secret);
-                problem = fireNextMoves(nextMoves);
+                problem = fireNextMoves();
             }
-        }else
+        } else
             throw new IllegalArgumentException("move is invalid");
 
-            return problem;
+        return problem;
 
     }
 
-    private Optional<Problem> fireNextMoves(Set<Move> nextMoves){
+
+
+    private Optional<Problem> fireNextMoves() {
         Optional<Problem> problem = Optional.empty();
-        for (Move singleMove: nextMoves) {
-            final HotMove move = (HotMove) singleMove;
-            // does move have priority?
-            if(singleMove.hasPriority()) {
-                problem = move.fire();
-                // is move Auto-fire?
-            } if (singleMove.isAutoFire() && nextMoves.size() == 1){
-                problem = move.fire();
+        boolean nextMovesCanFire = true;
+        HotMoves hotMoves = new HotMoves();
+        while (nextMovesCanFire) {
+            for (OpenPlayer player : game.getOpenPlayers()) {
+                Set<Move> setOfAllMoves = new HashSet<>();
+
+                hotMoves.getPrototypes()
+                        .stream()
+                        .anyMatch(i -> setOfAllMoves.addAll(i.collect(game, Optional.of(player))));
+
+                if (setOfAllMoves.size() != 0) {
+                    for (Move singleMove : setOfAllMoves) {
+                        final HotMove move = (HotMove) singleMove;
+                        // does move have priority?
+                        if (singleMove.hasPriority()) {
+                            problem = move.fire();
+                            // is move Auto-fire?
+                        } else {
+                            if (setOfAllMoves.size() == 1)
+                                if (singleMove.isAutoFire()) {
+                                    problem = move.fire();
+                                }
+                                else
+                                    nextMovesCanFire = false;
+                            else
+                                nextMovesCanFire = false;
+                        }
+                    }
+                } else
+                    nextMovesCanFire = false;
             }
         }
-
         return problem;
     }
 
+
+
     @Override
-    public Set<Move> getPrototypes(){
+    public Set<Move> getPrototypes() {
         return new HashSet<>(HotMoves.getPrototypes());
     }
 

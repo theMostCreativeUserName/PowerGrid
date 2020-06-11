@@ -76,6 +76,7 @@ public class EndAuctions implements HotMove {
 
         return Optional.empty();
     }
+
     @Override
     public OpenGame getGame() {
         return Objects.requireNonNull(game);
