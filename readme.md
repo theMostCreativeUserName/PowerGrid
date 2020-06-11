@@ -98,35 +98,35 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 ### Anmerkungen:
 1. Bei der ListBag kommt es bei der Hashmethode wegen dem "" dazu das checkstyle meckert. Eine evtl. überarbeitung kann folgen. 
 
-### Version 1.13 / BER
+### Version 1.15 / BER
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |   Ja  |     |  Ja    |
-| PMD                       |    Ja   |  Ja    |      |  Ja    |
-| Checkstyle                |    Ja   |  Ja    |      |  Ja    |
-| IntelliJ Line Coverage    |    Ja   |  Ja    |      |  Ja    |
-| Mutations                 |    Ja   |   Ja   |      |   Ja   |
-| CCN Class                 |    Ja   |   Ja   |      |  Ja    |
-| CCN Methods               |    Ja   |   Ja   |      |   Ja   |
-| Spotbugs               |    Ja   |   Ja   |      |  Ja    |
-| Externe Tests             |    Ja   |  Ja    |      |   Ja   |
+| JavaDoc                   |    Ja   |   Ja  |     |     |
+| PMD                       |    Ja   |  Ja    |      |    |
+| Checkstyle                |    Ja   |  Ja    |      |     |
+| IntelliJ Line Coverage    |    Ja   |  Ja    |      |     |
+| Mutations                 |    Ja   |   Ja   |      |     |
+| CCN Class                 |    Ja   |   Ja   |      |     |
+| CCN Methods               |    Ja   |   Ja   |      |    |
+| Spotbugs               |    Ja   |   Ja   |      |      |
+| Externe Tests             |    Ja   |  Ja    |      |      |
 
 
-### Version2.13 / Nyancat
+### Version2.15 / Nyancat
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |   Ja |     |   Ja   |
-| PMD                       |    Ja   |   Ja   |      |  Ja    |
-| Checkstyle                |    Ja   |   Ja   |      |   Ja   |
-| IntelliJ Line Coverage    |    Ja   |   Ja   |      |   Ja   |
-| Mutations                 |    Ja   |   Ja   |      |   Ja   |
-| CCN Class                 |    Ja   |   Ja   |      |   Ja   |
-| CCN Methods               |    Ja   |   Ja   |      |   Ja   |
-| Spotbugs               |    Ja   |   Ja   |      |   Ja   |
-| Externe Tests             |    Ja   |  Ja    |      |   Ja    |
+| JavaDoc                   |    Ja   |   Ja |     |      |
+| PMD                       |    Ja   |   Ja   |      |    |
+| Checkstyle                |    Ja   |   Ja   |      |      |
+| IntelliJ Line Coverage    |    Ja   |   Ja   |      |      |
+| Mutations                 |    Ja   |   Ja   |      |      |
+| CCN Class                 |    Ja   |   Ja   |      |      |
+| CCN Methods               |    Ja   |   Ja   |      |      |
+| Spotbugs               |    Ja   |   Ja   |      |      |
+| Externe Tests             |    Ja   |  Ja    |      |       |
 
 
-### Version3.14 / Berlin
+### Version3.15 / Berlin
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |  Ja  |     |      |
@@ -139,28 +139,42 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Spotbugs               |    Ja   |   Ja   |      |      |
 | Externe Tests             |    Ja   |   Ja   |      |       |
 
-### Version4.14 / Pikachu
+### Version4.15 / Pikachu
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |  Ja  |     |   Ja   |
-| PMD                       |    Ja   |  Ja    |      |   Ja   |
-| Checkstyle                |    Ja   |  Ja    |      |   Ja   |
-| IntelliJ Line Coverage    |    Ja   |  Ja    |      |   Ja   |
-| Mutations                 |    Ja   |  Ja    |      |   Ja   |
-| CCN Class                 |    Ja   |  Ja    |      |   Ja   |
-| CCN Methods               |    Ja   |  Ja    |      |   Ja   |
-| Spotbugs               |    Ja   |   Ja   |      |  Ja    |
-| Externe Tests             |    Ja   |   Ja   |      |   Ja    |
+| JavaDoc                   |    Ja   |  Ja  |     |      |
+| PMD                       |    Ja   |  Ja    |      |      |
+| Checkstyle                |    Ja   |  Ja    |      |      |
+| IntelliJ Line Coverage    |    Ja   |  Ja    |      |      |
+| Mutations                 |    Ja   |  Ja    |      |      |
+| CCN Class                 |    Ja   |  Ja    |      |      |
+| CCN Methods               |    Ja   |  Ja    |      |      |
+| Spotbugs               |    Ja   |   Ja   |      |      |
+| Externe Tests             |    Ja   |   Ja   |      |       |
 
-### Version5.14 / Lasagne
+### Version5.15 / Lasagne
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |  Ja  |     |  Ja    |
-| PMD                       |    Ja   |  Ja    |      |  Ja    |
-| Checkstyle                |    Ja   |   Ja   |      |  Ja    |
-| IntelliJ Line Coverage    |    Ja   |   Ja   |      |   Ja   |
-| Mutations                 |    Ja   |   Ja   |      |   Ja   |
-| CCN Class                 |    Ja   |   Ja   |      |   Ja  |
-| CCN Methods               |    Ja   |   Ja   |      |  Ja   |
-| Spotbugs               |    Ja   |   Ja   |      |  Ja   |
-| Externe Tests             |    Ja   |   Ja   |      |  Ja    |
+| JavaDoc                   |    Ja   |  Ja  |     |      |
+| PMD                       |    Ja   |  Ja    |      |      |
+| Checkstyle                |    Ja   |   Ja   |      |      |
+| IntelliJ Line Coverage    |    Ja   |   Ja   |      |      |
+| Mutations                 |    Ja   |   Ja   |      |      |
+| CCN Class                 |    Ja   |   Ja   |      |     |
+| CCN Methods               |    Ja   |   Ja   |      |     |
+| Spotbugs               |    Ja   |   Ja   |      |     |
+| Externe Tests             |    Ja   |   Ja   |      |      |
+
+### Version6.15 / Ryuk
+| Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
+| ---                       | ---       | ---       | ---       | ---       |
+| JavaDoc                   |    Ja   |  Ja  |     |      |
+| PMD                       |    Ja   |  Ja    |      |      |
+| Checkstyle                |    Ja   |   Ja   |      |      |
+| IntelliJ Line Coverage    |    Ja   |   Ja   |      |      |
+| Mutations                 |    Ja   |   Ja   |      |      |
+| CCN Class                 |    Ja   |   Ja   |      |     |
+| CCN Methods               |    Ja   |   Ja   |      |     |
+| Spotbugs               |    Ja   |   Ja   |      |     |
+| Externe Tests             |    Ja   |   Ja   |      |      |
+
