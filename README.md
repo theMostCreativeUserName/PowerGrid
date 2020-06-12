@@ -42,6 +42,8 @@ Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
 
 ### Ein Fenster. Jeden Tag schaue ich hinaus. Jeden Tag fliegen unzählige Dinge durch die Luft. Während es immer heißer und trockener wird. Die Anforderungen werden härter. Die Erwartungen steigen empor. Ach könnte nur mein Wasser der Wahrheit den Boden erreichen. Könnten meine Gedanken die Dinge ordnen. Doch da. Eine Taube sitz vor meinem Fenster auf dem Boden. Sie hat Körner dabei. Diese lässt sie aber fallen, als es auf einmal einen kleinen Schauer gab. Als wäre sie der Grund dafür. Die Körner wurden zu Pflanzen. Und wie jeden Tag kommt die Taube wieder „Hallo“ sagen und erfreut sich über ihr Futter und bringt mir Dinge aus aller Welt mit. Gemeinsam mit ihr bin ich im Garten und erwarte die Regentropfen. Das Wasser der Freude.
 
+### Eine Feinabstimmung ohne die es nichts gibt. N. Absolute Zeiten oder relativ, ist doch egal. B. Habitable Zonen überall. Z. Die unzähligen Dächer über den Kopf. H. Die Arten der Verständigung. L. Die Möglichkeiten des Seins. B. Die Beiträge zu den Gesellschaften. R. Chaostheorie. Aber keiner dieser Buchstaben, kann etwas sagen. Ihnen fehlen so viele, um nur das Lächeln bewerten zu können.
+
 ## ------------------------------------------------------------------------------------
 # Wichtige Nebeninfos
 bitte tragt die Standard-Konstuktoren eurer Logikklassen in die Companions-Klasse "HotMoves" ein (in Methode getPrototypes)
