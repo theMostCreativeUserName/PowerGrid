@@ -211,6 +211,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | ABC Klassen               |              | 
 | toString / properties     |              | 
 | Tests für ABC, toString   |              |
+| Noch nicht integrierte JD Kommentare finden und ergänzen | |
 
 #Danach folgende Tests
 
