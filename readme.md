@@ -178,3 +178,44 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Spotbugs               |    Ja   |   Ja   |      |   Ja   |
 | Externe Tests             |    Ja   |   Ja   |      |   Ja    |
 
+### Version7.16 / Rainbow
+| Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
+| ---                       | ---       | ---       | ---       | ---       |
+| JavaDoc                   |    Ja   |    |     |      |
+| PMD                       |    Ja   |      |      |       |
+| Checkstyle                |    Ja   |      |      |       |
+| IntelliJ Line Coverage    |    Ja   |      |      |       |
+| Mutations                 |    Ja   |      |      |       |
+| CCN Class                 |    Ja   |      |      |      |
+| CCN Methods               |    Ja   |      |      |      |
+| Spotbugs               |    Ja   |      |      |      |
+
+### Version8.16 / Kaffee
+#### Sonderfall:
+
+| Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
+| ---                       | ---       | ---       | ---       | ---       |
+| JavaDoc                   |    Ja   |    |     |      |
+| PMD                       |    Ja   |      |      |       |
+| Checkstyle                |    Ja   |      |      |       |
+| IntelliJ Line Coverage    |    Ja   |      |      |       |
+| Mutations                 |    Ja   |      |      |       |
+| Spotbugs               |    Ja   |      |      |      |
+| Überprüfen: Requierments (Logik) |      |      |      |       |
+| Überprüfen: Run (Logik)  |     |      |      |       |
+
+| Verbleibende Arbeiten | gemacht (von) |
+| ---                       | ---       | 
+| Bericht KW 24             |              | 
+| Mehr Tests für 6.x        |              | 
+| ABC Klassen               |              | 
+| toString / properties     |              | 
+| Tests für ABC, toString   |              |
+
+#Danach folgende Tests
+
+| Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
+| ---                       | ---       | ---       | ---       | ---       |
+| CCN Class                 |       |      |      |      |
+| CCN Methods               |       |      |      |      |
+
