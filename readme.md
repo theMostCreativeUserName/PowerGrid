@@ -181,26 +181,26 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 ### Version7.17 / Rainbow
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |   Ja |  Ja   |      |
-| PMD                       |    Ja   |    Ja  |  Ja    |       |
-| Checkstyle                |    Ja   |   Ja   |  Ja    |       |
-| IntelliJ Line Coverage    |    Ja   |   Ja   |   Ja   |       |
-| Mutations                 |    Ja   |   Ja   |  Ja    |       |
-| CCN Class                 |    Ja   |   Ja   |   Ja   |      |
-| CCN Methods               |    Ja   |  Ja    |  Ja    |      |
-| Spotbugs               |    Ja   |   Ja   |   Ja   |      |
+| JavaDoc                   |    Ja   |   Ja |  Ja   |  Ja    |
+| PMD                       |    Ja   |    Ja  |  Ja    |   Ja    |
+| Checkstyle                |    Ja   |   Ja   |  Ja    |    Ja   |
+| IntelliJ Line Coverage    |    Ja   |   Ja   |   Ja   |    Ja   |
+| Mutations                 |    Ja   |   Ja   |  Ja    |   Ja    |
+| CCN Class                 |    Ja   |   Ja   |   Ja   |  Ja    |
+| CCN Methods               |    Ja   |  Ja    |  Ja    |   Ja   |
+| Spotbugs               |    Ja   |   Ja   |   Ja   |  Ja    |
 
 ### Version8.17 / Kaffee
 #### Sonderfall:
 
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |   Ja |   Ja  |      |
-| PMD                       |    Ja   |   Ja   |  Ja    |       |
-| Checkstyle                |    Ja   |   Ja   |  Ja    |       |
-| IntelliJ Line Coverage    |    Ja   |   Ja   |   Ja   |       |
-| Mutations                 |    Ja   |   Ja   |  Ja    |       |
-| Spotbugs               |    Ja   |   Ja   |   Ja   |      |
+| JavaDoc                   |    Ja   |   Ja |   Ja  |  Ja    |
+| PMD                       |    Ja   |   Ja   |  Ja    |   Ja    |
+| Checkstyle                |    Ja   |   Ja   |  Ja    |    Ja   |
+| IntelliJ Line Coverage    |    Ja   |   Ja   |   Ja   |   Ja    |
+| Mutations                 |    Ja   |   Ja   |  Ja    |   Ja    |
+| Spotbugs               |    Ja   |   Ja   |   Ja   |  Ja    |
 | Überprüfen: Requierments (Logik) |     |      |      |       |
 | Überprüfen: Run (Logik)  |     |      |      |       |
 
