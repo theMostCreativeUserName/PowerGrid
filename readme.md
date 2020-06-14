@@ -206,8 +206,8 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 
 | Verbleibende Arbeiten | gemacht (von) |
 | ---                       | ---       | 
-| Bericht KW 24             |              | 
-| Mehr Tests für 6.x        |              | 
+| Bericht KW 24             |  In Arbeit: Phillip           | 
+| Mehr Tests für 6.x        |  In Arbeit: Phillip            | 
 | ABC Klassen               |              | 
 | toString / properties     |              | 
 | Tests für ABC, toString   |              |
