@@ -34,7 +34,7 @@ In IntelliJ oben rechts neben dem grünen Run-Button auf das Schild-Symbol mit B
 #### Mit JaCoCo
 1. Lasst einmal alle Tests mit Coverage durchlaufen.
 1. Anschließen klickt auf "Run" in der Menüleiste und klickt dort auf "Profile".
-1. Nun müsst ihr ein Auswahlfenster bekomme, klick auf einen Eintrag nach dem folgenden Muster: "All in <euer Projektname>". Es öffnet sich ein weiteres Menü, klickt dort auf "Edit".
+1. Nun müsst ihr ein Auswahlfenster bekomme, klick auf einen Eintrag nach dem folgenden Muster: "All in \<euer Projektname\>". Es öffnet sich ein weiteres Menü, klickt dort auf "Edit".
 1. In dem jetzt geöffneten Fenster ändert ihr den Namen auf "JaCoCo", damit ihr die Konfiguration wieder findet. Klickt danach auf den Menüpunkt "Code Coverage" und wählt dort als "Choose coverage runner:" "JaCoCo" aus.
 1. Nun könnt ihr das Profil mit Klick auf "Apply" speichern und das Fenster mit "Close" verlassen.
 1. Wählt nun unter "Run" den Punkt "Run...". Bei dem geöffneten Fenster klickt auf den kleinen Pfeil neben dem Profil "JaCoCo" und wählt dort "Cover".
