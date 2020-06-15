@@ -213,13 +213,13 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |       |    |    |     |
-| PMD                       |       |    |    |     |
-| Checkstyle                |       |    |    |     |
-| IntelliJ Line Coverage    |       |    |    |     |
-| JaCoCo Line Coverage      |       |    |    |     |
-| Mutations                 |       |    |    |     |
-| Spotbugs                  |       |    |    |     |
+| JavaDoc                   |  Ja     |    |    |     |
+| PMD                       |   Ja    |    |    |     |
+| Checkstyle                |   Ja    |    |    |     |
+| IntelliJ Line Coverage    |    Ja   |    |    |     |
+| JaCoCo Line Coverage      |    Ja   |    |    |     |
+| Mutations                 |   Ja    |    |    |     |
+| Spotbugs                  |   Ja    |    |    |     |
 | Überprüfen: Requierments (Logik) |     |      |      |       |
 | Überprüfen: Run (Logik)  |     |      |      |       |
 
