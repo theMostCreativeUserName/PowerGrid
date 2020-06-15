@@ -195,7 +195,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Spotbugs               |    Ja   |   Ja   |      |       |
 | Externe Tests             |    Ja   |   Ja   |      |       |
 
-### Version7.19 / Rainbow
+### Version7.20 / Rainbow
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |  Ja    |      |       |
@@ -209,7 +209,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Spotbugs               |    Ja   |   Ja   |      |       |
 | Externe Tests             |    Ja   |   Ja   |      |       |
 
-### Version8.19 / Kaffee
+### Version8.20 / Kaffee
 #### Sonderfall:
 
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
@@ -221,8 +221,8 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | JaCoCo Line Coverage      |    Ja   | Ja   |    |     |
 | Mutations                 |   Ja    | Ja   |    |     |
 | Spotbugs                  |   Ja    | Ja   |    |     |
-| Überprüfen: Requierments (Logik) |     |      |      |       |
-| Überprüfen: Run (Logik)  |     |      |      |       |
+| Überprüfen: Requierments (Logik) |  Ja   |  Ja    |      |       |
+| Überprüfen: Run (Logik)  |  Ja   |   Ja   |      |       |
 
 | Verbleibende Arbeiten | gemacht (von) |
 | ---                       | ---       | 
