@@ -27,8 +27,20 @@
 1. wählt: save "Wort" in project-level dictionary
 
 ### IntelliJ Line Coverage
+#### Normal
 In IntelliJ oben rechts neben dem grünen Run-Button auf das Schild-Symbol mit Button klicken
 ![Coverage Tool](https://i.stack.imgur.com/sW22A.gif)
+
+#### Mit JaCoCo
+1. Lasst einmal alle Tests mit Coverage durchlaufen.
+1. Anschließen klickt auf "Run" in der Menüleiste und klickt dort auf "Profile".
+1. Nun müsst ihr ein Auswahlfenster bekomme, klick auf einen Eintrag nach dem folgenden Muster: "All in <euer Projektname>". Es öffnet sich ein weiteres Menü, klickt dort auf "Edit".
+1. In dem jetzt geöffneten Fenster ändert ihr den Namen auf "JaCoCo", damit ihr die Konfiguration wieder findet. Klickt danach auf den Menüpunkt "Code Coverage" und wählt dort als "Choose coverage runner:" "JaCoCo" aus.
+1. Nun könnt ihr das Profil mit Klick auf "Apply" speichern und das Fenster mit "Close" verlassen.
+1. Wählt nun unter "Run" den Punkt "Run...". Bei dem geöffneten Fenster klickt auf den kleinen Pfeil neben dem Profil "JaCoCo" und wählt dort "Cover".
+1. Hinweis: JaCoCo ist ab den 2020 Versionen von IntelliJ verfügbar. 
+1. Schaut euch die Class, Method, Line and Branch in % an. Mit klicken auf einen Ordner könnt ihr euch genauere Informationen holen. Beachtet: Asserts können ignoriert werden (Zählen -2 bei Branch) und die damit meist nicht verbundene Abnahme der Klasse (-1).
+1. Ihr könnt zum einfacheren Überblick eure Farben der Coverage ändern, fragt dafür euch ben Projektleitungen an.
 
 ### Mutations
 1. instaliert das **"PIT Runner"** Plugin für IntelliJ
@@ -119,6 +131,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | PMD                       |    Ja   |   Ja   |  Ja    |  Ja  |
 | Checkstyle                |    Ja   |   Ja   |  Ja    |  Ja    |
 | IntelliJ Line Coverage    |    Ja   |   Ja   |  Ja    |  Ja    |
+| JaCoCo Line Coverage      |    Ja   |      |      |      |
 | Mutations                 |    Ja   |   Ja   |   Ja   |  Ja    |
 | CCN Class                 |    Ja   |   Ja   |   Ja   |   Ja   |
 | CCN Methods               |    Ja   |   Ja   |  Ja    |   Ja   |
@@ -133,6 +146,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | PMD                       |    Ja   |   Ja   |  Ja    |  Ja    |
 | Checkstyle                |    Ja   |   Ja   |   Ja   |   Ja   |
 | IntelliJ Line Coverage    |    Ja   |   Ja   |  Ja    |  Ja    |
+| JaCoCo Line Coverage      |    Ja   |      |      |      |
 | Mutations                 |    Ja   |   Ja   |  Ja    |  Ja    |
 | CCN Class                 |    Ja   |   Ja   |  Ja    |   Ja    |
 | CCN Methods               |    Ja   |   Ja   |  Ja    |   Ja    |
@@ -146,6 +160,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | PMD                       |    Ja   |  Ja    |  Ja    |   Ja    |
 | Checkstyle                |    Ja   |  Ja    |  Ja    |  Ja     |
 | IntelliJ Line Coverage    |    Ja   |  Ja    |   Ja   |   Ja    |
+| JaCoCo Line Coverage      |    Ja   |      |      |      |
 | Mutations                 |    Ja   |  Ja    |   Ja   |  Ja     |
 | CCN Class                 |    Ja   |  Ja    |   Ja   |   Ja    |
 | CCN Methods               |    Ja   |  Ja    |   Ja   |   Ja    |
@@ -159,6 +174,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | PMD                       |    Ja   |  Ja    |  Ja    |   Ja    |
 | Checkstyle                |    Ja   |   Ja   |  Ja    |  Ja     |
 | IntelliJ Line Coverage    |    Ja   |   Ja   |  Ja    |   Ja    |
+| JaCoCo Line Coverage      |    Ja   |      |      |      |
 | Mutations                 |    Ja   |   Ja   |  Ja    |   Ja    |
 | CCN Class                 |    Ja   |   Ja   |   Ja   |  Ja    |
 | CCN Methods               |    Ja   |   Ja   |   Ja   |  Ja    |
@@ -172,6 +188,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | PMD                       |    Ja   |  Ja    |  Ja    |  Ja     |
 | Checkstyle                |    Ja   |   Ja   |  Ja    |   Ja    |
 | IntelliJ Line Coverage    |    Ja   |   Ja   |  Ja    |   Ja    |
+| JaCoCo Line Coverage      |    Ja   |      |      |      |
 | Mutations                 |    Ja   |   Ja   |   Ja   |   Ja    |
 | CCN Class                 |    Ja   |   Ja   |   Ja   |   Ja   |
 | CCN Methods               |    Ja   |   Ja   |   Ja   |   Ja   |
@@ -185,6 +202,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | PMD                       |    Ja   |    Ja  |  Ja    |   Ja    |
 | Checkstyle                |    Ja   |   Ja   |  Ja    |    Ja   |
 | IntelliJ Line Coverage    |    Ja   |   Ja   |   Ja   |    Ja   |
+| JaCoCo Line Coverage      |    Ja   |      |      |      |
 | Mutations                 |    Ja   |   Ja   |  Ja    |   Ja    |
 | CCN Class                 |    Ja   |   Ja   |   Ja   |  Ja    |
 | CCN Methods               |    Ja   |  Ja    |  Ja    |   Ja   |
@@ -199,6 +217,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | PMD                       |    Ja   |   Ja   |  Ja    |   Ja    |
 | Checkstyle                |    Ja   |   Ja   |  Ja    |    Ja   |
 | IntelliJ Line Coverage    |    Ja   |   Ja   |   Ja   |   Ja    |
+| JaCoCo Line Coverage      |    Ja   |      |      |      |
 | Mutations                 |    Ja   |   Ja   |  Ja    |   Ja    |
 | Spotbugs               |    Ja   |   Ja   |   Ja   |  Ja    |
 | Überprüfen: Requierments (Logik) |     |      |      |       |
