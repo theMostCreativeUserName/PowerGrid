@@ -209,7 +209,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Spotbugs               |    Ja   |   Ja   |      |       |
 | Externe Tests             |    Ja   |   Ja   |      |       |
 
-### Version8.20 / Kaffee
+### Version8.21 / Kaffee
 #### Sonderfall:
 
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
