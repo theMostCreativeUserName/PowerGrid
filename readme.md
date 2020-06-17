@@ -1,16 +1,27 @@
 # Tests
+## Gliederung
+1. JavaDoc
+2. PMD
+3. Checkstyle
+4. IntelliJ Line Coverage
+5. Mutations
+6. CNN Überprüfen
+7. SpotBugs
+8. Erster Durchlauf des Spiels
+9. Prüfen der Abgaben
 
-### 1) JavaDoc 
+---
+### 1. JavaDoc 
 1. IntelliJ Menüpunkt **"Tools"** --> "Generate JavaDoc"
 1. Wählt eine "Output directory", dort wird die Dokumentation gespeichert.
 1. Im Feld "Other command line arguments:" müsst ihr folgendes einfügen: "--enable-preview --release 14". Danach könnt ihr auf "OK" klicken. Sollte es keinen Fehler geben, sollte sich der Browser mit der Dokumentation öffnen. Geschieht dies nicht, exestieren Fehler, welche im Terminal ausgelesen werden können. In diesem Fall ist die entsprechende Zelle mit "Fehler" zu kennzeichnen.
 
-### 2) PMD
+### 2. PMD
 1. Herunterladen/Speichern von [PMD-Vorlagen](https://sol.cs.hm.edu/course/st/download.do?filename=pmd.xml&mimetype=text/xml "Schiedermeier-PMD")
 1. INtelliJ Menüpunkt **"Files"** --> Settings --> Other Settings --> PMD --> beim Seitenlabel *RuleSet* auf das '+' --> auf "Browse" --> PMD-File auswählen
 1. Laufen lassen könnt ihr das PMD indem ihr, auf den zu testenden Ordner rechts-klickt und Run **PMD auswählt** --> Custom Rules --> eure PMD-Datei
 
-### 3) Checkstyle
+### 3. Checkstyle
 1. Herunterladen/Speichern con [Checkstyle-Vorlagen](https://sol.cs.hm.edu/course/st/download.do?filename=checkstyle.xml&mimetype=text/xml "Schiedermeier Checkstyle")
 **stellt sicher dass ihr die neuste Version des Checkstyle-Plugins habt**
 1. IntelliJ Menüpunkt **"Files"** --> Settings --> Other Settings --> Checkstyle --> auf '+' bei "Configuration File" --> im Pop-Up Fenster einen Namen eingeben und über "Browse" Checkstyle-File auswählen
@@ -26,7 +37,7 @@
 1. presst **ALT** + **ENTER** auf der Tastatur oder klickt auf die Glühbirne, die in der Zeile des Wortes erscheint 
 1. wählt: save "Wort" in project-level dictionary
 
-### IntelliJ Line Coverage
+### 4. IntelliJ Line Coverage
 #### Normal
 In IntelliJ oben rechts neben dem grünen Run-Button auf das Schild-Symbol mit Button klicken
 ![Coverage Tool](https://i.stack.imgur.com/sW22A.gif)
@@ -42,7 +53,7 @@ In IntelliJ oben rechts neben dem grünen Run-Button auf das Schild-Symbol mit B
 1. Schaut euch die Class, Method, Line and Branch in % an. Mit klicken auf einen Ordner könnt ihr euch genauere Informationen bekommen. Beachtet: Asserts können ignoriert werden (Zählen -2 bei Branch) und die damit meist nicht verbundene Abnahme der Klasse (-1).
 1. Ihr könnt zum einfacheren Überblick eure Farben der Coverage ändern, fragt dafür bei den Projektleitungen an.
 
-### Mutations
+### 5. Mutations
 1. instaliert das **"PIT Runner"** Plugin für IntelliJ
 1. in IntelliJ --> auf **Edit Configuration**, im Drop-Down Menü neben dem Run-Symbol
 1. im Pop-Up Fenster auf das '+' --> im Drop-Down Menü "Pit Runner" auswählen
@@ -62,7 +73,7 @@ In IntelliJ oben rechts neben dem grünen Run-Button auf das Schild-Symbol mit B
 
 **Wichtig**: wenn ihr euer Projekt auf GitHub hochladet -> löscht vorher den report-Ordner, der durch die Mutationen entstanden ist
 
-### CNN Überprüfen
+### 6. CNN Überprüfen
 das Plugin von IntelliJ, dass automatisch den CNN zählt heißt **Code Metrics**
 1. File --> Other Settings --> Code Metrics
 1. im Seiten-Label stellt ihr folgendes ein:
@@ -99,12 +110,21 @@ Das Plugin zählt den CNN der kompletten Klasse relativ unschön, hier müssen d
 1. dann öffnet sich ein Drop-Down Menü in dem die CNN-Zahlen der einzelnen Methoden angezeigt werden
 1. diese müssen dann aufaddiert werden
 
-### SpotBugs
+### 7. SpotBugs
 1. Installiert das **SpotBugs** Plugin
 1. in IntelliJ unten rechts klickt ihr dann auf das SpotBugs-Käfer Symbol
 1. klickt auf **"Anylize Project files not including Test sources"** (das blaue Quadrat mit grünen Pfeil)
 
-## Prüfen der Abgaben
+### 8. Erster Durchlauf des Spiels
+Mithilfe der **Powegrid Hotseat** Datei, kann das komplette Spiel, schon einmal "test gespeilt" werden.
+1. Die **Hotseat** datei befindet sich im Test-ordner unter *cs.rs.powergrid.datastore*
+1. Rechtsklick auf diese Datei
+1. wählt im Drop-down Menü *Edit 'PwergridHotseat...'* --> ein Pop-up Fenster sollte sich öffnen
+1. gebt hier unter *VM options:* folgedes ein: **-Dpowergrid.factory=edu.hm.severin.powergrid.datastore.NeutralFactory -Dpowergrid.rules=edu.hm.severin.powergrid.logic.StandardRules**
+1. Apply + OK
+Nun könnt ihr in den Run-cofigurations (Drop-Down neben dem grünen Run-Pfeil) eure erstellte Konfiguration(standardName: PowergridHotseat1) auswählen und diese ausführen. Im Textausgabe-Feld könnt ihr dann das Spiel starten und Moves ausführen.
+
+## 9. Prüfen der Abgaben
 An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen Suchen) keine Möglichkeit gefunden die auftretenden Probleme zu lösen. Diese wurden aber mit einem Kommentar markiert.
 
 ### Anmerkungen:
