@@ -128,7 +128,8 @@ Nun könnt ihr in den Run-cofigurations (Drop-Down neben dem grünen Run-Pfeil) 
 An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen Suchen) keine Möglichkeit gefunden die auftretenden Probleme zu lösen. Diese wurden aber mit einem Kommentar markiert.
 
 ### Anmerkungen:
-1. Bei der ListBag kommt es bei der Hashmethode wegen dem "" dazu das checkstyle meckert. Eine evtl. überarbeitung kann folgen. 
+1. ToString überarbeitungen siehe unten 8.xx
+1. DropPlant und DropResource testen (per Hotseat?)
 
 ### Version 1.15 / BER - Abgenommen
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
@@ -215,7 +216,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Spotbugs               |    Ja   |   Ja   |      |    Ja    |
 | Externe Tests             |    Ja   |   Ja   |      |   Ja     |
 
-### Version7.20 / Rainbow
+### Version7.22 / Rainbow
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |  Ja    |      |  Ja      |
@@ -229,7 +230,7 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Spotbugs               |    Ja   |   Ja   |      |    Ja    |
 | Externe Tests             |    Ja   |   Ja   |      |    Ja    |
 
-### Version8.21 / Kaffee
+### Version8.22 / Kaffee
 #### Sonderfall:
 
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
@@ -246,10 +247,10 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 
 | Verbleibende Arbeiten | gemacht (von) |
 | ---                       | ---       | 
-| Bericht KW 24             |  Ja         | 
-| Mehr Tests für 6.x        |  Ja siehe x.17 Versionen   | 
+| Bericht KW 24             |  Pietsch      | 
+| Mehr Tests für 6.x        |  Pietsch siehe x.17 Versionen   | 
 | ABC Klassen               |              | 
-| toString / properties     |              | 
+| toString / properties     |  Severin, Pietsch  --> funkt, aber resource, resources brauchen andere toStrings   | 
 | Tests für ABC, toString   |              |
 |Logik überprüfen           | | |
 | Noch nicht integrierte JD Kommentare finden und ergänzen | |
