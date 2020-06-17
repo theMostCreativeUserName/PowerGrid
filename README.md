@@ -44,6 +44,8 @@ Ein sinnloses Projekt um Studierende in den Wahnsinn zu treiben.
 
 ### Eine Feinabstimmung ohne die es nichts gibt. N. Absolute Zeiten oder relativ, ist doch egal. B. Habitable Zonen überall. Z. Die unzähligen Dächer über den Kopf. H. Die Arten der Verständigung. L. Die Möglichkeiten des Seins. B. Die Beiträge zu den Gesellschaften. R. Chaostheorie. Aber keiner dieser Buchstaben, kann etwas sagen. Ihnen fehlen so viele, um nur das Lächeln bewerten zu können.
 
+### Mein Zimmer. Wie immer irgendwo in einer Großstadt auf das nötigste Reduziert mit diesem komischen künstlichen Licht und der Dekopflanze im Eck. Wie immer hat selbst das künstliche Licht diese Pflanze schon verbleichen lassen. Eine echte Aloe würde ohne echtes Licht verkümmern und nie zur Blüte kommen, die Dekopflanze würde immer mehr der Form treu sein und seine Farben verlieren. Dabei besteht Licht, doch aus allen Farben. 
+
 ## ------------------------------------------------------------------------------------
 # Wichtige Nebeninfos
 bitte tragt die Standard-Konstuktoren eurer Logikklassen in die Companions-Klasse "HotMoves" ein (in Methode getPrototypes)
