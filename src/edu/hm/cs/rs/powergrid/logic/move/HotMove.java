@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Ein Spielzug.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version last modified 2020-05-05
+ * @version last modified 2020-05-20
  */
 public interface HotMove extends Move {
     /**
@@ -50,7 +50,7 @@ public interface HotMove extends Move {
     /**
      * Sammelt alle Zuege dieser Art, die im Moment erlaubt sind.
      * @param game   Aktuelles Spiel.
-     * @param player der Spieler um den es geht.
+     * @param player Ein Spieler oder leer, wenn er noch nicht existiert.
      * @return Alle Zuege dieser Art, die gerade moeglich sind.
      * Eventuell leer.
      */

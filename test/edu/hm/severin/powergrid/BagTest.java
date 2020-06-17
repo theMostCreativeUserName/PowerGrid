@@ -4,8 +4,7 @@ import edu.hm.cs.rs.powergrid.Bag;
 
 import static junit.framework.TestCase.assertSame;
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -162,7 +161,8 @@ public class BagTest<E> {
         Bag<String> sut = getSUT("1st", "2nd", "3rd", "2nd");
         Bag<String> copy = sut.immutable();
         copy.add("2nd", 3);
-        assertEquals(sut.toString(), copy.toString());
+        assertEquals("ListBag{elements=[1st, 2nd, 3rd, 2nd], readOnly=false}",sut.toString());
+        assertEquals("ListBag{elements=[1st, 2nd, 3rd, 2nd], readOnly=true}", copy.toString());
     }
 
     @Test
@@ -216,7 +216,7 @@ public class BagTest<E> {
     @Test
     public void equals1() {
         Bag<Integer> sut = getSUT(1, 2, 2, 3);
-        assertSame(sut, sut);
+        assertEquals(sut, sut);
     }
 
     @Test
@@ -224,13 +224,6 @@ public class BagTest<E> {
         Bag<Integer> sut = getSUT(1, 2, 3, 4);
         Bag<Integer> sat = getSUT(1, 4, 3, 2);
         assertEquals(sut, sat);
-    }
-
-    @Test
-    public void equals3() {
-        Bag<Integer> sut = getSUT(1, 2);
-        Bag<Integer> sat = getSUT(1, 4, 3, 2);
-        assertFalse(sut.equals(sat));
     }
 
     @Test
@@ -307,6 +300,11 @@ public class BagTest<E> {
         assertTrue(added);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void addIllegalTimes() {
+        Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
+        sut.add('s', -1);
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void removeIllegalTimes() {
@@ -372,6 +370,7 @@ public class BagTest<E> {
         Bag<Character> sat = getSUT('a', 'f', ' ');
         Bag<Character> test = sut.remove(sat);
         assertEquals(test.toString(), sut.toString());
+        
     }
 
     @Test
@@ -449,6 +448,7 @@ public class BagTest<E> {
         assertSame(0, sut.count('y'));
     }
 
+
     @Test
     public void distinct1() {
         Bag<Character> sut = getSUT('w', 'w', 'r', 'w');
@@ -468,11 +468,165 @@ public class BagTest<E> {
         assertEquals(s.toString(),sut.distinct().toString());
     }
 
+
     @Test
     public void distinct3() {
         Bag<Character> sut = getSUT();
         Set<String> sat = new HashSet<>();
         assertEquals(sut.distinct(), sat);
     }
+    @Test public void containsSelf(){
+        Bag<Integer> sut = getSUT(1,2,3);
+        assertTrue(sut.contains(sut));
+    }
+
+    // New tests
+
+    @Test
+    public void addMore4() {
+        Bag<Character> sut = getSUT('w', 'o', 'r', 'd');
+        Bag<Character> sat = sut.add('c', 4);
+        assertSame(8, sat.size());
+    }
+
+    @Test
+    public void count4() {
+        Bag<Character> sut = getSUT(null, null);
+        assertSame(2, sut.count(null));
+    }
+
+    @Test
+    public void count5() {
+        Bag<Character> sut = getSUT(' ', ' ', ' ', ' ');
+        assertSame(4, sut.count(' '));
+    }
+
+    @Test
+    public void count6() {
+        Bag<Character> sut = getSUT(' ', 'b', ' ', ' ');
+        assertSame(3, sut.count(' '));
+    }
+
+    @Test
+    public void equals3() {
+        Bag<Integer> sut = getSUT(1, 2, 3, 4);
+        Bag<Integer> sat = getSUT(1, 4, 3, 2);
+        assertTrue(sut.equals(sat));
+    }
+
+    @Test
+    public void equals5() {
+        Bag<Integer> sut = getSUT(1, 2, 3, 4);
+        Bag<Integer> sat = getSUT(1, 3, 3, 3);
+        assertFalse(sut.equals(sat));
+    }
+
+    @Test
+    public void equals6() {
+        Bag<Integer> sut = getSUT(1, 2, 3, 4);
+        Bag<Integer> sat = getSUT(1, 2, 3, 4, 5, 6);
+        assertFalse(sut.equals(sat));
+    }
+
+    @Test
+    public void equals7() {
+        Bag<Integer> sut = getSUT(1, 2, 3, 4, 5, 6);
+        Bag<Integer> sat = getSUT(1, 2, 3, 4);
+        assertFalse(sut.equals(sat));
+    }
+
+    // Neue Tests
+    @Test
+    public void remove5(){
+        Bag<Integer> sut = getSUT(1, 2, 3, 4, 5);
+        assertTrue(sut.remove(1));
+    }
+
+    @Test
+    public void remove6(){
+        Bag<Integer> sut = getSUT(1, 2, 3, 4, 5);
+        assertFalse(sut.remove(6));
+    }
+
+    @Test
+    public void remove7(){
+        Bag<Integer> sut = getSUT(1, 2, 3, 4, 5);
+        Bag<Integer> have = sut.remove(5, 0);
+        assertSame(sut, have);
+    }
+
+    @Test (expected = UnsupportedOperationException.class)
+    public void addBagtoBag(){
+        Bag<Integer> first = getSUT(1, 2, 3).immutable();
+        Bag<Integer> second = getSUT(4, 5, 6);
+        Bag<Integer> sut = first.add(second);
+    }
+
+    //x.14 Tests
+    @Test (expected = UnsupportedOperationException.class)
+    public void addNTimesOnlyRead(){
+        Bag<Integer> sut = getSUT(1, 2, 3);
+        Bag<Integer> copy = sut.immutable();
+        copy.add(4, 2);
+        assertEquals(sut.toString(), copy.toString());
+    }
+
+    @Test (expected = UnsupportedOperationException.class)
+    public void removeBagOnlyRead(){
+        Bag<Integer> sut = getSUT(1, 2, 3);
+        Bag<Integer> copy = sut.immutable();
+        Bag<Integer> second = getSUT(3);
+        copy.remove(second);
+        assertEquals(sut.toString(), copy.toString());
+    }
+
+    @Test (expected = UnsupportedOperationException.class)
+    public void removeNTimesOnlyRead(){
+        Bag<Integer> sut = getSUT(1, 2, 3);
+        Bag<Integer> copy = sut.immutable();
+        copy.remove(3, 3);
+        assertEquals(sut.toString(), copy.toString());
+    }
+
+    //x.15
+    @Test
+    public void hashCodeSame(){
+        Bag<Integer> sut = getSUT(1, 2, 3);
+        Bag<Integer> have = getSUT(1, 2, 3);
+        assertEquals(sut.hashCode(), have.hashCode());
+    }
+
+    @Test
+    public void hashCodeNotSame(){
+        Bag<Integer> sut = getSUT(1, 2, 3);
+        Bag<Integer> have = getSUT(4, 5, 6);
+        assertNotEquals(sut.hashCode(), have.hashCode());
+    }
+
+    @Test
+    public void hashCodeOfBagWithNull(){
+        Bag<Integer> sut = getSUT(1, null);
+        assertEquals(sut.hashCode(), 35);
+    }
+
+    @Test
+    public void hashCodeOfBagEmpty(){
+        Bag<Integer> sut = new ListBag<>();
+        assertEquals(sut.hashCode(), 0);
+    }
+
+    @Test
+    public void hashCodeOfWithValue(){
+        Bag<Integer> sut = getSUT(1, 2, 3);
+        assertEquals(sut.hashCode(), 1022);
+    }
+
+    @Test
+    public void hashCodeOfWithValue2(){
+        Bag<String> sut = getSUT("Hallo", "Ni hao", "Hello");
+        assertEquals(sut.hashCode(), -742459123);
+    }
+
+
 
 }

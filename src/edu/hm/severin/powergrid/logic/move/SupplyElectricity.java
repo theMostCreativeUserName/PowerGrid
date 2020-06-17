@@ -3,9 +3,7 @@ package edu.hm.severin.powergrid.logic.move;
 
 import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.Plant;
-import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
-import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
@@ -21,7 +19,7 @@ import java.util.Set;
  *
  * @author Pietsch
  */
-class SupplyElectricity implements HotMove {
+class SupplyElectricity extends AbstractProperties implements HotMove {
 
     /**
      * Used game.
@@ -51,18 +49,18 @@ class SupplyElectricity implements HotMove {
         if (game.getPhase() != Phase.PlantOperation)
             return Optional.of(Problem.NotNow);
         final List<OpenPlayer> players = game.getOpenPlayers();
-        if (players.stream().filter(player -> !player.hasPassed()).count() != 0)
+        if (players.stream().anyMatch(player -> !player.hasPassed()))
             return Optional.of(Problem.PlayersRemaining);
 
         if (real) {
             game.setPhase(Phase.Bureaucracy);
-            for (OpenPlayer player : players)
-                player.setPassed(false);
+            players.forEach(openPlayer -> openPlayer.setPassed(false));
 
             //plant incoming and resetting
             plantEditing();
 
         }
+        setProperty("type", getType().toString());
         return Optional.empty();
     }
 
@@ -84,8 +82,7 @@ class SupplyElectricity implements HotMove {
             player.setElectro(currentAmountMoney + gainedMoney);
 
             //Reset Plants
-            for (OpenPlant plant : player.getOpenPlants())
-                plant.setOperated(false);
+            player.getOpenPlants().forEach(openPlant -> openPlant.setOperated(false));
         }
 
     }

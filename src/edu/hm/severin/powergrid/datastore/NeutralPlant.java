@@ -6,17 +6,19 @@ import edu.hm.cs.rs.powergrid.datastore.Resource;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
 import edu.hm.severin.powergrid.ListBag;
 
+
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
- * creates the Factory of the game.
+ * creates the Plants of the game.
  *
  * @author Severin, Pietsch
- * @complexity: 20
  */
+// PMD has problem "Data Classes are simple data holders". Cant be fixed.
 public class NeutralPlant implements OpenPlant {
+
     /**
      * number of plant.
      */
@@ -38,7 +40,7 @@ public class NeutralPlant implements OpenPlant {
      */
     private boolean operated;
     /**
-     * resource thar can be used by plant.
+     * resource that can be used by plant.
      */
     private final Set<Bag<Resource>> usableResources;
 
@@ -47,18 +49,19 @@ public class NeutralPlant implements OpenPlant {
      *
      * @param number            identifying number
      * @param type              type of plant
-     * @param numberofResources Number of Resources used in one turn
+     * @param numberOfResources Number of Resources used in one turn
      * @param cities            the plant provides to
      */
 
-    public NeutralPlant(final int number, final Type type, final int numberofResources, final int cities) {
-        if (number <= 0) throw new IllegalArgumentException("number of plant cannot be negative or Zero");
+    public NeutralPlant(final int number, final Type type, final int numberOfResources, final int cities) {
+        if (number < 0) throw new IllegalArgumentException("number of plant cannot be negative");
         if (cities <= 0) throw new IllegalArgumentException("plant provides at least one city");
-        if (numberofResources <= 0) throw new IllegalArgumentException("plant uses at least one resource");
+        if (numberOfResources < 0) throw new IllegalArgumentException("plant uses at least one resource");
+        if (type == null) throw new IllegalArgumentException("type is never null");
 
         this.number = number;
         this.type = type;
-        this.numberOfResources = numberofResources;
+        this.numberOfResources = numberOfResources;
         this.cities = cities;
         this.usableResources = getUsableResources(this.numberOfResources);
     }
@@ -66,7 +69,7 @@ public class NeutralPlant implements OpenPlant {
     /**
      * identifying number.
      *
-     * @return number. not negativ
+     * @return number. not negative
      */
     @Override
     public int getNumber() {
@@ -114,9 +117,9 @@ public class NeutralPlant implements OpenPlant {
     }
 
     /**
-     * Legt fest, ob  dieses Kraftwerk Strom produziert hat.
+     * sets if plant has produced energy.
      *
-     * @param operated true genau dann, wenn dieses Kw Strom produziert hat.
+     * @param operated true if plant produced energy
      */
     @Override
     public void setOperated(boolean operated) {
@@ -135,41 +138,48 @@ public class NeutralPlant implements OpenPlant {
         return this.usableResources;
     }
 
+    /**
+     * creates the set of bags for usableResources.
+     *
+     * @param amount amount of resources needed by plant
+     * @return set of bags with specification from getResources
+     */
     private Set<Bag<Resource>> getUsableResources(int amount) {
         final Plant.Type plantType = getType();
         final Set<Bag<Resource>> plantCanUse = new HashSet<>();
-        Bag<Resource> usable = new ListBag<>();
+        final Bag<Resource> usable = new ListBag<>();
 
-       switch (plantType) {
-            case Coal -> usable = usable.add(Resource.Coal, amount);
-            case Oil -> usable = usable.add(Resource.Oil, amount);
-            case Garbage -> usable = usable.add(Resource.Garbage, amount);
-            case Uranium -> usable = usable.add(Resource.Uranium, amount);
-        }
-        if (plantType == Type.Hybrid){
+        if (plantType == Type.Hybrid) {
             plantCanUse.addAll(generateHybridBags(amount));
-        }else {
-            final Bag<Resource> immutableUsable = usable.immutable();
+        } else if (plantType.getResources().size() == 0)
+            plantCanUse.add(usable.immutable());
+        else {
+            final Bag<Resource> immutableUsable = usable.add(plantType.getResources().iterator().next(), amount).immutable();
             plantCanUse.add(immutableUsable);
         }
-        return plantCanUse;
+        return Collections.unmodifiableSet(plantCanUse);
     }
 
+
+    /**
+     * Generate Set of Bags with all combination of Resources for hybrid plants.
+     * @param amount maximal count of resources per bag
+     * @return a set of bags with all combination of Resources
+     */
     private Set<Bag<Resource>> generateHybridBags(int amount) {
-        Set<Bag<Resource>> allBags = new HashSet<>();
-        allBags.add(new ListBag<Resource>().add(Resource.Coal, amount));
-        allBags.add(new ListBag<Resource>().add(Resource.Oil, amount));
-        int currentAmount = amount-1;
-        while (currentAmount != 0){
-            Bag<Resource> oneBagOfCombination = new ListBag<>();
-            oneBagOfCombination = oneBagOfCombination.add(Resource.Coal, currentAmount);
-            oneBagOfCombination = oneBagOfCombination.add(Resource.Oil, amount-currentAmount);
+        int currentAmount = 0;
+        final Set<Bag<Resource>> allBags = new HashSet<>();
+        while (currentAmount <= amount) {
+            final Bag<Resource> oneBagOfCombination = new ListBag<>();
+            oneBagOfCombination.add(Resource.Coal, amount - currentAmount);
+            oneBagOfCombination.add(Resource.Oil, currentAmount);
             allBags.add(oneBagOfCombination);
-            currentAmount--;
+            currentAmount++;
         }
         return allBags;
     }
 
+    // SpotBugs: Medium Confidence Bad Practise because of not implementing equals, which isn´t needed
     @Override
     public int compareTo(Plant other) {
         return this.getNumber() - other.getNumber();

@@ -90,6 +90,25 @@ public class ConnectNoCityTest {
     }
 
     @Test
+    public void testConnectNoCityProperties() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.Building);
+        OpenFactory factory = opengame.getFactory();
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player.setPassed(false);
+        opengame.getOpenPlayers().add(player);
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == ConnectNoCity).collect(Collectors.toList());
+        Move move = moves.get(0);
+        // assert
+        assertSame(move.getProperties().getProperty("type"), MoveType.ConnectNoCity.toString());
+        assertSame(move.getProperties().getProperty("player"), player.getColor() );
+    }
+
+    @Test
     public void testConnectNoCityPassedAfterGetMoves() {
         // arrange
         OpenGame opengame = (OpenGame) sut.getGame();
@@ -116,12 +135,16 @@ public class ConnectNoCityTest {
         opengame.setPhase(Phase.Building);
         OpenFactory factory = opengame.getFactory();
         OpenPlayer player = factory.newPlayer("Hihi", "red");
+        opengame.getBoard().getOpenCities().add(factory.newCity("Ja", 123));
         player.getOpenCities().add(factory.newCity("Testhausen", 666));
         player.setPassed(false);
         OpenPlayer player2 = factory.newPlayer("I Dont Care", "Literally");
         player2.setPassed(false);
+        player2.setElectro(666);
         OpenPlayer player3 = factory.newPlayer("There are many Questions", "Do Ghosts exist?");
         player3.setPassed(false);
+
+
         opengame.getOpenPlayers().add(player3);
         opengame.getOpenPlayers().add(player2);
         opengame.getOpenPlayers().add(player);

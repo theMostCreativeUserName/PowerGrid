@@ -11,15 +11,15 @@ import java.util.Map;
 
 /**
  * creates ResourceMarket.
+ *
  * @author Pietsch
- * @complexity: 9
  */
 class NeutralResourceMarket implements OpenResourceMarket {
 
     /**
      * bag of available resources.
      */
-    private final Bag<Resource> available;
+    private Bag<Resource> available;
 
     /**
      * bag of remaining supply resources.
@@ -27,26 +27,29 @@ class NeutralResourceMarket implements OpenResourceMarket {
     private final Bag<Resource> supply;
 
     /**
-     * edition of game/resource market.
+     * edition of resourceMarket.
      */
     private final Edition edition;
 
+    /**
+     * constructor of NeutralResourceMarket.
+     * @param edition edition of the game
+     */
     NeutralResourceMarket(final Edition edition) {
         this.edition = edition;
         available = new ListBag<>();
         final Map<Resource, Integer> availableStart = edition.getResourcesInitiallyAvailable();
 
-        for ( Resource resource: availableStart.keySet()) {
-            for ( int index=0; index < availableStart.get(resource); index++)
-                available.add(resource);
+        for (Map.Entry<Resource, Integer> resource: availableStart.entrySet()) {
+            available = available.add(resource.getKey(), resource.getValue());
         }
 
         supply = new ListBag<>();
         final Map<Resource, Integer> supplyStart = edition.getResourceToNumber();
-        for ( Resource resource: supplyStart.keySet()) {
-            final int remainingSupply = supplyStart.get(resource) - availableStart.get(resource);
-            for (int index=0; index < remainingSupply; index++)
-                supply.add(resource);
+        for (Map.Entry<Resource, Integer> resource : supplyStart.entrySet()) {
+            final int remainingSupply = resource.getValue() - availableStart.get(resource.getKey());
+            for (int currentAmountOfResources = 0; currentAmountOfResources < remainingSupply; currentAmountOfResources++)
+                supply.add(resource.getKey());
         }
     }
 
@@ -64,6 +67,11 @@ class NeutralResourceMarket implements OpenResourceMarket {
     public int getPrice(Resource resource) {
         final Map<Resource, List<Integer>> costForResource = edition.getResourceAvailableToCost();
         final int amount = available.count(resource);
-        return costForResource.get(resource).get(amount-1);
+        final int cost;
+        if (amount > 0)
+            cost = costForResource.get(resource).get(amount - 1);
+        else
+            throw new IllegalArgumentException();
+        return cost;
     }
 }

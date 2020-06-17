@@ -1,8 +1,6 @@
 package edu.hm.severin.powergrid.logic.move;
 
 
-import edu.hm.cs.rs.powergrid.Bag;
-import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.Resource;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
@@ -24,7 +22,7 @@ import java.util.stream.Collectors;
  *
  * @author Pietsch
  */
-class DropResource implements HotMove {
+class DropResource extends AbstractProperties implements HotMove {
 
     /**
      * Used game.
@@ -39,7 +37,7 @@ class DropResource implements HotMove {
     /**
      * Resource of Move.
      */
-    private final Resource resource;
+    private final Resource resourceOfMove;
 
     /**
      * Prototyp Constructor.
@@ -47,27 +45,25 @@ class DropResource implements HotMove {
     DropResource() {
         game = null;
         player = null;
-        resource = null;
+        resourceOfMove = null;
     }
 
     /**
      * Non-Prototyp Constructor.
      * @param game this game
      * @param player player who connects the city
-     * @param resource resource to drop
+     * @param resourceOfMove resource to drop
      */
-    private DropResource(OpenGame game, Optional<OpenPlayer> player, Resource resource) {
+    private DropResource(OpenGame game, Optional<OpenPlayer> player, Resource resourceOfMove) {
         this.game = game;
         this.player = player;
-        this.resource = resource;
+        this.resourceOfMove = resourceOfMove;
     }
 
     @Override
     public Optional<Problem> run(boolean real) {
         Objects.requireNonNull(game);
-        if (game.getPhase() == Phase.Terminated || game.getPhase() == Phase.Opening)
-            return Optional.of(Problem.GameRunning);
-        if (player.get().getOpenResources().count(resource) == 0)
+        if (player.get().getOpenResources().count(resourceOfMove) == 0)
             return Optional.of(Problem.NoResource);
 
         final Optional<Problem> result = storageOfPlayer();
@@ -75,9 +71,12 @@ class DropResource implements HotMove {
             return result;
 
         if (real) {
-            player.get().getOpenResources().remove(resource);
-            game.getResourceMarket().getOpenSupply().add(resource);
+            player.get().getOpenResources().remove(resourceOfMove);
+            game.getResourceMarket().getOpenSupply().add(resourceOfMove);
         }
+        setProperty("type", getType().toString());
+        setProperty("player", player.get().getColor());
+        setProperty("resource", resourceOfMove.toString());
         return Optional.empty();
     }
 
@@ -87,42 +86,46 @@ class DropResource implements HotMove {
      */
     private Optional<Problem> storageOfPlayer() {
         int amountOfStorage = 0;
-        Set<OpenPlant> allHybridPlants = player.get().getOpenPlants()
-                .stream()
-                .filter(x -> x.getType() == Plant.Type.Hybrid)
-                .collect(Collectors.toSet());
-        if (allHybridPlants.size() == 0) {
-            amountOfStorage = storageOfNonHybridPlants(this.resource);
-        } else {
-            // Find Other Resource
-            Resource otherResource = allHybridPlants.stream()
-                    .map(Plant::getResources)
-                    .map(x -> x.stream()
-                            .filter(y -> !y.contains(this.resource))
-                            .map(y -> y.iterator().next())
-                            .findFirst())
-                    .findFirst().get().get();
+        if (this.resourceOfMove == Resource.Coal || this.resourceOfMove == Resource.Oil) {
+            final Set<OpenPlant> allHybridPlants = player.get().getOpenPlants()
+                    .stream()
+                    .filter(plant -> plant.getType() == Plant.Type.Hybrid)
+                    .collect(Collectors.toSet());
+            if (allHybridPlants.isEmpty()) {
+                amountOfStorage = storageOfNonHybridPlants(this.resourceOfMove);
+            } else {
+                // Find Other Resource
+                final Resource otherResource = allHybridPlants.stream()
+                        .map(Plant::getResources)
+                        .map(setOfResourceBags -> setOfResourceBags.stream()
+                                .filter(bagOfResource -> !bagOfResource.contains(this.resourceOfMove))
+                                .map(bagOfResource -> bagOfResource.iterator().next())
+                                .findFirst())
+                        .findFirst().get().get();
 
 
-            //Safe Storage of Non-Hybrid of Resource
-            amountOfStorage = storageOfNonHybridPlants(this.resource);
-            //Amount of other stored Resource and stored resources of player
-            final int saveStorageOfOther = storageOfNonHybridPlants(otherResource);
+                //Safe Storage of Non-Hybrid of Resource
+                amountOfStorage = storageOfNonHybridPlants(this.resourceOfMove);
+                //Amount of other stored Resource and stored resources of player
+                final int saveStorageOfOther = storageOfNonHybridPlants(otherResource);
 
-            final int amountOfOtherResource = player.get().getResources().count(otherResource);
+                final int amountOfOtherResource = player.get().getResources().count(otherResource);
 
-            //Amount of mixed storage
-            int storageOfHybrids = allHybridPlants.stream()
-                    .mapToInt(Plant::getNumberOfResources)
-                    .sum();
-            storageOfHybrids = storageOfHybrids * 2; //Number*2 = Storage Space
+                //Amount of mixed storage
+                int storageOfHybrids = allHybridPlants.stream()
+                        .mapToInt(Plant::getNumberOfResources)
+                        .sum();
+                storageOfHybrids = storageOfHybrids * 2; //Number*2 = Storage Space
 
 
-            //Part of Calculations
-            amountOfStorage += (saveStorageOfOther + storageOfHybrids) - amountOfOtherResource;
+                //Part of Calculations
+                amountOfStorage += saveStorageOfOther + storageOfHybrids - amountOfOtherResource;
 
-        }
-        if (player.get().getOpenResources().count(resource) <= amountOfStorage)
+            }
+        } else
+            amountOfStorage = storageOfNonHybridPlants(this.resourceOfMove);
+
+        if (player.get().getOpenResources().count(resourceOfMove) <= amountOfStorage)
             return Optional.of(Problem.NoResource);
         return Optional.empty();
     }
@@ -138,8 +141,8 @@ class DropResource implements HotMove {
 
         final int spaceFromPlant = player.get().getOpenPlants()
                 .stream()
-                .filter(x -> x.getResources().size() == 1)
-                .filter(x -> x.getResources().contains(new ListBag<>().add(resource, x.getNumberOfResources())))
+                .filter(plant -> plant.getResources().size() == 1)
+                .filter(plant -> plant.getResources().contains(new ListBag<>().add(resource, plant.getNumberOfResources())))
                 .mapToInt(Plant::getNumberOfResources)
                 .sum();
 
@@ -161,7 +164,7 @@ class DropResource implements HotMove {
         final List<Resource> allResources = List.of(Resource.Coal, Resource.Oil, Resource.Uranium, Resource.Garbage);
         return allResources
                 .stream()
-                .map(Resource -> new DropResource(openGame, openPlayer, Resource))
+                .map(resource -> new DropResource(openGame, openPlayer, resource))
                 .filter(move -> move.test().isEmpty())
                 .collect(Collectors.toSet());
     }

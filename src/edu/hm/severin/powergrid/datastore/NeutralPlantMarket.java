@@ -11,36 +11,38 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * creates the plantMarket.
+ */
 public class NeutralPlantMarket implements OpenPlantMarket {
 
     /**
      * set of actual plants.
      */
-    private Set<OpenPlant> actual;
+    private final Set<OpenPlant> actual;
 
     /**
      * set of future plants.
      */
-    private Set<OpenPlant> future;
+    private final Set<OpenPlant> future;
 
     /**
-     * list of hidden plants.
+     * list of hidden plants, representing the card deck.
      */
-    private List<OpenPlant> hidden;
+    private final List<OpenPlant> hidden;
 
     /**
-     * factory of plant market.
+     * constructor of NeutralPlantMarket.
+     *
+     * @param edition edition of the game
+     * @param factory factory which is used
      */
-    private final OpenFactory factory;
-
     public NeutralPlantMarket(final Edition edition, OpenFactory factory) {
-        this.factory = factory;
+        actual = new HashSet<>();
+        future = new HashSet<>();
+        hidden = new ArrayList<>();
 
-        actual = new HashSet<OpenPlant>();
-        future = new HashSet<OpenPlant>();
-        hidden = new ArrayList<OpenPlant>();
-
-        List <String> plantsFromEdition = edition.getPlantSpecifications();
+        final List<String> plantsFromEdition = edition.getPlantSpecifications();
         for (String plantSpecification : plantsFromEdition) {
             final String numberOfPlant = plantSpecification.substring(0, plantSpecification.indexOf(' '));
             final String typeAndConsumption = plantSpecification.substring(plantSpecification.indexOf(' ') + 1, plantSpecification.lastIndexOf(' '));
@@ -59,11 +61,10 @@ public class NeutralPlantMarket implements OpenPlantMarket {
                 case 'F' -> typeOfPlant = Plant.Type.Fusion;
                 default -> typeOfPlant = Plant.Type.Eco;
             }
-            OpenPlant plant = factory.newPlant(number, typeOfPlant, consumption, cities);
+            final OpenPlant plant = factory.newPlant(number, typeOfPlant, consumption, cities);
             hidden.add(plant);
         }
     }
-
 
     @Override
     public Set<OpenPlant> getOpenActual() {
@@ -96,15 +97,16 @@ public class NeutralPlantMarket implements OpenPlantMarket {
     @Override
     public OpenPlant findPlant(int number) {
         final Set<OpenPlant> allPlantSets = new HashSet<>();
+        OpenPlant result = null;
         allPlantSets.addAll(actual);
         allPlantSets.addAll(future);
         allPlantSets.addAll(hidden);
-        for ( OpenPlant plant: allPlantSets) {
-            if (plant.getNumber() == number){
-                return plant;
+        for (OpenPlant plant : allPlantSets) {
+            if (plant.getNumber() == number) {
+                result = plant;
             }
         }
-        return null;
+        return result;
     }
 
     @Override

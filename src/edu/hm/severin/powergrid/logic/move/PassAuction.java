@@ -2,7 +2,6 @@ package edu.hm.severin.powergrid.logic.move;
 
 
 import edu.hm.cs.rs.powergrid.datastore.Phase;
-import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
  * player bought no plant.
  * @author Pietsch
  */
-class PassAuction implements HotMove {
+class PassAuction extends AbstractProperties implements HotMove {
 
     /**
      * Used game.
@@ -43,6 +42,7 @@ class PassAuction implements HotMove {
     /**
      * Non-Prototype Constructor.
      * @param game this game
+     * @param player optional of player for move
      */
    private PassAuction(OpenGame game, Optional<OpenPlayer> player) {
 
@@ -55,8 +55,8 @@ class PassAuction implements HotMove {
        Objects.requireNonNull(game);
        if (game.getPhase() != Phase.PlantBuying)
            return Optional.of(Problem.NotNow);
-       final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
-       if (allRemainingPlayer.size() == 0)
+       final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(openPlayer -> !openPlayer.hasPassed()).sequential().collect(Collectors.toList());
+       if (allRemainingPlayer.isEmpty())
            return Optional.of(Problem.NotYourTurn);
        final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(0);
        if (!lastPlayerOfList.equals(player.get()))
@@ -67,6 +67,8 @@ class PassAuction implements HotMove {
        if (real) {
           player.get().setPassed(true);
        }
+       setProperty("type", getType().toString());
+       setProperty("player", player.get().getColor());
        return Optional.empty();
    }
 
@@ -76,10 +78,10 @@ class PassAuction implements HotMove {
    }
 
    @Override
-   public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> player) {
+   public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> openPlayer) {
        if (this.game != null)
            throw new IllegalStateException("This ist not a protoype");
-       final HotMove move = new PassAuction(openGame, player);
+       final HotMove move = new PassAuction(openGame, openPlayer);
        Set<HotMove> result;
        if(move.run(false).isEmpty())
            result = Set.of(move);

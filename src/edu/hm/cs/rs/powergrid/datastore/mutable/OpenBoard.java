@@ -1,7 +1,7 @@
 package edu.hm.cs.rs.powergrid.datastore.mutable;
 
-import edu.hm.cs.rs.powergrid.datastore.City;
 import edu.hm.cs.rs.powergrid.datastore.Board;
+import edu.hm.cs.rs.powergrid.datastore.City;
 import java.util.Collections;
 import java.util.Set;
 
@@ -32,4 +32,8 @@ public interface OpenBoard extends Board, Checksumed {
     }
 
     void close();
+
+    @Override default int checksum() {
+        return Checksumed.hash(getOpenCities().stream().mapToInt(OpenCity::checksum));
+    }
 }

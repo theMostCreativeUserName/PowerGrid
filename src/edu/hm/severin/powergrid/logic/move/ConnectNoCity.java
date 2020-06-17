@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author Pietsch
  */
-class ConnectNoCity implements HotMove {
+class ConnectNoCity extends AbstractProperties implements HotMove {
 
     /**
      * Used game.
@@ -55,8 +55,8 @@ class ConnectNoCity implements HotMove {
         Objects.requireNonNull(game);
         if (game.getPhase() != Phase.Building)
             return Optional.of(Problem.NotNow);
-        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
-        if (allRemainingPlayer.size() == 0)
+        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(openPlayer -> !openPlayer.hasPassed()).sequential().collect(Collectors.toList());
+        if (allRemainingPlayer.isEmpty())
             return Optional.of(Problem.NotYourTurn);
         final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(allRemainingPlayer.size() - 1);
         if (!lastPlayerOfList.equals(player.get()))
@@ -64,6 +64,8 @@ class ConnectNoCity implements HotMove {
 
         if (real)
             player.get().setPassed(true);
+        setProperty("type", getType().toString());
+        setProperty("player", player.get().getColor());
         return Optional.empty();
     }
 

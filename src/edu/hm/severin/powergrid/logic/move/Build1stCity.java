@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author Pietsch
  */
-class Build1stCity implements HotMove {
+class Build1stCity extends AbstractProperties implements HotMove{
 
     /**
      * Used game.
@@ -73,6 +73,9 @@ class Build1stCity implements HotMove {
             player.get().setElectro(currentAmount - cost);
             player.get().getOpenCities().add(city);
         }
+        setProperty("type", getType().toString());
+        setProperty("player", player.get().getColor());
+        setProperty("city", city.getName());
         return Optional.empty();
     }
 
@@ -83,8 +86,8 @@ class Build1stCity implements HotMove {
     private Optional<Problem> allRequirements() {
         if (game.getPhase() != Phase.Building)
             return Optional.of(Problem.NotNow);
-        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
-        if (allRemainingPlayer.size() == 0)
+        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(openPlayer -> !openPlayer.hasPassed()).sequential().collect(Collectors.toList());
+        if (allRemainingPlayer.isEmpty())
             return Optional.of(Problem.NotYourTurn);
         final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(allRemainingPlayer.size() - 1);
         if (!lastPlayerOfList.equals(player.get()))
@@ -103,12 +106,7 @@ class Build1stCity implements HotMove {
      *          false, if city is not yet taken
      */
     private boolean cityTaken() {
-        boolean result = false;
-        for (OpenPlayer openPlayer : game.getOpenPlayers())
-            for (OpenCity openCity : openPlayer.getOpenCities())
-                if (openCity.equals(city))
-                    result = true;
-        return result;
+         return game.getOpenPlayers().stream().map(openPlayer -> openPlayer.getOpenCities().stream().anyMatch(openCity -> openCity.equals(city))).findAny().orElse(false);
     }
 
     @Override

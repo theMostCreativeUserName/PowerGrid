@@ -91,7 +91,6 @@ public abstract class AbstractBag<E> extends AbstractCollection<E> implements Ba
      * und keine temporaere Containerdatenstruktur braucht.
      * Diese Implementierung ist nicht besonders gut, aber billig.
      * @return Hashcode des Inhaltes.
-     * @see https://en.wikipedia.org/wiki/Tabulation_hashing fuer andere Algorithmen.
      */
     @Override public int hashCode() {
         return distinct().stream()

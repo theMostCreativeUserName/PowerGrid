@@ -5,6 +5,7 @@ import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.Player;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author R. Schiedermeier, rs@cs.hm.edu
@@ -43,4 +44,14 @@ public interface OpenGame extends Game, Checksumed {
     OpenFactory getFactory();
 
     void setNumMoves(int numMoves);
+
+    @Override default int checksum() {
+        return Objects.hash(getLevel(),
+                            getPhase(),
+                            Checksumed.checksumOf(getOpenPlayers()),
+                            getAuction() == null? 0: getAuction().checksum(),
+                            getPlantMarket().checksum(),
+                            getResourceMarket().checksum(),
+                            getRound());
+    }
 }

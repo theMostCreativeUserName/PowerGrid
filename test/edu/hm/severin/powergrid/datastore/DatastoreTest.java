@@ -17,7 +17,7 @@ import static org.junit.Assert.assertSame;
 
 /**
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @author Pietsch, Severin
+ * @author Pietsch
  * @version last modified 2020-04-09
  */
 public class DatastoreTest {
@@ -43,7 +43,7 @@ public class DatastoreTest {
     public void GameGetEdition() {
         // arrange
         Edition sut = new EditionGermany();
-        Game game = factory.newGame(sut);
+        OpenGame game = factory.newGame(sut);
         // act
         Edition have = game.getEdition();
         // assert
@@ -92,7 +92,7 @@ public class DatastoreTest {
     public void GameGetPlayers() {
         // arrange
         Edition edition = new EditionGermany();
-        Game game = factory.newGame(edition);
+        OpenGame game = factory.newGame(edition);
 
         List <Player> sut = new ArrayList<>();
         // act
@@ -118,10 +118,10 @@ public class DatastoreTest {
     public void GameGetPlantMarket() {
         // arrange
         Edition edition = new EditionGermany();
-        PlantMarket sut = factory.newPlantMarket(edition);
+        OpenPlantMarket sut = factory.newPlantMarket(edition);
         // act
-        Game game = factory.newGame(edition);
-        PlantMarket have = game.getPlantMarket();
+        OpenGame game = factory.newGame(edition);
+        OpenPlantMarket have = game.getPlantMarket();
         // assert
         assertSame(sut, have);
     }
@@ -130,10 +130,10 @@ public class DatastoreTest {
     public void GameGetResourceMarket() {
         // arrange
         Edition edition = new EditionGermany();
-        ResourceMarket sut = factory.newResourceMarket(edition);
+        OpenResourceMarket sut = factory.newResourceMarket(edition);
         // act
-        Game game = factory.newGame(edition);
-        ResourceMarket have = game.getResourceMarket();
+        OpenGame game = factory.newGame(edition);
+        OpenResourceMarket have = game.getResourceMarket();
         // assert
         assertSame(sut, have);
     }
@@ -142,7 +142,7 @@ public class DatastoreTest {
     public void GameGetAndSetAuction() {
         // arrange
         Edition edition = new EditionGermany();
-        ResourceMarket resourceMarket = factory.newResourceMarket(edition);
+        OpenResourceMarket resourceMarket = factory.newResourceMarket(edition);
         OpenPlant plant = factory.newPlant(2, Plant.Type.Coal, 3, 3);
         List<OpenPlayer> players = List.of(factory.newPlayer("123", "red"),
                 factory.newPlayer("456", "blue"));
@@ -151,7 +151,7 @@ public class DatastoreTest {
         // act
         OpenGame game = factory.newGame(edition);
         game.setAuction(sut);
-        Auction have = game.getAuction();
+        OpenAuction have = game.getAuction();
         // assert
         assertSame(sut, have);
     }
@@ -172,9 +172,9 @@ public class DatastoreTest {
     @Test
     public void newResourceMarket() {
         // arrange
-        ResourceMarket sut = factory.newResourceMarket(new EditionGermany());
+        OpenResourceMarket sut = factory.newResourceMarket(new EditionGermany());
         // act
-        ResourceMarket have = factory.newResourceMarket(new EditionGermany());
+        OpenResourceMarket have = factory.newResourceMarket(new EditionGermany());
         // assert
         assertSame(sut, have);
     }
@@ -182,7 +182,7 @@ public class DatastoreTest {
     @Test
     public void ResourceMarketGetPrice() {
         // arrange
-        ResourceMarket sutRM = factory.newResourceMarket(new EditionGermany());
+        OpenResourceMarket sutRM = factory.newResourceMarket(new EditionGermany());
         // act
         int sut = sutRM.getPrice(Resource.Uranium);
         int have = 14;
@@ -222,9 +222,9 @@ public class DatastoreTest {
     @Test
     public void newPlantMarket() {
         // arrange
-        PlantMarket sut = factory.newPlantMarket(new EditionGermany());
+        OpenPlantMarket sut = factory.newPlantMarket(new EditionGermany());
         // act
-        PlantMarket have = factory.newPlantMarket(new EditionGermany());
+        OpenPlantMarket have = factory.newPlantMarket(new EditionGermany());
         // assert
         assertSame(sut, have);
     }
@@ -232,10 +232,10 @@ public class DatastoreTest {
     @Test
     public void PlantMarketGetActual() {
         // arrange
-        Set<Plant> sut = new HashSet<>();
+        Set<OpenPlant> sut = new HashSet<>();
         // act
-        PlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
-        Set<Plant> have = plantMarket.getActual();
+        OpenPlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
+        Set<OpenPlant> have = plantMarket.getOpenActual();
         // assert
         Assert.assertTrue(sut.equals(have));
     }
@@ -243,10 +243,10 @@ public class DatastoreTest {
     @Test
     public void PlantMarketGetFuture() {
         // arrange
-        Set<Plant> sut = new HashSet<>();
+        Set<OpenPlant> sut = new HashSet<>();
         // act
-        PlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
-        Set<Plant> have = plantMarket.getFuture();
+        OpenPlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
+        Set<OpenPlant> have = plantMarket.getOpenFuture();
         // assert
         Assert.assertTrue(sut.equals(have));
     }
@@ -256,7 +256,7 @@ public class DatastoreTest {
         // arrange
         int sut = 42;
         // act
-        PlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
+        OpenPlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
         int have = plantMarket.getNumberHidden();
         // assert
         assertSame(sut, have);
@@ -265,10 +265,10 @@ public class DatastoreTest {
     @Test
     public void PlantMarketFindPlantIn() {
         // arrange
-        Plant sut = factory.newPlant(7, Plant.Type.Oil, 3, 2);
+        OpenPlant sut = factory.newPlant(7, Plant.Type.Oil, 3, 2);
         // act
-        PlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
-        Plant have = plantMarket.findPlant(7);
+        OpenPlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
+        OpenPlant have = plantMarket.findPlant(7);
         // assert
         assertEquals(sut, have);
     }
@@ -276,17 +276,17 @@ public class DatastoreTest {
     @Test
     public void PlantMarketFindPlantOut() {
         // arrange
-        Plant sut = null;
+        OpenPlant sut = null;
         // act
-        PlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
-        Plant have = plantMarket.findPlant(55);
+        OpenPlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
+        OpenPlant have = plantMarket.findPlant(55);
         // assert
         assertEquals(sut, have);
     }
     @Test
     public void plantMarketFindPlant(){
-        PlantMarket m = factory.newPlantMarket(new EditionGermany());
-        Plant found = m.findPlant(4);
+        OpenPlantMarket m = factory.newPlantMarket(new EditionGermany());
+        OpenPlant found = m.findPlant(4);
         assertEquals(found.getType(), Plant.Type.Coal);
     }
     @Test
@@ -303,9 +303,31 @@ public class DatastoreTest {
     }
 
     @Test
+    public void PlantMarketRemovePlantWithNullPlant() {
+        // arrange
+        OpenPlant sut = null;
+        // act
+        OpenPlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
+        OpenPlant have = plantMarket.removePlant(55);
+        // assert
+        assertEquals(sut, have);
+    }
+
+    @Test
+    public void PlantMarketRemovePlantWithRealPlant() {
+        // arrange
+        OpenPlant sut = factory.newPlant(7, Plant.Type.Oil, 3, 2);
+        // act
+        OpenPlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
+        OpenPlant have = plantMarket.removePlant(7);
+        // assert
+        assertEquals(sut, have);
+    }
+
+    @Test
     public void PlantMarketGetHidden() {
         // arrange
-        List <Plant> sut = List.of(
+        List <OpenPlant> sut = List.of(
                 factory.newPlant(3, Plant.Type.Oil, 2, 1),
                 factory.newPlant(4, Plant.Type.Coal, 2, 1),
                 factory.newPlant(5, Plant.Type.Hybrid, 2, 1),
@@ -359,11 +381,11 @@ public class DatastoreTest {
     @Test
     public void newAuction() {
         // arrange
-        Auction sut = factory.newAuction(factory.newPlant(3, Plant.Type.Eco, 1, 1),
+        OpenAuction sut = factory.newAuction(factory.newPlant(3, Plant.Type.Eco, 1, 1),
                 List.of(factory.newPlayer("123", "red"),
                         factory.newPlayer("456", "blue")));
         // act
-        Auction have = factory.newAuction(factory.newPlant(3, Plant.Type.Coal, 2, 2),
+        OpenAuction have = factory.newAuction(factory.newPlant(3, Plant.Type.Coal, 2, 2),
                 List.of(factory.newPlayer("789", "yellow"),
                         factory.newPlayer("012", "green")));
         // assert
@@ -393,7 +415,7 @@ public class DatastoreTest {
         // act
         OpenPlayer have = factory.newPlayer("1234", "blue");
         auction.setPlayer(have);
-        Player sut = auction.getPlayer();
+        OpenPlayer sut = auction.getPlayer();
         // assert
         assertSame(sut, have);
     }
@@ -415,16 +437,14 @@ public class DatastoreTest {
     public void auctionGetPlant() {
         // arrange
         OpenPlant have = factory.newPlant(3, Plant.Type.Eco, 1, 1);
-        Auction auction = factory.newAuction(have,
+        OpenAuction auction = factory.newAuction(have,
                 List.of(factory.newPlayer("123", "red"),
                         factory.newPlayer("456", "blue")));
         // act
-        Plant sut = auction.getPlant();
+        OpenPlant sut = auction.getPlant();
         // assert
         assertSame(sut, have);
     }
-
-    // Neue Tests
     @Test
     public void GameFindPlayerOK() {
         // arrange
@@ -474,18 +494,18 @@ public class DatastoreTest {
     }
 
     @Test
-    public void PlantMarketRemovePlantWithNullPlant() {
+    public void PlantMarketRemovePlantWithNullPlant2() {
         // arrange
-        Plant sut = null;
+        OpenPlant sut = null;
         // act
         OpenPlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
-        Plant have = plantMarket.removePlant(55);
+        OpenPlant have = plantMarket.removePlant(55);
         // assert
         assertEquals(sut, have);
     }
 
     @Test
-    public void PlantMarketRemovePlantWithRealPlant() {
+    public void PlantMarketRemovePlantWithRealPlant3() {
         OpenPlantMarket plantMarket = factory.newPlantMarket(new EditionGermany());
         List<OpenPlant> hidden = plantMarket.getOpenHidden();
         hidden.removeAll(hidden);
@@ -500,4 +520,106 @@ public class DatastoreTest {
         assertEquals(sut2, have2);
     }
 
+    // New Crap because changes
+    @Test (expected =  IllegalArgumentException.class)
+    public void resourceMarketSorryNothingToBuy(){
+        OpenResourceMarket resourceMarket = factory.newResourceMarket(new EditionGermany());
+        resourceMarket.getOpenAvailable().remove(resourceMarket.getOpenAvailable());
+        resourceMarket.getPrice(Resource.Uranium);
+    }
+
+    // x.14
+    @Test
+    public void gameSetRoundZero(){
+        OpenGame game = factory.newGame(new EditionGermany());
+        game.setRound(0);
+        assertSame(game.getRound(), 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void gameSetRoundNegative(){
+        OpenGame game = factory.newGame(new EditionGermany());
+        game.setRound(-1);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void gameSetPhaseNull(){
+        OpenGame game = factory.newGame(new EditionGermany());
+        game.setPhase(null);
+    }
+
+    @Test
+    public void gameSetLevelZero(){
+        OpenGame game = factory.newGame(new EditionGermany());
+        game.setLevel(0);
+        assertSame(game.getRound(), 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void gameSetLevelNegative(){
+        OpenGame game = factory.newGame(new EditionGermany());
+        game.setLevel(-1);
+    }
+
+    @Test
+    public void GameFindPlayerStream(){
+        OpenGame game = factory.newGame(new EditionGermany());
+        OpenPlayer player = factory.newPlayer("456", "blau");
+        game.getOpenPlayers().clear();
+        game.getOpenPlayers().add(factory.newPlayer("123", "rot"));
+        game.getOpenPlayers().add(player);
+
+        assertSame(game.findPlayer("456"), player);
+    }
+
+    @Test
+    public void gameSetNumMovesZero(){
+        OpenGame game = factory.newGame(new EditionGermany());
+        game.setNumMoves(0);
+        assertSame(game.getNumMoves(), 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void gameSetNumMovesNegative(){
+        OpenGame game = factory.newGame(new EditionGermany());
+        game.setNumMoves(-1);
+    }
+
+    @Test
+    public void auctionSetAmountZero(){
+        OpenAuction auction = factory.newAuction(factory.newPlant(1, Plant.Type.Coal, 2, 2), List.of(factory.newPlayer("123", "rot")));
+        auction.setAmount(0);
+        assertSame(auction.getAmount(), 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void auctionSetAmountNegative(){
+        OpenAuction auction = factory.newAuction(factory.newPlant(1, Plant.Type.Coal, 2, 2), List.of(factory.newPlayer("123", "rot")));
+        auction.setAmount(-1);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void auctionSetPlayerNull(){
+        OpenAuction auction = factory.newAuction(factory.newPlant(1, Plant.Type.Coal, 2, 2), List.of(factory.newPlayer("123", "rot")));
+        auction.setPlayer(null);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void auctionSetPlayersNull(){
+        OpenAuction auction = factory.newAuction(factory.newPlant(1, Plant.Type.Coal, 2, 2), null);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void auctionSetPlayerEmpty(){
+        OpenAuction auction = factory.newAuction(factory.newPlant(1, Plant.Type.Coal, 2, 2), new ArrayList<>());
+    }
+
+    // x.15
+    @Test
+    public void auctionConstructorFirstPlayerIsHighestBidder(){
+        OpenPlayer player = factory.newPlayer("123", "rot");
+        OpenAuction auction = factory.newAuction(factory.newPlant(1, Plant.Type.Coal, 2, 2), List.of(player, factory.newPlayer("456", "pink")));
+        assertSame(auction.getPlayer(), player);
+    }
 }
+

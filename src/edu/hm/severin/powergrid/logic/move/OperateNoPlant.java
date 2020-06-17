@@ -13,7 +13,10 @@ import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
-class OperateNoPlant implements HotMove {
+/**
+ * move: player operate no plant.
+ */
+class OperateNoPlant extends AbstractProperties implements HotMove {
 
     /**
      * Used game.
@@ -48,8 +51,8 @@ class OperateNoPlant implements HotMove {
         Objects.requireNonNull(game);
         if (game.getPhase() != Phase.PlantOperation)
             return Optional.of(Problem.NotNow);
-        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
-        if (allRemainingPlayer.size() == 0)
+        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(openPlayer -> !openPlayer.hasPassed()).sequential().collect(Collectors.toList());
+        if (allRemainingPlayer.isEmpty())
             return Optional.of(Problem.NotYourTurn);
         final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(0);
         if (!lastPlayerOfList.equals(player.get()))
@@ -60,6 +63,8 @@ class OperateNoPlant implements HotMove {
             player.get().setPassed(true);
 
         }
+        setProperty("type", getType().toString());
+        setProperty("player", player.get().getColor());
         return Optional.empty();
     }
 
@@ -72,7 +77,7 @@ class OperateNoPlant implements HotMove {
     public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> openPlayer) {
         if (this.game != null)
             throw new IllegalStateException("this is not a prototype");
-        HotMove move = new OperateNoPlant(openGame, openPlayer);
+        final HotMove move = new OperateNoPlant(openGame, openPlayer);
         Set<HotMove> result;
         if (move.run(false).isEmpty())
             result = Set.of(move);

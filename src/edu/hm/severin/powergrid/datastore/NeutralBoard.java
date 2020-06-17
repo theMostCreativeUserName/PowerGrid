@@ -6,26 +6,19 @@ import edu.hm.cs.rs.powergrid.datastore.mutable.OpenBoard;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenCity;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
 
-import java.util.Set;
-import java.util.Objects;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * the board of the game.
  *
  * @author Severin
- * @complexity: 25
  */
 public class NeutralBoard implements OpenBoard {
-    /**
-     * constant to correct the offset of unicode numbers.
-     */
-    private static final int HTML_CORRECTER = 48;
-    /**
-     * initializes the search for connection cost in connectAll().
-     */
-    private static final int MAGIC_NUMBER = 3;
 
     /**
      * Factory used for this board.
@@ -50,7 +43,7 @@ public class NeutralBoard implements OpenBoard {
     private Set<OpenCity> cityNames;
 
     /**
-     * A new board. Electro
+     * A new board.
      *
      * @param edition Edition of the board. Not Null.
      */
@@ -66,30 +59,30 @@ public class NeutralBoard implements OpenBoard {
         connectAll();
     }
 
-
+    /**
+     * checks if the board is open, when not throw Exception.
+     */
     private void isBoardOpen() {
         if (!open) {
-            throw new UnsupportedOperationException("Board is closed");
+            throw new IllegalStateException("Board is closed");
         }
     }
 
     /**
-     * removes cities and connections, if area > remaining.
-     * also updates the Variable cityNames
+     * removes cities and connections, if area is bigger than remaining.
+     * also updates the Variable cityNames.
      *
      * @param remaining highest area that should remain
-     * @complexity: 3
      */
     @Override
     public void closeRegions(final int remaining) {
+        isBoardOpen();
         final Set<OpenCity> result = getOpenCities();
         final Set<OpenCity> remove = new HashSet<>();
-        for (OpenCity city : result) {
-            if (city.getRegion() > remaining) {
-                remove.add(city);
-            }
-            //city.getConnections();
-        }
+        result.stream()
+                .filter( city -> city.getRegion() > remaining)
+                .forEach(remove::add);
+        remove.forEach(city -> city.getOpenConnections().clear());
         result.removeAll(remove);
         this.cityNames = result;
         removeClosedConnections();
@@ -98,18 +91,14 @@ public class NeutralBoard implements OpenBoard {
     /**
      * removes connections to non existing cities.
      *
-     * @complexity: 5
      */
     private void removeClosedConnections() {
         for (OpenCity city : getOpenCities()) {
-            final Set<City> keySet = city.getOpenConnections().keySet();
             final Set<City> remove = new HashSet<>();
-            for (City connection : keySet) {
-                final OpenCity found = findCity(connection.getName());
-                if (found == null) {
-                    remove.add(connection);
-                }
-            }
+            city.getOpenConnections().keySet().stream()
+                    .filter( connection -> findCity(connection.getName()) == null)
+                    .forEach(remove::add);
+
             for (City toRemove : remove) {
                 city.getOpenConnections().remove(toRemove);
             }
@@ -121,18 +110,16 @@ public class NeutralBoard implements OpenBoard {
      *
      * @param name Name of the requested city
      * @return found city or null
-     * @complexity: 3
      */
     @Override
     public OpenCity findCity(final String name) {
         OpenCity found = null;
         final OpenCity[] cityArray = getOpenCities().toArray(new OpenCity[getOpenCities().size()]);
         for (OpenCity city : cityArray) {
-            if (city.getName().contains(name)) {
+            if (city.getName().equals(name)) {
                 found = city;
             }
         }
-        assert getCities().contains(found) || found == null;
         return found;
     }
 
@@ -143,24 +130,36 @@ public class NeutralBoard implements OpenBoard {
      */
     @Override
     public Set<OpenCity> getOpenCities() {
-        isBoardOpen();
-        return cityNames;
+        Set<OpenCity> result = cityNames;
+        if (!open) {
+            result =  Set.copyOf(cityNames);
+        }
+        return result;
     }
 
     /**
      * closes board and all its cities.
      *
      * @throws IllegalStateException if board is already closed
-     * @complexity 3
      */
     @Override
     public void close() {
-            for (City city : getCities()) {
-               city.close();
+        if (open) {
+            open = false;
+            final Set<OpenCity> allCities = getOpenCities();
+            for (OpenCity city : allCities) {
+                city.close();
             }
-        open = false;
+        } else {
+            throw new IllegalStateException("Board is already closed.");
+        }
+        assert !this.open;
     }
 
+    /**
+     * getter for edition of board.
+     * @return edition of board
+     */
     private Edition getEdition() {
         return edition;
     }
@@ -172,7 +171,6 @@ public class NeutralBoard implements OpenBoard {
      * and reorders into a Set
      *
      * @return Set of all cities
-     * @complexity: 2
      */
     private Set<OpenCity> getCityNamesFromEdition() {
         final Set<OpenCity> citySet = new HashSet<>();
@@ -186,11 +184,9 @@ public class NeutralBoard implements OpenBoard {
             // first word of String
             final String cityName = citySpecElement
                     .substring(0, citySpecElement.indexOf(' '));
-            // java automatically converts chars to their html number code
-            // for numbers this has to be corrected
-            // by distracting the html- numberCode of 0 (= 48)
-            final int area = citySpecElement
-                    .charAt(cityName.length() + 1) - HTML_CORRECTER;
+            // area of the city
+            final int area = Integer.parseInt(String.valueOf(citySpecElement
+                    .charAt(cityName.length() + 1)));
             citySet.add(factory.newCity(cityName, area));
         }
         assert getEdition().getCitySpecifications().size() == citySet.size();
@@ -200,25 +196,20 @@ public class NeutralBoard implements OpenBoard {
     /**
      * connects all cities, creates their connections.
      *
-     * @complexity: 4
      */
-    public void connectAll() {
+    private void connectAll() {
         final List<String> citySpecs = getEdition().getCitySpecifications();
         for (String specific : citySpecs) {
             final OpenCity fromCity = findCity(specific
                     .substring(0, specific.indexOf(' ')));
             final String[] specArray = specific.split(" ");
-            int cityIndex = 2;
-            int costIndex = MAGIC_NUMBER;
-            while (costIndex <= specArray.length - 1) {
-                if (specArray[costIndex].length() <= 2) {
-                    final int cost = Integer.parseInt(specArray[costIndex]);
-                    final OpenCity toCity = findCity(specArray[cityIndex]);
-                    fromCity.connect(toCity, cost);
-                    toCity.connect(fromCity, cost);
-                }
-                cityIndex += 2;
-                costIndex += 2;
+            final List<String> list = Arrays.stream(specArray).filter(string -> string.length() > 0).collect(Collectors.toList());
+
+            for (int index = 2; index <= specArray.length - 2; index += 2) {
+                final int cost = Integer.parseInt(list.get(index + 1));
+                final OpenCity toCity = findCity(list.get(index));
+                fromCity.connect(toCity, cost);
+                toCity.connect(fromCity, cost);
             }
         }
     }

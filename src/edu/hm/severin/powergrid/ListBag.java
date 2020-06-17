@@ -7,7 +7,7 @@ import edu.hm.cs.rs.powergrid.Bag;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 import java.util.Collection;
 import java.util.Set;
 import java.util.Arrays;
@@ -23,16 +23,17 @@ import java.util.Iterator;
  * @param <E> elements to be bagged
  * @author Severin
  */
+// PMD, says to much methods, but after the old implementation it is okay
 public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
 
     /**
      * lists elements in Bag.
      */
-    private List<E> elements;
+    private final List<E> elements;
     /**
      * sets access to read only.
      */
-    private boolean readOnly;
+    private final boolean readOnly;
 
     /**
      * a new empty Bag.
@@ -50,6 +51,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     public ListBag(final Collection<? extends E> collection) {
         this.elements = new ArrayList<>();
         this.elements.addAll(collection);
+        this.readOnly = false;
     }
 
     /**
@@ -60,9 +62,8 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     @SuppressWarnings("varargs")
     @SafeVarargs
     public ListBag(final E... elements) {
-        final List<E> result = new ArrayList<>();
-        Arrays.stream(elements).forEach(e -> result.add(e));
-        this.elements = result;
+        this.readOnly = false;
+        this.elements = new ArrayList<>(Arrays.asList(elements));
     }
 
     private ListBag(final List<E> elements, final boolean readOnly) {
@@ -79,15 +80,14 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     /**
      * adds an element to the bag.
      *
-     * @param e element to be added
+     * @param element element to be added
      * @return if element was added
-     * @complexity: 1
      */
     @Override
-    public boolean add(final E e) {
+    public boolean add(final E element) {
         writeAccess();
         final int compareSize = this.size();
-        getElements().add(e);
+        this.getElements().add(element);
         assert compareSize <= this.size();
         return true;
     }
@@ -95,14 +95,13 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
     /**
      * removes an Element from bag.
      *
-     * @param o element to be removed.
+     * @param object element to be removed.
      * @return if element was removed.
-     * @complexity: 1
      */
-    public boolean remove(final Object o) {
+    public boolean remove(final Object object) {
         writeAccess();
         final int compareSize = this.size();
-        this.getElements().remove(o);
+        this.getElements().remove(object);
         assert this.size() <= compareSize;
         return size() < compareSize;
     }
@@ -111,7 +110,6 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * makes Bag immutable returns this view.
      *
      * @return immutable view
-     * @complexity: 1
      */
     @Override
     public Bag<E> immutable() {
@@ -123,7 +121,6 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * sum of different elements.
      *
      * @return the elements; non null.
-     * @complexity: 2
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -139,21 +136,18 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * @param element element.
      * @param times   number of elements, non negative.
      * @return bag with added elements.
-     * @complexity: 3
      */
     @Override
     public Bag<E> add(final E element, final int times) {
-        writeAccess();
-        final int compare = this.size();
         if (times < 0) {
             throw new IllegalArgumentException();
         }
-        final Bag<E> result = new ListBag<>(getElements());
+        final int compare = this.size();
 
-        Stream.iterate(0, count -> count + 1).limit(times).forEach(i -> result.add(element));
+        IntStream.range(0, times).sequential().forEach(iterator -> this.add(element));
 
         assert compare <= this.size();
-        return result;
+        return this;
     }
 
     /**
@@ -161,17 +155,15 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      *
      * @param that a bag, non null.
      * @return bag with elements of this and that
-     * @complexity: 2
      */
     @Override
     public Bag<E> add(final Bag<? extends E> that) {
-        writeAccess();
         final int compare = this.size();
-        final Bag<E> result = new ListBag<>(getElements());
-        that.iterator().forEachRemaining(e -> result.add(e));
+        final Bag<E> otherBag = new ListBag<>(that);
+        this.addAll(otherBag);
 
         assert compare <= this.size();
-        return result;
+        return this;
     }
 
     /**
@@ -179,13 +171,11 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      *
      * @param element searched for element
      * @return number of elements
-     * @complexity: 5
      */
     public int count(final E element) {
         int elementNumber = 0;
 
         long amountOfSameElements2 = 0;
-        long amountOfSameElements = 0;
 
         final long amountOfNull = getElements()
                 .stream()
@@ -195,7 +185,7 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
             amountOfSameElements2 = getElements()
                     .stream()
                     .filter(Objects::nonNull)
-                    .filter(x -> x.hashCode() == element.hashCode())
+                    .filter(currentElement -> currentElement.hashCode() == element.hashCode())
                     .count();
         }
 
@@ -212,7 +202,6 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      *
      * @param that a bag
      * @return false, if that is not contained
-     * @complexity: 3
      */
 
     @Override
@@ -228,19 +217,16 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * @param that a bag.
      * @return new bag with elements removed
      * or original bag
-     * @throws NoSuchElementException, if bag that isn't included in this
-     * @complexity: 4
+     * @throws NoSuchElementException if bag that isn't included in this
      */
     @Override
     public Bag<E> remove(final Bag<E> that) {
         final int compare = this.size();
 
-        final List<E> thatElement = new ArrayList<>();
-        thatElement.addAll(that);
-        final Bag<E> iterate = new ListBag<>(thatElement);
-        iterate.stream().forEach(e -> {
-            if (this.contains(e))
-                this.remove(e);
+        final Bag<E> iterate = new ListBag<>(that);
+        iterate.forEach(iterator -> {
+            if (this.contains(iterator))
+                this.remove(iterator);
             else
                 throw new NoSuchElementException();
         });
@@ -256,17 +242,16 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * @param element an element.
      * @param times   number of elements to delete.non negative.
      * @return bag with elements removes.
-     * @throws IllegalArgumentException, if times <0.
-     * @complexity: 3
+     * @throws IllegalArgumentException if times is smaller than 0.
      */
     @Override
     public Bag<E> remove(final Object element, final int times) {
-        final int compare = getElements().size();
         if (times < 0) {
             throw new IllegalArgumentException();
         }
+        final int compare = getElements().size();
 
-        Stream.iterate(0, count -> count + 1).limit(times).forEach(i -> this.remove(element));
+        IntStream.range(0, times).sequential().forEach(iterator -> this.remove(element));
 
         assert compare >= this.size();
 
@@ -277,23 +262,19 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * creates iterator for bag elements.
      *
      * @return iterator
-     * @complexity: of class = 2, in total: 4
      */
     @Override
     public Iterator<E> iterator() {
+        //Here are three PMD errors: 2x AccessorMethodGeneration, 1x don't return from nested block ; cant be fixed
         return new Iterator<E>() {
-
-            private int count = 0;
+            /**
+             * count of iterator.
+             */
+            private int count;
 
             @Override
             public boolean hasNext() {
-                final boolean result;
-                if (elements.size() > count) {
-                    result = true;
-                } else {
-                    result = false;
-                }
-                return result;
+                return elements.size() > count;
             }
 
             @Override
@@ -307,7 +288,6 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * number of elements of the Bag.
      *
      * @return size, non negative.
-     * @complexity 2
      */
     @Override
     public int size() {
@@ -324,13 +304,11 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * redefines hashCode for ListBag.
      *
      * @return int HashCode
-     * @complexity: 2
      */
-    @Override
-    public int hashCode() {
-        return this.distinct().stream()
-                .mapToInt(element -> (""+ element + count(element)).hashCode())
-                .sum();
+    @Override public int hashCode() {
+        return distinct().stream()
+                .mapToInt(element -> Objects.hash(element, count(element)))
+                .reduce(0, (hashElement, hashCount) -> hashElement ^ hashCount);
     }
 
     /**
@@ -339,7 +317,6 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
      * @param that object to be checked
      * @return true, if objects are the same
      * false, if not
-     * @complexity: 2
      */
     // SpotBugs categorizes this as Dodgy code, another version though, comparable to the AbstractBag.equals()
     // is determined as even worse
@@ -351,9 +328,11 @@ public class ListBag<E> extends AbstractCollection<E> implements Bag<E> {
         setForStream.add(that);
         return setForStream
                 .stream()
-                .filter(x -> x instanceof Bag bag)
-                .filter(x -> this.contains((Bag) x))
-                .anyMatch(x -> ((Bag) x).contains(this));
+                // the instanceOf phrase can#t be read by PMD
+                // and it consequently throws an PMDException
+                .filter(otherObject -> otherObject instanceof Bag bag)
+                .filter(otherObject -> this.contains((Bag) otherObject))
+                .anyMatch(otherObject -> ((Bag) otherObject).contains(this));
     }
 
     @Override

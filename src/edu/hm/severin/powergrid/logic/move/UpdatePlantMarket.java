@@ -1,6 +1,7 @@
 package edu.hm.severin.powergrid.logic.move;
 
 import edu.hm.cs.rs.powergrid.datastore.Phase;
+import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
@@ -11,6 +12,7 @@ import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
 
 /**
@@ -18,16 +20,24 @@ import java.util.Set;
  *
  * @author Severin
  */
-public class UpdatePlantMarket implements HotMove {
+public class UpdatePlantMarket extends AbstractProperties implements HotMove {
     /**
      * the game.
      */
     private final OpenGame game;
 
+    /**
+     * prototype constructor.
+     */
     UpdatePlantMarket() {
         this.game = null;
     }
 
+    /**
+     * non-prototype constructor.
+     *
+     * @param game game of the move
+     */
     private UpdatePlantMarket(OpenGame game) {
         this.game = game;
     }
@@ -43,27 +53,55 @@ public class UpdatePlantMarket implements HotMove {
         Objects.requireNonNull(game);
         final Set<Phase> phases = Set.of(Phase.PlantBuying, Phase.Building, Phase.Bureaucracy);
         //prove if phase is valid for this move
+
         if (!phases.contains(game.getPhase()))
             return Optional.of(Problem.NotNow);
-        // do plants actually exist?
+
+
+        // is Actual plants full?
         if (getGame().getPlantMarket().getActual().size() >= game.getEdition().getActualPlants(game.getLevel()))
-            return Optional.of(Problem.NoPlants);
+            return Optional.of(Problem.PlantMarketFine);
 
-        Set<OpenPlant> plantFutureAndHidden= new HashSet<>(game.getPlantMarket().getOpenFuture());
+        // do future plants and card deck exist?
+        final Set<OpenPlant> plantFutureAndHidden = new HashSet<>(game.getPlantMarket().getOpenFuture());
         plantFutureAndHidden.addAll(game.getPlantMarket().getOpenHidden());
-        if (getGame().getPlantMarket().getFuture().isEmpty())
+        if (plantFutureAndHidden.isEmpty())
             return Optional.of(Problem.NoPlants);
-
         if (real) {
-            //take one plant of future-plants and sort it into actual-plants
-            final Optional<OpenPlant> plant = game.getPlantMarket().getOpenFuture().stream().sequential().findFirst();
-            game.getPlantMarket()
-                    .getOpenFuture()
-                    .remove(plant.get());
-            game.getPlantMarket().getOpenActual().add(plant.get());
+            //take one plant of deck
+            final OpenPlant plant = game.getPlantMarket().getOpenHidden().get(0);
+            game.getPlantMarket().getOpenHidden().remove(plant);
+            // check in which line of plants to sort
+            sortPlantMarket(plant);
         }
+        setProperty("type", getType().toString());
         return Optional.empty();
     }
+
+    /**
+     * sort the plant in the right market.
+     *
+     * @param plant plant for sorting
+     */
+    private void sortPlantMarket(OpenPlant plant) {
+        final Set<OpenPlant> futureSet = game.getPlantMarket().getOpenFuture();
+        final Set<OpenPlant> actualSet = game.getPlantMarket().getOpenActual();
+
+        final OptionalInt minOfFuture = game.getPlantMarket().getOpenFuture().stream().mapToInt(Plant::getNumber).min();
+        if (minOfFuture.isPresent()) {
+            if (minOfFuture.getAsInt() < plant.getNumber()) {
+
+                final OpenPlant openPlant = game.getPlantMarket().findPlant(minOfFuture.getAsInt());
+                futureSet.remove(openPlant);
+                actualSet.add(openPlant);
+                futureSet.add(plant);
+            } else
+                actualSet.add(plant);
+        } else
+            actualSet.add(plant);
+
+    }
+
 
     @Override
     public OpenGame getGame() {
@@ -72,14 +110,13 @@ public class UpdatePlantMarket implements HotMove {
 
     @Override
     public Set<HotMove> collect(OpenGame opengame, Optional<OpenPlayer> player) {
-        if (player.isPresent()) return Set.of();
         if (this.game != null)
             throw new IllegalStateException("this is not a prototype");
         final HotMove move = new UpdatePlantMarket(opengame);
-        Set<HotMove> result;
-        if (move.run(false).isEmpty())
+        final Set<HotMove> result;
+        if (move.run(false).isEmpty()) {
             result = Set.of(move);
-        else
+        } else
             result = Set.of();
         return result;
     }

@@ -87,6 +87,23 @@ public class TurnOverTest {
     }
 
     @Test
+    public void testTurnOverProperties() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.Bureaucracy);
+        OpenFactory factory = opengame.getFactory();
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player.setPassed(false);
+        opengame.getOpenPlayers().add(player);
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.TurnOver).collect(Collectors.toList());
+        Move move = moves.get(0);
+        assertSame(move.getProperties().getProperty("type"), MoveType.TurnOver.toString());
+    }
+
+    @Test
     public void testTurnOverFireNotLevel3() {
         // arrange
         OpenGame opengame = (OpenGame) sut.getGame();
@@ -111,7 +128,8 @@ public class TurnOverTest {
 
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
-        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), haveMove.iterator().next());
+        Move moveFire = haveMove.stream().filter(move -> move.getType() == MoveType.TurnOver).findFirst().get();
+        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moveFire);
 
         // Rohstoffe
         Bag<Resource> available = opengame.getResourceMarket().getOpenAvailable();
@@ -142,11 +160,11 @@ public class TurnOverTest {
         assertEquals(supplyAmountOil, 4);
 
         assertSame(opengame.getRound(), 21);
-        assertSame(game.getPhase(), Phase.PlayerOrdering);
+        assertSame(game.getPhase(), Phase.PlantBuying);
         assertTrue(problem.isEmpty());
 
         assertEquals(opengame.getPlantMarket().getOpenFuture().size(), 0);
-        assertEquals(opengame.getPlantMarket().getOpenHidden().size(), 44);
+        assertEquals(opengame.getPlantMarket().getOpenHidden().size(), 41);
         assertTrue(plantsHidden.contains(plant));
     }
 
@@ -161,6 +179,7 @@ public class TurnOverTest {
         opengame.getOpenPlayers().add(player);
         opengame.getOpenPlayers().add(player2);
 
+
         opengame.setRound(20);
         opengame.setLevel(2);
 
@@ -174,15 +193,16 @@ public class TurnOverTest {
 
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
-        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), haveMove.iterator().next());
+        Move moveFire = haveMove.stream().filter(move -> move.getType() == MoveType.TurnOver).findFirst().get();
+        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moveFire);
 
         //Assert
         assertSame(opengame.getRound(), 21);
-        assertSame(game.getPhase(), Phase.PlayerOrdering);
+        assertSame(game.getPhase(), Phase.PlantBuying);
         assertTrue(problem.isEmpty());
 
-        assertEquals(opengame.getPlantMarket().getOpenActual().size(), 1);
-        assertEquals(opengame.getPlantMarket().getOpenHidden().size(), 43);
+        assertEquals(opengame.getPlantMarket().getOpenActual().size(), 6);
+        assertEquals(opengame.getPlantMarket().getOpenHidden().size(), 38);
         assertSame(opengame.getPlantMarket().findPlant(666), null);
     }
 

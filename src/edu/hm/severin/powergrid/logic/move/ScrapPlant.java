@@ -1,6 +1,5 @@
 package edu.hm.severin.powergrid.logic.move;
 
-import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
@@ -8,7 +7,6 @@ import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -18,7 +16,7 @@ import java.util.stream.Collectors;
  * remove scrap plants.
  *
  */
-public class ScrapPlant implements HotMove {
+public class ScrapPlant extends AbstractProperties implements HotMove {
     /**
      * the game.
      */
@@ -50,17 +48,17 @@ public class ScrapPlant implements HotMove {
     @Override
     public Optional<Problem> run(boolean real) {
         Objects.requireNonNull(game);
-        if (game.getPhase() == Phase.Terminated)
-            return Optional.of(Problem.GameRunning);
         if (!game.getPlantMarket().getOpenActual().contains(plant))
             return Optional.of(Problem.PlantNotAvailable);
-        final Integer highestAmountOfCities = game.getOpenPlayers().stream().map(OpenPlayer -> OpenPlayer.getOpenCities().size()).max(Integer::compare).get();
+        final Integer highestAmountOfCities = game.getOpenPlayers().stream().map(openPlayer -> openPlayer.getOpenCities().size()).max(Integer::compare).get();
         if (highestAmountOfCities <= plant.getNumber())
             return Optional.of(Problem.PlantSave);
 
         if (real) {
             game.getPlantMarket().removePlant(plant.getNumber());
         }
+        setProperty("type", getType().toString());
+        setProperty("plant",  String.valueOf(plant.getNumber()));
         return Optional.empty();
     }
 

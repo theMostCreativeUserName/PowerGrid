@@ -4,6 +4,7 @@ import edu.hm.cs.rs.powergrid.datastore.Auction;
 import edu.hm.cs.rs.powergrid.datastore.Player;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author R. Schiedermeier, rs@cs.hm.edu
@@ -23,4 +24,12 @@ public interface OpenAuction extends Auction, Checksumed {
     @Override OpenPlayer getPlayer();
 
     @Override OpenPlant getPlant();
+
+
+    @Override default int checksum() {
+        return Objects.hash(getPlant(),
+                            getOpenPlayers(),
+                            getPlayer(),
+                            getAmount());
+    }
 }

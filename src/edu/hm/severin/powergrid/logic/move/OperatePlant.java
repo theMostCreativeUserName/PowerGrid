@@ -10,9 +10,12 @@ import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
-import edu.hm.severin.powergrid.ListBag;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -20,7 +23,7 @@ import java.util.stream.Collectors;
  *
  * @author Pietsch
  */
-class OperatePlant implements HotMove {
+class OperatePlant extends AbstractProperties implements HotMove {
 
     /**
      * Used game.
@@ -84,6 +87,10 @@ class OperatePlant implements HotMove {
             player.get().getOpenResources().remove(resource);
             game.getResourceMarket().getOpenSupply().addAll(resource);
         }
+        setProperty("type", getType().toString());
+        setProperty("player", player.get().getColor());
+        setProperty("plant", String.valueOf(plant.getNumber()));
+        setProperty("resources", resource.toString() );
         return Optional.empty();
     }
 
@@ -93,8 +100,8 @@ class OperatePlant implements HotMove {
      * @return optional of problem
      */
     private Optional<Problem> allRequirements() {
-        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
-        if (allRemainingPlayer.size() == 0)
+        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(openPlayer -> !openPlayer.hasPassed()).sequential().collect(Collectors.toList());
+        if (allRemainingPlayer.isEmpty())
             return Optional.of(Problem.NotYourTurn);
         final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(0);
         if (!lastPlayerOfList.equals(player.get()))
@@ -117,14 +124,14 @@ class OperatePlant implements HotMove {
     public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> openPlayer) {
         if (this.game != null)
             throw new IllegalStateException("This ist not a prototype");
-        Set<OperatePlant> moves = new HashSet<>();
+        final Set<OperatePlant> moves = new HashSet<>();
         for (OpenPlant openPlant : openPlayer.get().getOpenPlants()) {
             if (openPlant.getResources().size() == 1)
                 moves.add(new OperatePlant(openGame, openPlayer, openPlant, openPlant.getResources().iterator().next()));
             else
                 moves.addAll(openPlant.getResources()
                         .stream()
-                        .map(x -> new OperatePlant(openGame, openPlayer, openPlant, x))
+                        .map(bagOfResource -> new OperatePlant(openGame, openPlayer, openPlant, bagOfResource))
                         .collect(Collectors.toSet()));
         }
         return moves.stream().filter(move -> move.test().isEmpty())

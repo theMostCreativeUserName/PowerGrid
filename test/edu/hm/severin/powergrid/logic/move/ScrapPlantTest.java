@@ -13,6 +13,7 @@ import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.Rules;
+import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -200,9 +201,42 @@ public class ScrapPlantTest {
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
         List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
         // assert
-        assertFalse(moveTypes.contains(MoveType.ScrapPlant));
+        assertTrue(moveTypes.contains(MoveType.ScrapPlant));
     }
 
+    @Test
+    public void testScrapPlantPrototype() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.ResourceBuying);
+        OpenFactory factory = opengame.getFactory();
+
+        OpenPlant plant3 = factory.newPlant(2, Plant.Type.Coal, 2, 2);
+        opengame.getPlantMarket().getOpenActual().add(plant3);
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(200, Plant.Type.Coal, 3, 12);
+        player.getOpenCities().add(factory.newCity("lolhausen", 666));
+        player.getOpenCities().add(factory.newCity("lolhausen2", 666));
+        player.getOpenCities().add(factory.newCity("lolhausen3", 666));
+        player.getOpenPlants().add(plant);
+        player.setElectro(100);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        OpenPlant plant2 = factory.newPlant(201, Plant.Type.Oil, 3, 12);
+        player2.getOpenPlants().add(plant2);
+        player2.setElectro(200);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.ScrapPlant).collect(Collectors.toList());
+        Move move = moves.get(0);
+        assertSame(move.getProperties().getProperty("type"), MoveType.ScrapPlant.toString());
+        assertEquals(move.getProperties().getProperty("plant"), String.valueOf(plant3.getNumber()));
+    }
 
     @Test
     public void testScrapPlantFire() {
@@ -274,6 +308,39 @@ public class ScrapPlantTest {
 
         // assert
         assertTrue(problem.isPresent());
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testScrapPlantFire3() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.ResourceBuying);
+        OpenFactory factory = opengame.getFactory();
+
+        OpenPlant plant3 = factory.newPlant(2, Plant.Type.Coal, 2, 2);
+        opengame.getPlantMarket().getOpenActual().add(plant3);
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(200, Plant.Type.Coal, 3, 12);
+        player.getOpenCities().add(factory.newCity("lolhausen", 666));
+        player.getOpenCities().add(factory.newCity("lolhausen2", 666));
+        player.getOpenCities().add(factory.newCity("lolhausen3", 666));
+        player.getOpenPlants().add(plant);
+        player.setElectro(100);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        OpenPlant plant2 = factory.newPlant(201, Plant.Type.Oil, 3, 12);
+        player2.getOpenPlants().add(plant2);
+        player2.setElectro(200);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.ScrapPlant).collect(Collectors.toList());
+        HotMove move = (HotMove) moves.get(0);
+        move.collect(opengame, Optional.of(player));
     }
 
 

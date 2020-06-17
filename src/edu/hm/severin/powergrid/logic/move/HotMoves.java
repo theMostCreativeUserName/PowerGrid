@@ -10,6 +10,7 @@ import java.util.Set;
  */
 public class HotMoves {
 
+    //Checkstyle: Too much classes, but is okay.
     /**
      * collects Prototypes of all possible moves.
      * @return list of possible hotMoves

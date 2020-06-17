@@ -100,6 +100,33 @@ public class EndResourceBuyingTest {
     }
 
     @Test
+    public void EndResourceBuyingProperties(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.ResourceBuying);
+
+        //Player1
+        OpenPlayer player = factory.newPlayer("ReadyPlayerOne", "red");
+        player.setElectro(420);
+        player.setPassed(true);
+        opengame.getOpenPlayers().add(player);
+
+        //Player2
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player2.setElectro(520);
+        player2.setPassed(true);
+        opengame.getOpenPlayers().add(player2);
+
+        //act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.EndResourceBuying).collect(Collectors.toList());
+        Move move = moves.get(0);
+        assertSame(move.getProperties().getProperty("type"), MoveType.EndResourceBuying.toString());
+
+    }
+
+    @Test
     public void EndResourceBuyingFire(){
         //arrange
         OpenGame opengame = (OpenGame) sut.getGame();

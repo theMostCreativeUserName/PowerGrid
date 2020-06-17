@@ -3,8 +3,11 @@ package edu.hm.severin.powergrid.logic.move;
 import edu.hm.cs.rs.powergrid.EditionGermany;
 import edu.hm.cs.rs.powergrid.datastore.Game;
 import edu.hm.cs.rs.powergrid.datastore.Phase;
+import edu.hm.cs.rs.powergrid.datastore.Plant;
+import edu.hm.cs.rs.powergrid.datastore.Resource;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
@@ -63,7 +66,7 @@ public class OperateNoPlantTest {
 
         //assert
         assertTrue(moveTypes.contains(MoveType.OperateNoPlant));
-        assertEquals(moveTypes.size(),1); //Buy no Resource
+        assertEquals(moveTypes.size(),1);
     }
 
     @Test
@@ -92,6 +95,36 @@ public class OperateNoPlantTest {
     }
 
     @Test
+    public void OperateNoPlantPrototypes(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.PlantOperation);
+
+        OpenPlayer player1 = factory.newPlayer("ReadyPlayerOne", "red");
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player1.setElectro(420);
+        player2.setElectro(69);
+        player1.setPassed(false);
+        player2.setPassed(false);
+        opengame.getOpenPlayers().add(player1);
+        opengame.getOpenPlayers().add(player2);
+
+        OpenPlant plant = factory.newPlant(312, Plant.Type.Coal, 1, 12);
+        plant.setOperated(false);
+        player2.getOpenPlants().add(plant);
+        player2.getOpenResources().add(Resource.Coal, 5);
+
+
+        //assert
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.OperateNoPlant).collect(Collectors.toList());
+        Move move = moves.get(0);
+        assertSame(move.getProperties().getProperty("type"), MoveType.OperateNoPlant.toString());
+        assertSame(move.getProperties().getProperty("player"), player1.getColor() );
+    }
+
+    @Test
     public void OperateNoPlantFire(){
         //arrange
         OpenGame opengame = (OpenGame) sut.getGame();
@@ -106,6 +139,11 @@ public class OperateNoPlantTest {
         player2.setPassed(false);
         opengame.getOpenPlayers().add(player1);
         opengame.getOpenPlayers().add(player2);
+
+        OpenPlant plant = factory.newPlant(312, Plant.Type.Coal, 1, 12);
+        plant.setOperated(false);
+        player2.getOpenPlants().add(plant);
+        player2.getOpenResources().add(Resource.Coal, 5);
 
 
         //assert

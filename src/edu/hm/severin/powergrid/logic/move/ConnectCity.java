@@ -1,9 +1,7 @@
 package edu.hm.severin.powergrid.logic.move;
 
 
-import edu.hm.cs.rs.powergrid.datastore.City;
 import edu.hm.cs.rs.powergrid.datastore.Phase;
-import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenCity;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
@@ -11,7 +9,10 @@ import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author Pietsch
  */
-class ConnectCity implements HotMove {
+class ConnectCity extends AbstractProperties implements HotMove {
 
     /**
      * Used game.
@@ -65,17 +66,16 @@ class ConnectCity implements HotMove {
         if (result.isPresent())
             return result;
 
-        final int costCity = game.getEdition().levelToCityCost().get(game.getLevel());
         final List<Integer> costConnectionList = player.get()
                 .getOpenCities()
                 .stream()
-                .map(OpenCity -> OpenCity.getOpenConnections().get(city))
+                .map(openCity -> openCity.getOpenConnections().get(city))
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-        if (costConnectionList.contains(null))
+        if (costConnectionList.isEmpty())
             return Optional.of(Problem.NoCities);
         final int connectionCost = costConnectionList.stream().min(Integer::compareTo).get();
-        final int cost = costCity + connectionCost;
-
+        final int cost = game.getEdition().levelToCityCost().get(game.getLevel()) + connectionCost;
         if (cost > player.get().getElectro())
             return Optional.of(Problem.NoCash);
 
@@ -85,6 +85,9 @@ class ConnectCity implements HotMove {
             player.get().setElectro(currentAmount - cost);
 
         }
+        setProperty("type", getType().toString());
+        setProperty("player", player.get().getColor());
+        setProperty("city", city.getName());
         return Optional.empty();
     }
 
@@ -98,9 +101,6 @@ class ConnectCity implements HotMove {
             return Optional.of(Problem.NotNow);
         if (testPlayerLastNotPassed().isPresent())
             return testPlayerLastNotPassed();
-
-        if (player.get().getOpenCities().size() == 0)
-            return Optional.of(Problem.NoCities);
         if (cityTakenOrConnected().isPresent())
             return cityTakenOrConnected();
         return Optional.empty();
@@ -112,8 +112,8 @@ class ConnectCity implements HotMove {
      * @return problem
      */
     private Optional<Problem> testPlayerLastNotPassed() {
-        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
-        if (allRemainingPlayer.size() == 0)
+        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(openPlayer -> !openPlayer.hasPassed()).sequential().collect(Collectors.toList());
+        if (allRemainingPlayer.isEmpty())
             return Optional.of(Problem.NotYourTurn);
         final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(allRemainingPlayer.size() - 1);
         if (!lastPlayerOfList.equals(player.get()))
@@ -129,10 +129,9 @@ class ConnectCity implements HotMove {
     private Optional<Problem> cityTakenOrConnected() {
         if (player.get().getOpenCities().contains(city))
             return Optional.of(Problem.CityAlreadyConnected);
-        for (OpenPlayer openPlayer : game.getOpenPlayers())
-            for (OpenCity openCity : openPlayer.getOpenCities())
-                if (openCity.equals(city))
-                    return Optional.of(Problem.CityTaken);
+        final boolean takenCity = game.getOpenPlayers().stream().anyMatch(openPlayer -> openPlayer.getOpenCities().stream().anyMatch(openCity -> openCity.equals(city)));
+        if (takenCity)
+            return Optional.of(Problem.CityTaken);
         return Optional.empty();
     }
 

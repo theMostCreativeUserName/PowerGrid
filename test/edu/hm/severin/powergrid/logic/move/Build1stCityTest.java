@@ -92,7 +92,7 @@ public class Build1stCityTest {
         List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
         // assert
         assertTrue(moveTypes.contains(MoveType.Build1stCity));
-        assertEquals(moveTypes.size(), 2); //Connect no City und 1 mal Build1stcity
+        assertEquals(moveTypes.size(), 3); //Connect no City und 1 mal Build1stcity + UpdatePlantMarket
     }
 
     @Test
@@ -120,7 +120,7 @@ public class Build1stCityTest {
         List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
         // assert
         assertTrue(moveTypes.contains(MoveType.Build1stCity));
-        assertEquals(moveTypes.size(), 2); // Kauf von Deathhausen und ConnectNoCity
+        assertEquals(moveTypes.size(), 3); // Kauf von Deathhausen und ConnectNoCity + UpdatePlantMarket
     }
 
     @Test
@@ -142,7 +142,7 @@ public class Build1stCityTest {
         List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
         // assert
         assertTrue(moveTypes.contains(MoveType.Build1stCity));
-        assertEquals(moveTypes.size(), 2); //Connect no City und 1 mal Build1stcity
+        assertEquals(moveTypes.size(), 3); //Connect no City und 1 mal Build1stcity + UpdatePlantMarket
     }
 
     @Test
@@ -161,10 +161,33 @@ public class Build1stCityTest {
         opengame.getOpenPlayers().add(player);
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
-        List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.Build1stCity).collect(Collectors.toList());
         // assert
-        assertFalse(moveTypes.contains(MoveType.Build1stCity));
-        assertEquals(moveTypes.size(), 1); //Connect no City
+        assertEquals(moves.size(), 0); //Connect no City + UpdatePlanMarket
+    }
+
+    @Test
+    public void Build1stCityProperty() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.Building);
+        opengame.setLevel(0);
+        opengame.getBoard().getOpenCities().clear();
+        opengame.getBoard().getOpenCities().add(factory.newCity("Deathhausen", 666));
+
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        player.setElectro(90);
+        player.setPassed(false);
+        opengame.getOpenPlayers().add(player);
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.Build1stCity).collect(Collectors.toList());
+        Move move = moves.get(0);
+        // assert
+      assertSame(move.getProperties().getProperty("type"), MoveType.Build1stCity.toString());
+      assertSame(move.getProperties().getProperty("player"), player.getColor() );
+      assertSame(move.getProperties().getProperty("city"), game.getBoard().findCity("Deathhausen").getName() );
     }
 
     @Test
@@ -179,6 +202,17 @@ public class Build1stCityTest {
         opengame.getBoard().getOpenCities().add(city);
         OpenCity city2 = factory.newCity("Zweithausen", 666);
         opengame.getBoard().getOpenCities().add(city2);
+        OpenCity city3 = factory.newCity("Dritthausen", 666);
+        opengame.getBoard().getOpenCities().add(city3);
+
+        city.connect(city2, 10);
+        city.connect(city3, 15);
+
+        city2.connect(city, 20);
+        city2.connect(city3, 25);
+
+        city3.connect(city2, 30);
+        city3.connect(city, 35);
 
 
         OpenPlayer player = factory.newPlayer("Hihi", "red");
@@ -190,16 +224,16 @@ public class Build1stCityTest {
         opengame.getOpenPlayers().add(player2);
         opengame.getOpenPlayers().add(player);
         player2.getOpenCities().add(city2);
+
+
         // act
+
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
-        haveMove.removeIf(move -> move.getType() != MoveType.Build1stCity);
-
-
-        Optional<Problem> problem = sut.fire(Optional.of("Hihi"), haveMove.iterator().next());
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.Build1stCity).collect(Collectors.toList());
+        Optional<Problem> problem = sut.fire(Optional.of("Hihi"), moves.get(0));
 
         // assert
         assertEquals(player.getElectro(), 656);
-        assertTrue(player.getCities().contains(city));
         assertEquals(player.getCities().size(), 1);
         assertTrue(problem.isEmpty());
     }

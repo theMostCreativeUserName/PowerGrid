@@ -2,26 +2,23 @@ package edu.hm.severin.powergrid.datastore;
 
 import edu.hm.cs.rs.powergrid.Edition;
 import edu.hm.cs.rs.powergrid.datastore.Plant;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenAuction;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenBoard;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenCity;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
-import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
-import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
-import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlantMarket;
-import edu.hm.cs.rs.powergrid.datastore.mutable.OpenResourceMarket;
-import edu.hm.cs.rs.powergrid.datastore.mutable.OpenBoard;
-import edu.hm.cs.rs.powergrid.datastore.mutable.OpenAuction;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
-
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlantMarket;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenResourceMarket;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * creates Factory.
- *
- * @author Severin, Pietsch
- * @complexity: 17
+ * creates Factory class, not abstract because not needed.
+ * @author Severin,Pietsch
  */
 public class NeutralFactory implements OpenFactory {
 
@@ -41,12 +38,12 @@ public class NeutralFactory implements OpenFactory {
     private final Map<Integer, OpenPlant> numberOfPlant = new HashMap<>();
 
     /**
-     * generated plantmarket.
+     * generated plantMarket.
      */
     private OpenPlantMarket plantMarket;
 
     /**
-     * generated resourcemarket.
+     * generated resourceMarket.
      */
     private OpenResourceMarket resourceMarket;
 
@@ -58,7 +55,7 @@ public class NeutralFactory implements OpenFactory {
     /**
      * Map of already generated auctions.
      */
-    private final Map<Plant, OpenAuction> plantforAuction = new HashMap<>();
+    private final Map<OpenPlant, OpenAuction> plantForAuction = new HashMap<>();
 
     /**
      * generated game.
@@ -67,7 +64,6 @@ public class NeutralFactory implements OpenFactory {
 
     /**
      * new City.
-     *
      * @param name Name. Not Null, not empty.
      * @param area Area. Bigger 0.
      * @return new City
@@ -75,7 +71,7 @@ public class NeutralFactory implements OpenFactory {
     @Override
     public OpenCity newCity(final String name, final int area) {
         final OpenCity result;
-        if (nameOfCity.containsKey(name))
+        if(nameOfCity.containsKey(name))
             result = nameOfCity.get(name);
         else {
             result = new NeutralCity(name, area);
@@ -86,7 +82,6 @@ public class NeutralFactory implements OpenFactory {
 
     /**
      * new Player.
-     *
      * @param secret Geheimnis des Spielers. Nicht null.
      * @param color  Farbe des Spielers. Nicht null.
      * @return new Player
@@ -94,7 +89,7 @@ public class NeutralFactory implements OpenFactory {
     @Override
     public OpenPlayer newPlayer(final String secret, final String color) {
         final OpenPlayer result;
-        if (colorOfPlayer.containsKey(color))
+        if(colorOfPlayer.containsKey(color))
             result = colorOfPlayer.get(color);
         else {
             result = new NeutralPlayer(secret, color);
@@ -105,7 +100,6 @@ public class NeutralFactory implements OpenFactory {
 
     /**
      * new Plant.
-     *
      * @param number    Nummer des Kraftwerks. Nicht negativ.
      * @param type      Kraftwerkstyp. Nicht null.
      * @param resources Anzahl Rohstoffe, die das Kraftwerk verbraucht.
@@ -117,7 +111,7 @@ public class NeutralFactory implements OpenFactory {
     @Override
     public OpenPlant newPlant(final int number, final Plant.Type type, final int resources, final int cities) {
         final OpenPlant result;
-        if (numberOfPlant.containsKey(number))
+        if(numberOfPlant.containsKey(number))
             return numberOfPlant.get(number);
         else {
             result = new NeutralPlant(number, type, resources, cities);
@@ -128,7 +122,6 @@ public class NeutralFactory implements OpenFactory {
 
     /**
      * new PlantMarket.
-     *
      * @param edition Ausgabe des Spieles.
      * @return new PlantMarket
      */
@@ -142,13 +135,12 @@ public class NeutralFactory implements OpenFactory {
 
     /**
      * new ResourceMarket.
-     *
      * @param edition Ausgabe des Spieles.
      * @return new ResourceMarket
      */
     @Override
     public OpenResourceMarket newResourceMarket(final Edition edition) {
-        if (resourceMarket == null) {
+        if (resourceMarket == null){
             resourceMarket = new NeutralResourceMarket(edition);
         }
         return resourceMarket;
@@ -156,7 +148,6 @@ public class NeutralFactory implements OpenFactory {
 
     /**
      * new Board.
-     *
      * @param edition Ausgabe des Spieles.
      * @return new Board
      */
@@ -167,12 +158,10 @@ public class NeutralFactory implements OpenFactory {
         }
         return board;
     }
-
     /**
      * Eine Auktion.
      * Das Hoechstgebot ist gleich der Nummer des Kraftwerkes.
      * Der erste Spieler der Liste ist der Hoechstbietende.
-     *
      * @param plant   Kraftwerk, das zum Verkauf steht. Nicht null.
      * @param players Spieler, die an der Auktion teilnehmen. Nicht null, nicht leer.
      *                Die Spieler bieten in der Reihenfolge dieser Liste.
@@ -181,18 +170,17 @@ public class NeutralFactory implements OpenFactory {
     @Override
     public OpenAuction newAuction(final OpenPlant plant, final List<OpenPlayer> players) {
         final OpenAuction result;
-        if (plantforAuction.containsKey(plant))
-            result = plantforAuction.get(plant);
+        if(plantForAuction.containsKey(plant))
+            result = plantForAuction.get(plant);
         else {
             result = new NeutralAuction(plant, players);
-            plantforAuction.put(plant, result);
+            plantForAuction.put(plant, result);
         }
         return result;
     }
 
     /**
      * new Game.
-     *
      * @param edition Ausgabe des Spieles.
      * @return new Game
      */

@@ -1,10 +1,10 @@
 package edu.hm.severin.powergrid.logic.move;
 
 import edu.hm.cs.rs.powergrid.EditionGermany;
-import edu.hm.cs.rs.powergrid.datastore.Game;
 import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
+import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
@@ -13,8 +13,10 @@ import org.junit.Test;
 import org.junit.rules.Timeout;
 
 import java.lang.reflect.Constructor;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.*;
@@ -102,6 +104,13 @@ public class JoinPlayerTest {
         Set<HotMove> move = sut.collect(game,Optional.empty());
         assertFalse(move.isEmpty());
       }
+    @Test public void collectProperties() throws ReflectiveOperationException {
+        NewPlayerJoins sut = getSutProto();
+        Set<HotMove> moves= sut.collect(game,Optional.empty());
+        List<Move> moves2 = moves.stream().filter(Move -> Move.getType() == MoveType.JoinPlayer).collect(Collectors.toList());
+        Move move = moves2.get(0);
+        assertSame(move.getProperties().getProperty("type"), MoveType.JoinPlayer.toString());
+    }
     @Test public void testRun() throws ReflectiveOperationException {
         NewPlayerJoins sut = getSutProto();
         OpenGame g = factory.newGame(new EditionGermany());

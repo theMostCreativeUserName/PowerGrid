@@ -1,6 +1,7 @@
 package edu.hm.severin.powergrid.logic.move;
 
 import edu.hm.cs.rs.powergrid.datastore.Phase;
+import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
@@ -19,9 +20,8 @@ import java.util.stream.Collectors;
  * ends the game.
  *
  * @author Severin
- * @complexity:
  */
-public class EndGame implements HotMove {
+public class EndGame extends AbstractProperties implements HotMove {
     /**
      * the game.
      */
@@ -42,7 +42,7 @@ public class EndGame implements HotMove {
         final List<OpenPlayer> players = game.getOpenPlayers();
         // list of pass-State of every player, mainly to find out if all players passed already
         final boolean notPassed = players.stream()
-                .map(player -> player.hasPassed())
+                .map(Player::hasPassed)
                 .collect(Collectors.toList())
                 .contains(false);
         if (notPassed) return Optional.of(Problem.PlayersRemaining);
@@ -52,8 +52,7 @@ public class EndGame implements HotMove {
                 .mapToInt(player -> player.getCities().size())
                 .max()
                 .getAsInt();
-        if (maxCities != game.getEdition().getPlayersEndgameCities()
-                .get(players.size()))
+        if (maxCities < game.getEdition().getPlayersEndgameCities().get(players.size()))
             // city limit is not reached
             return Optional.of(Problem.GameRunning);
         if (real) {
@@ -65,18 +64,22 @@ public class EndGame implements HotMove {
             players.addAll(sorted);
             game.setPhase(Phase.Terminated);
         }
+        setProperty("type", getType().toString());
         return Optional.empty();
     }
 
     /**
      * compares the players to create the leaderboard.
      *
-     * @param first first player
+     * @param first  first player
      * @param second second player
      * @return compare Number
      */
-    private int leaderBoard(Player first, Player second) {
-        int result = second.getPlants().size() - first.getPlants().size();
+    private int leaderBoard(OpenPlayer first, OpenPlayer second) {
+        final int secondPlants = second.getOpenPlants().stream().filter(Plant::hasOperated).collect(Collectors.toList()).size();
+        final int firstPlants = first.getOpenPlants().stream().filter(Plant::hasOperated).collect(Collectors.toList()).size();
+        
+        int result = secondPlants - firstPlants;
         if (result == 0)
             result = second.getElectro() - first.getElectro();
         return result;
@@ -90,8 +93,8 @@ public class EndGame implements HotMove {
     /**
      * could the move be run.
      *
-     * @param openGame   Aktuelles Spiel.
-     * @param player der Spieler um den es geht.
+     * @param openGame Aktuelles Spiel.
+     * @param player   der Spieler um den es geht.
      * @return this move, if it could be run
      */
     @Override

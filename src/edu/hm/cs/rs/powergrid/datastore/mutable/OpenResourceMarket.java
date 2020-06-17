@@ -3,6 +3,7 @@ package edu.hm.cs.rs.powergrid.datastore.mutable;
 import edu.hm.cs.rs.powergrid.Bag;
 import edu.hm.cs.rs.powergrid.datastore.Resource;
 import edu.hm.cs.rs.powergrid.datastore.ResourceMarket;
+import java.util.Objects;
 
 /**
  * @author R. Schiedermeier, rs@cs.hm.edu
@@ -20,4 +21,8 @@ public interface OpenResourceMarket extends ResourceMarket, Checksumed {
     }
 
     Bag<Resource> getOpenSupply();
+
+    @Override default int checksum() {
+        return Objects.hash(getAvailable(), getSupply());
+    }
 }

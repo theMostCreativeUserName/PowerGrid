@@ -11,20 +11,26 @@ import java.util.List;
  * uebernimmt ein Objekt dieses Typs die Zufallsentscheidungen.
  * Ansonsten sind sie nicht vorhersehbar.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version last modified 2020-05-06
+ * @version last modified 2020-05-20
  */
 public interface RandomSource {
     /**
      * Factory fuer Implementierungen dieses Interface.
      * Objekt des Typs der System-Property powergrid.randomsource oder
-     * eines mit unvorhersehbaren Wirkungen.
+     * eines mit pseudozufaelligen Wirkungen, wenn die Property fehlt.
      */
     static RandomSource make() {
         final String fqcn = System.getProperty("powergrid.randomsource");
+        return fqcn == null? new RandomSource() {}: make(fqcn);
+    }
+
+    /**
+     * Factory fuer ein Objekt des gegebenen Typs.
+     * @param fqcn Typname einer RandomSource-Implementierung.
+     */
+    static RandomSource make(String fqcn) {
         try {
-            return fqcn == null?
-                    new RandomSource() {}:
-                    (RandomSource)Class.forName(fqcn).getConstructor().newInstance();
+            return (RandomSource)Class.forName(fqcn).getConstructor().newInstance();
         } catch(ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }

@@ -9,18 +9,17 @@ import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.severin.powergrid.ListBag;
 
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.OptionalInt;
 import java.util.Set;
 
 /**
  * creates player.
  *
  * @author Severin, Pietsch
- * @complexity: 25
  */
-
+// PMD declares this as a pure Dataclass, this tough can't be changed
 public class NeutralPlayer implements OpenPlayer {
 
     /**
@@ -42,7 +41,7 @@ public class NeutralPlayer implements OpenPlayer {
      */
     private boolean passed;
     /**
-     * money of player.
+     * electro of player.
      */
     private int electro;
     /**
@@ -60,16 +59,16 @@ public class NeutralPlayer implements OpenPlayer {
 
     /**
      * A new player.
-     *
-     * @param color  color of player
-     * @param secret color of secret
+     * @param playerSecret secret of player
+     * @param color color of player
      */
-    public NeutralPlayer(final String secret, final String color) {
-
+    public NeutralPlayer(final String playerSecret, final String color) {
+        Objects.requireNonNull(playerSecret);
+        Objects.requireNonNull(color);
         electro = 0;
         passed = false;
         secretCalls = 0;
-        this.secret = secret;
+        this.secret = playerSecret;
         this.color = color;
     }
 
@@ -106,7 +105,7 @@ public class NeutralPlayer implements OpenPlayer {
     }
 
     /**
-     * money of player.
+     * electro of player.
      */
     @Override
     public int getElectro() {
@@ -114,7 +113,7 @@ public class NeutralPlayer implements OpenPlayer {
     }
 
     /**
-     * new money value.
+     * new electro value.
      */
     @Override
     public void setElectro(int electro) {
@@ -158,13 +157,14 @@ public class NeutralPlayer implements OpenPlayer {
     /**
      * tests if player knows the secret.
      *
-     * @param theSecret Ein String.
+     * @param secrets Ein String.
      * @return true, if secret is correct: else false
      */
     @Override
-    public boolean hasSecret(final String theSecret) {
+    public boolean hasSecret(final String secrets) {
         boolean knowsSecret = false;
-        if (theSecret.equals(this.secret)) knowsSecret = true;
+        if (this.secret.equals(secrets))
+            knowsSecret = true;
         return knowsSecret;
     }
 
@@ -175,7 +175,7 @@ public class NeutralPlayer implements OpenPlayer {
 
     @Override
     public boolean equals(Object obj) {
-        //if (this == obj) return true;
+
         if (obj == null || getClass() != obj.getClass()) return false;
         final NeutralPlayer that = (NeutralPlayer) obj;
         return getColor().equals(that.getColor());
@@ -188,9 +188,10 @@ public class NeutralPlayer implements OpenPlayer {
      * @return number of highest plant
      */
     private int biggestPlantOfPlayer(Player player) {
-
-        final Plant elsePlant = new NeutralPlant(1, Plant.Type.Coal, 1, 1);
-        return player.getPlants().stream().max(Comparator.comparingInt(Plant::getNumber)).orElse(elsePlant).getNumber();
+        final OptionalInt numberOfBiggestPlant = player.getPlants().stream().mapToInt(Plant::getNumber).max();
+        if (numberOfBiggestPlant.isEmpty())
+            return 0;
+        return numberOfBiggestPlant.getAsInt();
     }
 
     /**

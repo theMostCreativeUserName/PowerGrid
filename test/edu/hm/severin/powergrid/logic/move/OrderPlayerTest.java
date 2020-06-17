@@ -5,8 +5,10 @@ import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.mutable.*;
+import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
+import edu.hm.cs.rs.powergrid.logic.Rules;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -16,14 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static junit.framework.TestCase.*;
+import static org.junit.Assert.assertSame;
 
 public class OrderPlayerTest {
     @Rule
     public Timeout globalTimeout = Timeout.seconds(1); // max seconds per test
     private final OpenFactory factory = OpenFactory.newFactory("edu.hm.severin.powergrid.datastore.NeutralFactory");
     private final OpenGame game = factory.newGame(new EditionGermany());
+    private final Rules rules = Rules.newRules("edu.hm.severin.powergrid.logic.StandardRules", game);
 
     public OrderPlayerTest() {
         System.setProperty("powergrid.factory", "edu.hm.severin.powergrid.datastore.NeutralFactory");
@@ -106,6 +111,10 @@ public class OrderPlayerTest {
             sorted.add(player.getColor());
         }
         assertEquals("[blue, red, yellow]", sorted.toString());
+        assertFalse(player1.hasPassed());
+        assertFalse(player2.hasPassed());
+        assertFalse(player3.hasPassed());
+        assertSame(game.getPhase(), Phase.PlantBuying);
 
     }
     @Test
@@ -208,5 +217,68 @@ public class OrderPlayerTest {
         }
         assertEquals("[b, a, c]", sorted.toString());
         assertFalse(before.toString().equals(sorted.toString()));
+    }
+
+    //x.20
+    @Test
+    public void OrderPlayerFire(){
+        OpenGame openGame = (OpenGame) game;
+        openGame.setPhase(Phase.PlayerOrdering);
+
+        openGame.getPlantMarket().getOpenActual().add(factory.newPlant(333, Plant.Type.Eco, 20, 21));
+        openGame.getPlantMarket().getOpenActual().add(factory.newPlant(334, Plant.Type.Eco, 21, 22));
+
+        //Player1
+        OpenPlayer player1 = factory.newPlayer("Nein", "rot");
+        OpenPlant plant = factory.newPlant(201, Plant.Type.Eco, 10, 10);
+        player1.getOpenPlants().add(plant);
+        player1.setPassed(true);
+        player1.setElectro(2000);
+
+        //Player2
+        OpenPlayer player2 = factory.newPlayer("Ja", "blau");
+        player2.setPassed(true);
+
+        //game
+        openGame.getOpenPlayers().add(player1);
+        openGame.getOpenPlayers().add(player2);
+
+        final Set<Move> haveMove = rules.getMoves(Optional.of("Nein"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.OrderPlayers).collect(Collectors.toList());
+        Optional<Problem> problem =  rules.fire(Optional.of("Nein"), moves.get(0));
+
+        assertSame(openGame.getPhase(), Phase.PlantBuying);
+        assertFalse(player1.hasPassed());
+        assertFalse(player2.hasPassed());
+        assertTrue(problem.isEmpty());
+    }
+
+    @Test
+    public void OrderPlayerProperties(){
+        OpenGame openGame = (OpenGame) game;
+        openGame.setPhase(Phase.PlayerOrdering);
+
+        openGame.getPlantMarket().getOpenActual().add(factory.newPlant(333, Plant.Type.Eco, 20, 21));
+        openGame.getPlantMarket().getOpenActual().add(factory.newPlant(334, Plant.Type.Eco, 21, 22));
+
+        //Player1
+        OpenPlayer player1 = factory.newPlayer("Nein", "rot");
+        OpenPlant plant = factory.newPlant(201, Plant.Type.Eco, 10, 10);
+        player1.getOpenPlants().add(plant);
+        player1.setPassed(true);
+        player1.setElectro(2000);
+
+        //Player2
+        OpenPlayer player2 = factory.newPlayer("Ja", "blau");
+        player2.setPassed(true);
+
+        //game
+        openGame.getOpenPlayers().add(player1);
+        openGame.getOpenPlayers().add(player2);
+
+        final Set<Move> haveMove = rules.getMoves(Optional.of("Nein"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.OrderPlayers).collect(Collectors.toList());
+        Move move = moves.get(0);
+        assertSame(move.getProperties().getProperty("type"), MoveType.OrderPlayers.toString());
     }
 }

@@ -10,7 +10,9 @@ import edu.hm.cs.rs.powergrid.logic.Rules;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 import edu.hm.severin.powergrid.logic.move.HotMoves;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -47,36 +49,31 @@ public class StandardRules implements Rules {
 
     @Override
     public Set<Move> getMoves(Optional<String> secret) {
-
+        //constants
+        final Set<HotMove> hotMoves = this.getPrototypes().stream().map(move -> (HotMove) move).collect(Collectors.toSet());
         final Set<Move> result = new HashSet<>();
-        // to prevent returning from a nested loop returnEarly is introduced, to later return an empty set
-        boolean returnEarly = true;
-        Optional<OpenPlayer> player = Optional.empty();
-        if (secret.isPresent()) {
-            String secretString = secret.get();
-            final OpenPlayer openplayer = game.findPlayer(secretString);
-            if (openplayer != null) {
-                returnEarly = false;
-                player = Optional.of(openplayer);
-            } else
-                return new HashSet<>();
 
-        }
-        if (returnEarly) {
-            Set<HotMove> hotMoves = new HotMoves().getPrototypes();
-            Set<HotMove> joinMove = hotMoves
+
+        //work
+        if (secret.isPresent()) {
+            final OpenPlayer openplayer = game.findPlayer(secret.get());
+            if (openplayer != null) {
+                final Optional<OpenPlayer> player = Optional.of(openplayer);
+                hotMoves.forEach(prototype -> result.addAll(prototype.collect(game, player)));
+
+            }
+        } else {
+            final Set<HotMove> joinMove = hotMoves
                     .stream()
-                    .filter(x -> x.getType() == MoveType.JoinPlayer)
+                    .filter(move -> move.getType() == MoveType.JoinPlayer)
                     .collect(Collectors.toSet());
-            Set<HotMove> joinMoveInSet = joinMove.iterator().next().collect(game, Optional.empty());
-            if (joinMoveInSet.size() > 0)
+            final Set<HotMove> joinMoveInSet = joinMove.iterator().next().collect(game, Optional.empty());
+
+            if (!joinMoveInSet.isEmpty()) {
                 result.add(joinMoveInSet.iterator().next());
-            return result;
+            }
         }
-        // gets possible Moves from Companion-Class HotMoves
-        for (HotMove prototype : new HotMoves().getPrototypes()) {
-            result.addAll(prototype.collect(game, player));
-        }
+
         return result;
     }
 
@@ -85,7 +82,7 @@ public class StandardRules implements Rules {
      *
      * @param secret secret of player, empty if player doesn't have one yet
      * @param move   Ein Zug.
-     * @return
+     * @return Optional of Problem, empty when there are no problems
      */
     @Override
     public Optional<Problem> fire(Optional<String> secret, Move move) {
@@ -97,9 +94,13 @@ public class StandardRules implements Rules {
             if (!hotMove.getGame().equals(this.getGame())) throw new IllegalStateException("Hackers shall not pass");
             problem = hotMove.fire();
             if (problem.isEmpty()) {
-                final HotMove xx = fireNextMoves();
-                if (xx != null) {
-                    problem = xx.fire();
+                boolean autoOrPrioMoves = true;
+                while (autoOrPrioMoves) {
+                    final HotMove nextToFire = fireNextMoves();
+                    if (nextToFire == null)
+                        autoOrPrioMoves = false;
+                    else
+                        problem = nextToFire.fire();
                 }
             }
 
@@ -111,43 +112,50 @@ public class StandardRules implements Rules {
 
     }
 
-
+    /**
+     * check if Moves after the initial could fire.
+     *
+     * @return move, if it can fire
+     * else null
+     */
     private HotMove fireNextMoves() {
-        Move result;
-        HotMoves hotMoves = new HotMoves();
+        HotMove result = null;
         for (OpenPlayer player : game.getOpenPlayers()) {
-            Set<Move> setOfAllMoves = new HashSet<>();
-
-            hotMoves.getPrototypes()
-                    .stream()
-                    .forEach(i -> setOfAllMoves.addAll(i.collect(game, Optional.of(player))));
-            System.out.println("#########################");
-            System.out.println(setOfAllMoves);
-            System.out.println("'''''''''''''''");
-
-            if (setOfAllMoves.size() != 0) {
-                for (Move singleMove : setOfAllMoves) {
-                    // does move have priority?
-                    if (singleMove.hasPriority()) {
-                        System.out.println("+++" + singleMove);
-                        return (HotMove) singleMove;
-                        // is move Auto-fire?
-                    } else {
-                        if (setOfAllMoves.size() == 1)
-                            if (singleMove.isAutoFire()) {
-                                System.out.println("~~~ " + singleMove);
-                                return (HotMove) singleMove;
-                            }
-                    }
-
-                }
-
+            final Set<Move> setOfAllMoves = new HashSet<>();
+            final Set<HotMove> hotMoves = this.getPrototypes().stream().map(move -> (HotMove) move).collect(Collectors.toSet());
+            hotMoves.forEach(prototype -> setOfAllMoves.addAll(prototype.collect(game, Optional.of(player))));
+            if (!setOfAllMoves.isEmpty()) {
+                result = checkMovePriorAndAuto(setOfAllMoves);
             }
-            return null;
         }
-        return null;
+        return result;
     }
 
+
+    /**
+     * check Moves in a Set for Auto-Fire and Priority.
+     *
+     * @param setOfAllMoves A set which contains all possible Moves
+     * @return move, if it has Auto-Fire or Priority
+     * else null
+     */
+    private HotMove checkMovePriorAndAuto(Set<Move> setOfAllMoves) {
+        HotMove resultMove = null;
+        for (Move singleMove : setOfAllMoves) {
+            // does move have priority?
+            if (singleMove.hasPriority()) {
+                resultMove = (HotMove) singleMove;
+                // is move Auto-fire?
+            } else {
+                final boolean isAuto = singleMove.isAutoFire();
+                if (setOfAllMoves.size() == 1 && isAuto)
+                    // this line can not be tested as of yet, because there is no way to artificially create a priority-MoveClass
+                    resultMove = (HotMove) singleMove;
+
+            }
+        }
+        return resultMove;
+    }
 
     @Override
     public Set<Move> getPrototypes() {

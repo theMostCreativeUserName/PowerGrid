@@ -59,7 +59,9 @@ public enum MoveType {
     /** Ueberholtes Kw aus dem Markt nehmen. */
     ScrapPlant(true),
     /** Spiel beenden. */
-    EndGame(true);
+    EndGame(true),
+    /** Spiel abbrechen. */
+    KillGame(true);
 
     /** Zug laeuft ohne Rueckfrage vor allen anderen ab? */
     private final boolean priority;

@@ -18,6 +18,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -83,10 +84,12 @@ public class DropPlantTest {
         OpenPlant plant3 = factory.newPlant(202, Plant.Type.Coal, 3, 12);
         OpenPlant plant4 = factory.newPlant(203, Plant.Type.Coal, 3, 12);
         OpenPlant plant5 = factory.newPlant(204, Plant.Type.Coal, 3, 12);
+        OpenPlant plant6 = factory.newPlant(205, Plant.Type.Coal, 3, 12);
         player.getOpenPlants().add(plant);
         player.getOpenPlants().add(plant3);
         player.getOpenPlants().add(plant4);
         player.getOpenPlants().add(plant5);
+        player.getOpenPlants().add(plant6);
         player.setElectro(100);
 
         OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
@@ -102,7 +105,52 @@ public class DropPlantTest {
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
         List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.DropPlant).collect(Collectors.toList());
         // assert
-        assertSame(moves.size(), 4);
+        assertSame(moves.size(), 5);
+    }
+
+    @Test
+    public void testDropPlantProperties() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.ResourceBuying);
+        OpenFactory factory = opengame.getFactory();
+
+
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlant plant = factory.newPlant(200, Plant.Type.Coal, 3, 12);
+        OpenPlant plant3 = factory.newPlant(202, Plant.Type.Coal, 3, 12);
+        OpenPlant plant4 = factory.newPlant(203, Plant.Type.Coal, 3, 12);
+        OpenPlant plant5 = factory.newPlant(204, Plant.Type.Coal, 3, 12);
+        OpenPlant plant6 = factory.newPlant(205, Plant.Type.Coal, 3, 12);
+        player.getOpenPlants().add(plant);
+        player.getOpenPlants().add(plant3);
+        player.getOpenPlants().add(plant4);
+        player.getOpenPlants().add(plant5);
+        player.getOpenPlants().add(plant6);
+        player.setElectro(100);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        OpenPlant plant2 = factory.newPlant(201, Plant.Type.Oil, 3, 12);
+        player2.getOpenPlants().add(plant2);
+        player2.setElectro(200);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.DropPlant).collect(Collectors.toList());
+        Move move = moves.get(0);
+
+        List<String> allPlantStrings = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+            allPlantStrings.add(moves.get(i).getProperty("plant"));
+
+        assertSame(move.getProperties().getProperty("type"), MoveType.DropPlant.toString());
+        assertSame(move.getProperties().getProperty("player"), player.getColor() );
+        assertTrue(allPlantStrings.contains(String.valueOf(plant.getNumber())));
     }
 
     @Test
@@ -119,10 +167,12 @@ public class DropPlantTest {
         OpenPlant plant3 = factory.newPlant(202, Plant.Type.Coal, 3, 12);
         OpenPlant plant4 = factory.newPlant(203, Plant.Type.Coal, 3, 12);
         OpenPlant plant5 = factory.newPlant(204, Plant.Type.Coal, 3, 12);
+        OpenPlant plant6 = factory.newPlant(205, Plant.Type.Coal, 3, 12);
         player.getOpenPlants().add(plant);
         player.getOpenPlants().add(plant3);
         player.getOpenPlants().add(plant4);
         player.getOpenPlants().add(plant5);
+        player.getOpenPlants().add(plant6);
         player.setElectro(100);
 
         OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
@@ -138,7 +188,7 @@ public class DropPlantTest {
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
         List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.DropPlant).collect(Collectors.toList());
         // assert
-        assertSame(moves.size(), 0 );
+        assertSame(moves.size(), 5 );
     }
 
     @Test
@@ -154,9 +204,11 @@ public class DropPlantTest {
         OpenPlant plant = factory.newPlant(200, Plant.Type.Coal, 3, 12);
         OpenPlant plant3 = factory.newPlant(202, Plant.Type.Coal, 3, 12);
         OpenPlant plant4 = factory.newPlant(203, Plant.Type.Coal, 3, 12);
+        OpenPlant plant5 = factory.newPlant(204, Plant.Type.Coal, 3, 12);
         player.getOpenPlants().add(plant);
         player.getOpenPlants().add(plant3);
         player.getOpenPlants().add(plant4);
+        player.getOpenPlants().add(plant5);
         player.setElectro(100);
 
         OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
@@ -190,10 +242,12 @@ public class DropPlantTest {
         OpenPlant plant3 = factory.newPlant(202, Plant.Type.Coal, 3, 12);
         OpenPlant plant4 = factory.newPlant(203, Plant.Type.Coal, 3, 12);
         OpenPlant plant5 = factory.newPlant(204, Plant.Type.Coal, 3, 12);
+        OpenPlant plant6 = factory.newPlant(205, Plant.Type.Coal, 3, 12);
         player.getOpenPlants().add(plant);
         player.getOpenPlants().add(plant3);
         player.getOpenPlants().add(plant4);
         player.getOpenPlants().add(plant5);
+        player.getOpenPlants().add(plant6);
         player.setElectro(100);
 
         OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
@@ -212,7 +266,7 @@ public class DropPlantTest {
 
         // assert
         assertTrue(problem.isEmpty());
-        assertSame(player.getOpenPlants().size() , 3);
+        assertSame(player.getOpenPlants().size() , 4);
     }
 
     @Test
@@ -229,10 +283,12 @@ public class DropPlantTest {
         OpenPlant plant3 = factory.newPlant(202, Plant.Type.Coal, 3, 12);
         OpenPlant plant4 = factory.newPlant(203, Plant.Type.Coal, 3, 12);
         OpenPlant plant5 = factory.newPlant(204, Plant.Type.Coal, 3, 12);
+        OpenPlant plant6 = factory.newPlant(205, Plant.Type.Coal, 3, 12);
         player.getOpenPlants().add(plant);
         player.getOpenPlants().add(plant3);
         player.getOpenPlants().add(plant4);
         player.getOpenPlants().add(plant5);
+        player.getOpenPlants().add(plant6);
         player.setElectro(100);
 
         OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
@@ -249,15 +305,17 @@ public class DropPlantTest {
         List<Move> moves = haveMove.stream().sequential().filter(Move -> Move.getType() == MoveType.DropPlant).collect(Collectors.toList());
 
         // Neue Kraftwerke für Spieler und entfernen aller Alten, damit size größer als 3 und Kraftwerk nicht Spieler gehört
+        player.getOpenPlants().remove(plant);
+        player.getOpenPlants().remove(plant3);
+        player.getOpenPlants().remove(plant4);
+        player.getOpenPlants().remove(plant5);
+        player.getOpenPlants().remove(plant6);
+
         player.getOpenPlants().add(factory.newPlant(206, Plant.Type.Eco, 3, 3));
         player.getOpenPlants().add(factory.newPlant(207, Plant.Type.Eco, 3, 3));
         player.getOpenPlants().add(factory.newPlant(208, Plant.Type.Eco, 3, 3));
         player.getOpenPlants().add(factory.newPlant(209, Plant.Type.Eco, 3, 3));
 
-        player.getOpenPlants().remove(plant);
-        player.getOpenPlants().remove(plant3);
-        player.getOpenPlants().remove(plant4);
-        player.getOpenPlants().remove(plant5);
 
         Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moves.get(0));
 
@@ -279,10 +337,12 @@ public class DropPlantTest {
         OpenPlant plant3 = factory.newPlant(202, Plant.Type.Coal, 3, 12);
         OpenPlant plant4 = factory.newPlant(203, Plant.Type.Coal, 3, 12);
         OpenPlant plant5 = factory.newPlant(204, Plant.Type.Coal, 3, 12);
+        OpenPlant plant6 = factory.newPlant(205, Plant.Type.Coal, 3, 12);
         player.getOpenPlants().add(plant);
         player.getOpenPlants().add(plant3);
         player.getOpenPlants().add(plant4);
         player.getOpenPlants().add(plant5);
+        player.getOpenPlants().add(plant6);
         player.setElectro(100);
 
         OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
@@ -299,15 +359,18 @@ public class DropPlantTest {
         List<Move> moves = haveMove.stream().sequential().filter(Move -> Move.getType() == MoveType.DropPlant).collect(Collectors.toList());
 
         // Neue Kraftwerke für Spieler und entfernen aller Alten, damit size größer als 3 und Kraftwerk nicht Spieler gehört
-        player.getOpenPlants().add(factory.newPlant(206, Plant.Type.Eco, 3, 3));
-        player.getOpenPlants().add(factory.newPlant(207, Plant.Type.Eco, 3, 3));
-        player.getOpenPlants().add(factory.newPlant(208, Plant.Type.Eco, 3, 3));
-        player.getOpenPlants().add(factory.newPlant(209, Plant.Type.Eco, 3, 3));
-
         player.getOpenPlants().remove(plant);
         player.getOpenPlants().remove(plant3);
         player.getOpenPlants().remove(plant4);
         player.getOpenPlants().remove(plant5);
+        player.getOpenPlants().remove(plant6);
+
+        player.getOpenPlants().add(factory.newPlant(206, Plant.Type.Eco, 3, 3));
+        player.getOpenPlants().add(factory.newPlant(207, Plant.Type.Eco, 3, 3));
+        player.getOpenPlants().add(factory.newPlant(208, Plant.Type.Eco, 3, 3));
+        player.getOpenPlants().add(factory.newPlant(209, Plant.Type.Eco, 3, 3));
+        player.getOpenPlants().add(factory.newPlant(210, Plant.Type.Eco, 3, 3));
+
 
         Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moves.get(0));
 
@@ -322,17 +385,18 @@ public class DropPlantTest {
         opengame.setPhase(Phase.ResourceBuying);
         OpenFactory factory = opengame.getFactory();
 
-
         //Player
         OpenPlayer player = factory.newPlayer("Hihi", "red");
         OpenPlant plant = factory.newPlant(200, Plant.Type.Coal, 3, 12);
         OpenPlant plant3 = factory.newPlant(202, Plant.Type.Coal, 3, 12);
         OpenPlant plant4 = factory.newPlant(203, Plant.Type.Coal, 3, 12);
         OpenPlant plant5 = factory.newPlant(204, Plant.Type.Coal, 3, 12);
+        OpenPlant plant6 = factory.newPlant(205, Plant.Type.Coal, 3, 12);
         player.getOpenPlants().add(plant);
         player.getOpenPlants().add(plant3);
         player.getOpenPlants().add(plant4);
         player.getOpenPlants().add(plant5);
+        player.getOpenPlants().add(plant6);
         player.setElectro(100);
 
         OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");

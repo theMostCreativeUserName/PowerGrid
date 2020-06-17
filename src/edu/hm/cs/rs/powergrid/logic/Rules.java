@@ -2,8 +2,6 @@ package edu.hm.cs.rs.powergrid.logic;
 
 import edu.hm.cs.rs.powergrid.datastore.Game;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
-
-
 import java.util.Optional;
 import java.util.Set;
 

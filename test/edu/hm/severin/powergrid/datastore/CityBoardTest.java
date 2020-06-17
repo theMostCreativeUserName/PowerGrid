@@ -4,14 +4,18 @@ package edu.hm.severin.powergrid.datastore;
 import edu.hm.cs.rs.powergrid.EditionGermany;
 import edu.hm.cs.rs.powergrid.datastore.Board;
 import edu.hm.cs.rs.powergrid.datastore.City;
-import edu.hm.cs.rs.powergrid.datastore.mutable.*;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenBoard;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenCity;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
 import org.junit.Assert;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
+
+import java.util.Set;
+
+import static org.junit.Assert.*;
 
 
 /**
@@ -20,7 +24,7 @@ import org.junit.rules.Timeout;
  * @author Severin
  */
 public class CityBoardTest{
-  @Rule public Timeout globalTimeout = Timeout.seconds(1); // max seconds per test
+    @Rule public Timeout globalTimeout = Timeout.seconds(1); // max seconds per test
 
     private final String fqcn = "edu.hm.severin.powergrid.datastore.NeutralFactory"; // package path
 
@@ -33,64 +37,64 @@ public class CityBoardTest{
         return factory.newBoard(new EditionGermany());
     }
 
-// ------------------------------------------- Tests -----------------------------------------------------
+    // ------------------------------------------- Tests -----------------------------------------------------
     @Test public void newCity() {
         // arrange
-        City sut = getCity("Entenhausen", 1);
+        OpenCity sut = getCity("Entenhausen", 1);
         // act
         // assert
-        Assert.assertEquals("Entenhausen", sut.getName());
-        Assert.assertEquals(1, sut.getRegion());
+        assertEquals("Entenhausen", sut.getName());
+        assertEquals(1, sut.getRegion());
     }
     @Test (expected =  IllegalArgumentException.class)
     public void newIllegalCity1() {
         // arrange
-        City sut = getCity("", 1);
+        OpenCity sut = getCity("", 1);
     }
     @Test (expected =  NullPointerException.class)
     public void newIllegalCity2() {
         // arrange
-        City sut = getCity(null, 1);
+        OpenCity sut = getCity(null, 1);
     }
     @Test (expected =  IllegalArgumentException.class)
     public void newIllegalCity3() {
         // arrange
-        City sut = getCity("", 0);
+        OpenCity sut = getCity("", 0);
     }
     @Test (expected =  IllegalArgumentException.class)
     public void newIllegalCity4() {
         // arrange
-        City sut = getCity("AnotherCity", -1);
+        OpenCity sut = getCity("AnotherCity", -1);
     }
     @Test public void getCityName() {
         // arrange
-        City sut = getCity("Entenhausen", 1);
-        Assert.assertEquals(sut.getName(), "Entenhausen");
+        OpenCity sut = getCity("Entenhausen", 1);
+        assertEquals(sut.getName(), "Entenhausen");
     }
 
     @Test public void getCityArea() {
         // arrange
-        City sut = getCity("Entenhausen", 1);
-        Assert.assertEquals(sut.getRegion(), 1);
+        OpenCity sut = getCity("Entenhausen", 1);
+        assertEquals(sut.getRegion(), 1);
     }
     @Test public void connectCity1(){
         OpenCity sut = getCity("city", 1);
         OpenCity sat = getCity("city2", 2);
         sut.connect(sat, 30);
-        Assert.assertEquals("{city2 2=30}",sut.getConnections().toString());
+        assertEquals("{city2 2=30}",sut.getConnections().toString());
     }
     @Test (expected = IllegalArgumentException.class)
     public void connectCity2(){
         OpenCity sut = getCity("city", 1);
         OpenCity sat = getCity("city2", 2);
         sut.connect(sat, -1);
-        Assert.assertEquals("{city2 2=30}",sut.getConnections().toString());
+        assertEquals("{city2 2=30}",sut.getConnections().toString());
     }
     @Test (expected = IllegalArgumentException.class)
     public void connectCity3(){
         OpenCity sut = getCity("city", 1);
         sut.connect(sut, 30);
-        Assert.assertEquals("{city2 2=30}",sut.getConnections().toString());
+        assertEquals("{city2 2=30}",sut.getConnections().toString());
     }
     @Test (expected = IllegalArgumentException.class)
     public void connectCity4(){
@@ -98,7 +102,7 @@ public class CityBoardTest{
         OpenCity sat = getCity("city2", 2);
         sut.connect(sat, 30);
         sut.connect(sat, 30);
-        Assert.assertEquals("{city2 2=30}",sut.getConnections().toString());
+        assertEquals("{city2 2=30}",sut.getConnections().toString());
     }
     @Test (expected = IllegalArgumentException.class)
     public void connectCity5(){
@@ -106,43 +110,24 @@ public class CityBoardTest{
         OpenCity sat = getCity("city2", 2);
         sut.connect(sat, 30);
         sut.connect(sat, 50);
-        Assert.assertEquals("{city2 2=30}",sut.getConnections().toString());
+        assertEquals("{city2 2=30}",sut.getConnections().toString());
     }
-    @Test (expected = UnsupportedOperationException.class)
+    @Test (expected = IllegalStateException.class)
     public void connectCity6(){
         OpenCity sut = getCity("city", 1);
         OpenCity sat = getCity("city2", 2);
         sut.close();
         sut.connect(sat, 30);
-        Assert.assertEquals("{city2 2=30}",sut.getConnections().toString());
+        assertEquals("{city2 2=30}",sut.getConnections().toString());
     }
 
-    @Test (expected = UnsupportedOperationException.class)
+    @Test (expected = IllegalStateException.class)
     public void closeBoard(){
         OpenBoard sut = getBoardGermany();
         sut.close();
         sut.close();
     }
-    @Test (expected = UnsupportedOperationException.class)
-    public void closeBoard2(){
-        OpenBoard sut = getBoardGermany();
-        sut.close();
-        OpenCity m = sut.findCity("Bremen");
-        m.close();
-        m.connect(sut.findCity("M\u00FCnchen"), 666);
-        Assert.assertEquals(50, m.getConnections().size());
-    }
-    @Test (expected = UnsupportedOperationException.class)
-    public void closeBoard3(){
-        OpenBoard sut = getBoardGermany();
-        sut.close();
-        OpenCity m = sut.findCity("Bremen");
-        m.connect(sut.findCity("M\u00FCnchen"), 666);
-        Assert.assertEquals(m.getConnections().size(), 60);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void newBoard() {
+    @Test public void newBoard() {
         // arrange
         OpenBoard sut = getBoardGermany();
         // act
@@ -154,44 +139,32 @@ public class CityBoardTest{
     public void newIllegalBoard(){
         Board sut = factory.newBoard(null);
     }
-    @Test (expected = UnsupportedOperationException.class)
-    public void newBoardFindCity1() {
+    @Test public void newBoardFindCity1() {
         // arrange
         OpenBoard sut = getBoardGermany();
         // act
         sut.close();
         // assert
-        Assert.assertEquals(getCity("W\u00FCrzburg",4).toString(), sut.findCity("W\u00FCrzburg").toString());
+        assertEquals(getCity("W\u00FCrzburg",4).toString(), sut.findCity("W\u00FCrzburg").toString());
     }
-    @Test (expected = UnsupportedOperationException.class)
-    public void newBoardFindCity2() {
-        // arrange
+    @Test public void newBoardFindCity2() {
+
         OpenBoard sut = getBoardGermany();
-        // act
-        sut.close();
-        // assert
-        Assert.assertEquals(null, sut.findCity("Japan"));
-    }
-    @Test public void newBoardFindCity3() {
-        // arrange
-        OpenBoard sut = getBoardGermany();
-        OpenCity m = factory.newCity("DaCity", 4);
-        sut.getOpenCities().add(m);
-        // assert
-        Assert.assertEquals(m, sut.findCity("DaCity"));
+
+        assertEquals(null, sut.findCity("Japan"));
     }
     @Test public void closeRegionsBoard1(){
         OpenBoard sut = getBoardGermany();
         sut.closeRegions(2);
-        Assert.assertEquals(null, sut.findCity("M\u00FCnchen"));
+        assertEquals(null, sut.findCity("M\u00FCnchen"));
     }
     @Test (expected = NullPointerException.class)
     public void closeRegionsBoard2(){
         OpenBoard sut = getBoardGermany();
         sut.closeRegions(2);
-        Assert.assertEquals(null, sut.findCity("M\u00FCnchen").getConnections());
+        assertEquals(null, sut.findCity("M\u00FCnchen").getConnections());
     }
-    @Test (expected = UnsupportedOperationException.class)
+    @Test (expected = IllegalStateException.class)
     public void closeRegionsBoard4(){
         OpenBoard sut = getBoardGermany();
         sut.close();
@@ -200,86 +173,144 @@ public class CityBoardTest{
     @Test public void closeRegionsBoard3(){
         OpenBoard sut = getBoardGermany();
         sut.closeRegions(2);
-        Assert.assertEquals(14,sut.getCities().size() );
+        assertEquals(14,sut.getCities().size() );
     }
     @Test public void closeRegionsBoard5(){
         OpenBoard sut = getBoardGermany();
         sut.closeRegions(2);
-        City city = sut.findCity("Berlin");
-
-        Assert.assertTrue(sut.findCity("Berlin").getConnections().size() == 4);
+        OpenCity city = sut.findCity("Berlin");
+        assertTrue(sut.findCity("Berlin").getConnections().size() == 4);
     }
     @Test public void getCitiesOfBoard1(){
-        Board sut = getBoardGermany();
-        Assert.assertEquals(42,sut.getCities().size());
+        OpenBoard sut = getBoardGermany();
+        assertEquals(42,sut.getCities().size());
     }
     @Test public void getCitiesOfBoard2(){
-        Board sut = getBoardGermany();
-        Assert.assertEquals(factory.newCity("W\u00FCrzburg",4).toString(), sut.findCity("W\u00FCrzburg").toString());
+        OpenBoard sut = getBoardGermany();
+        assertEquals(factory.newCity("W\u00FCrzburg",4).toString(), sut.findCity("W\u00FCrzburg").toString());
     }
     @Test public void getCitiesOfBoard3(){
-        Board sut = getBoardGermany();
-
+        OpenBoard sut = getBoardGermany();
         Assert.assertFalse( sut.findCity("W\u00FCrzburg").getConnections().isEmpty());
     }
+    @Test (expected = IllegalStateException.class)
+    public void closeRegionsTwice(){
+        OpenCity sut = getCity("mm", 3);
+        sut.close();
+        sut.close();
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void closedAfterCloseMethod(){
+        OpenBoard board = getBoardGermany();
+        OpenCity city = factory.newCity("Unicorntown", 1000);
+        OpenCity city2 = factory.newCity("Softwarehausen", 1000);
+        Set<OpenCity> cities = board.getOpenCities();
+        cities.add(city);
+        cities.add(city2);
+        board.close();
+        city.connect(city2, 1000);
+    }
+
+    @Test public void newBoard2() {
+        // arrange
+        final EditionGermany edition = new EditionGermany();
+        final OpenBoard sut = factory.newBoard(edition);
+        // act
+        sut.close();
+        // assert
+        assertEquals("board holds all specified cities",
+                (long)edition.getCitySpecifications().size(),
+                sut.getCities().size());
+    }
+
+    @Test public void closeNew() {
+        // arrange
+        final EditionGermany edition = new EditionGermany();
+        final OpenBoard sut = factory.newBoard(edition);
+        // act
+        sut.close();
+        // assert
+        assertEquals("board holds all specified cities",
+                (long)edition.getCitySpecifications().size(),
+                sut.getCities().size());
+    }
+    @Test (expected = IllegalStateException.class)
+    public void cityCloseNew(){
+        final OpenCity sut = factory.newCity("UnicornLand", 4);
+        sut.close();
+    }
+
     @Test (expected = UnsupportedOperationException.class)
-    public void close(){
+    public void boardClose2(){
+        final OpenBoard sut = factory.newBoard(new EditionGermany());
+        sut.close();
+        sut.getCities().add(factory.newCity("UnicorCity", 666));
+    }
+    @Test (expected = IllegalStateException.class)
+    public void boardClose3(){
+        final OpenBoard sut = factory.newBoard(new EditionGermany());
+        sut.close();
+        sut.close();
+    }
+    @Test(expected = IllegalStateException.class)
+    public void cityClose(){
+        OpenCity sut = factory.newCity("Unicorn", 4);
+        OpenCity s = factory.newCity("TheSatanists", 666);
+        sut.connect(s, 5);
+        sut.close();
+        sut.close();
+    }
+    @Test(expected = IllegalStateException.class)
+    public void cityClose2(){
+        OpenCity sut = factory.newCity("Unicorn", 4);
+        OpenCity s = factory.newCity("TheSatanists", 666);
+        s.close();
+        sut.connect(s, 5);
+        sut.close();
+    }
+    @Test(expected = IllegalStateException.class)
+    public void cityClose3(){
+        OpenCity sut = factory.newCity("Unicorn", 4);
+        sut.close();
+        OpenCity s = factory.newCity("TheSatanists", 666);
+        s.close();
+        sut.connect(s, 5);
+
+    }
+
+    //Neue Tests 2:
+    @Test(expected = IllegalArgumentException.class)
+    public void nameStartWithNumber(){
+        OpenCity sut = factory.newCity("1Bims", 2);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void connectionAfterCloseCity(){
+        OpenCity sut = factory.newCity("Testhausen", 2);
+        OpenCity sut2 = factory.newCity("Lolhausen", 3);
+        OpenCity sut3 = factory.newCity("UnicornCity", 3);
+        sut.connect(sut2, 5);
+        sut.close();
+        sut.connect(sut3, 10);
+    }
+
+    @Test public void getCitiesOfBoard50(){
         OpenBoard sut = getBoardGermany();
-        OpenCity m = factory.newCity("mm", 3);
-        sut.getCities().add(m);
-        sut.close();
-        m.close();
+        OpenCity mutant = sut.findCity("Flensburg");
+        assertEquals(1, mutant.getRegion());
+        assertEquals("{Kiel 1=4}", mutant.getConnections().toString());
+        assertEquals(42,sut.getCities().size());
     }
-    @Test (expected = UnsupportedOperationException.class)
-    public void closeCloseRegion(){
+
+    @Test
+    public void emptyConnectionsAfterRemoving(){
         OpenBoard sut = getBoardGermany();
-        OpenCity m = factory.newCity("mm", 3);
-        sut.getCities().add(m);
-        sut.close();
-        sut.closeRegions(3);
+        final OpenCity stuttgart = sut.findCity("Stuttgart");
+        sut.closeRegions(4);
+        assertTrue(stuttgart.getConnections().isEmpty());
     }
-    @Test (expected = UnsupportedOperationException.class)
-    public void closeClose(){
-        OpenBoard sut = getBoardGermany();
-        sut.getOpenCities();
-        sut.close();
-        sut.close();
-    }
-    @Test (expected = UnsupportedOperationException.class)
-    public void closeClose2(){
-        OpenBoard sut = getBoardGermany();
-        OpenCity m = factory.newCity("mm", 4);
-        sut.getOpenCities().add(m);
-        sut.close();
-        m.close();
-    }
-    @Test (expected = UnsupportedOperationException.class)
-    public void closeClose3(){
-        OpenBoard sut = getBoardGermany();
-        OpenCity m = factory.newCity("mm", 4);
-        sut.getOpenCities().add(m);
-        sut.close();
-        m.getOpenConnections();
-    }
-    @Test (expected = UnsupportedOperationException.class)
-    public void closeClose4(){
-        OpenBoard sut = getBoardGermany();
-        OpenCity m = factory.newCity("mm", 4);
-        sut.getOpenCities().add(m);
-        sut.close();
-       m.getRegion();
-    }
-    @Test (expected = UnsupportedOperationException.class)
-    public void closeCity1(){
-        OpenCity m = factory.newCity("mm", 4);
-        m.close();
-        m.getName();
-    }
-    @Test (expected = UnsupportedOperationException.class)
-    public void closeCity2(){
-        OpenCity m = factory.newCity("mm", 4);
-        OpenCity n = factory.newCity("mm", 4);
-        m.close();
-        m.connect(n,22);
-    }
+
+
+
 }

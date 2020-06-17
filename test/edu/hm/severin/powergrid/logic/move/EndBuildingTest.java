@@ -92,6 +92,27 @@ public class EndBuildingTest {
     }
 
     @Test
+    public void testEndBuildingProperties() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.Building);
+        OpenFactory factory = opengame.getFactory();
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player2.getOpenCities().add(factory.newCity("LOL Dat is ne Stadt", 999));
+        player.setPassed(true);
+        player2.setPassed(true);
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == EndBuilding).collect(Collectors.toList());
+        Move move = moves.get(0);
+        assertSame(move.getProperties().getProperty("type"), MoveType.EndBuilding.toString());
+    }
+
+    @Test
     public void testEndBuildingFire() {
         // arrange
         OpenGame opengame = (OpenGame) sut.getGame();
@@ -115,8 +136,6 @@ public class EndBuildingTest {
         List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == EndBuilding).collect(Collectors.toList());
         Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moves.get(0));
         // assert
-        System.out.println(player.hasPassed());
-        System.out.println(player2.hasPassed());
         assertFalse(player.hasPassed());
         assertFalse(player2.hasPassed());
         assertTrue(problem.isEmpty());

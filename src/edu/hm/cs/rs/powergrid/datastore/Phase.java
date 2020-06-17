@@ -3,7 +3,7 @@ package edu.hm.cs.rs.powergrid.datastore;
 /**
  * Phasen, die ein Spiel durchlaueft.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version last modified 2020-02-28
+ * @version last modified 2020-02-26
  */
 public enum Phase {
     /** Spieler aufnehmen. Das Spiel laeuft noch nicht. */
@@ -28,7 +28,6 @@ public enum Phase {
     /**
      * Test, ob das Spiel laeuft.
      * @return true genau dann, wenn das Spiel laeuft.
-     * false, wenn es noch nicht angefangen hat oder schon vorbei ist.
      */
     public boolean isRunning() {
         return this != Opening && this != Terminated;

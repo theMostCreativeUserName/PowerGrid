@@ -3,6 +3,7 @@ package edu.hm.severin.powergrid.logic.move;
 import edu.hm.cs.rs.powergrid.EditionGermany;
 import edu.hm.cs.rs.powergrid.datastore.Game;
 import edu.hm.cs.rs.powergrid.datastore.Phase;
+import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
@@ -40,10 +41,6 @@ public class BuyNoResourceTest {
         sut = Rules.newRules(openGame);
         game = openGame;
     }
-
-    //Hold my spaghetti code
-    //This doesn't require a lot of testing
-    //It doesnt affect other players or the electro count of the player itself
 
     @Test
     public void BuyNoResourceOnePlayer(){
@@ -91,6 +88,31 @@ public class BuyNoResourceTest {
     }
 
     @Test
+    public void BuyNoResourceProperties(){
+        //arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        OpenFactory factory = opengame.getFactory();
+        opengame.setPhase(Phase.ResourceBuying);
+
+        OpenPlayer player1 = factory.newPlayer("ReadyPlayerOne", "red");
+        OpenPlayer player2 = factory.newPlayer("ReadyPlayerTwo", "blue");
+        player1.setElectro(420);
+        player2.setElectro(69);
+        player1.setPassed(false);
+        player2.setPassed(true);
+        opengame.getOpenPlayers().add(player1);
+        opengame.getOpenPlayers().add(player2);
+
+        //act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerOne"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.BuyNoResource).collect(Collectors.toList());
+        Move move = moves.get(0);
+        //assert
+        assertSame(move.getProperties().getProperty("type"), MoveType.BuyNoResource.toString());
+        assertSame(move.getProperties().getProperty("player"), player1.getColor() );
+    }
+
+    @Test
     public void BuyNoResourceTwoPlayers2(){
         //arrange
         OpenGame opengame = (OpenGame) sut.getGame();
@@ -129,6 +151,8 @@ public class BuyNoResourceTest {
         player2.setPassed(false);
         opengame.getOpenPlayers().add(player1);
         opengame.getOpenPlayers().add(player2);
+
+        player1.getOpenPlants().add(factory.newPlant(333, Plant.Type.Coal, 12, 12));
 
         //act
         final Set<Move> haveMove = sut.getMoves(Optional.of("ReadyPlayerTwo"));

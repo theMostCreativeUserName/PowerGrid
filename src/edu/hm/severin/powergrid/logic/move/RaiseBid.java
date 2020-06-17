@@ -2,7 +2,6 @@ package edu.hm.severin.powergrid.logic.move;
 
 
 import edu.hm.cs.rs.powergrid.datastore.Phase;
-import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenAuction;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
@@ -10,19 +9,17 @@ import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.Assert.assertTrue;
 
 
 /**
  * player connects cities and end their turn.
  * @author Pietsch
  */
-class RaiseBid implements HotMove {
+class RaiseBid extends AbstractProperties implements HotMove {
 
     /**
      * Used game.
@@ -45,6 +42,7 @@ class RaiseBid implements HotMove {
     /**
      * Non-Prototype Constructor.
      * @param game this game
+     * @param player optional of player for game
      */
    private RaiseBid(OpenGame game, Optional<OpenPlayer> player) {
 
@@ -62,6 +60,8 @@ class RaiseBid implements HotMove {
        if (real) {
           editAuction();
        }
+       setProperty("type", getType().toString());
+       setProperty("player", player.get().getColor());
        return Optional.empty();
    }
 
@@ -100,10 +100,10 @@ class RaiseBid implements HotMove {
    }
 
    @Override
-   public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> player) {
+   public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> openPlayer) {
        if (this.game != null)
            throw new IllegalStateException("This ist not a protoype");
-       final HotMove move = new RaiseBid(openGame, player);
+       final HotMove move = new RaiseBid(openGame, openPlayer);
        Set<HotMove> result;
        if(move.run(false).isEmpty())
            result = Set.of(move);

@@ -11,14 +11,14 @@ import java.util.stream.IntStream;
  */
 public interface Checksumed {
     default int checksum() {
-throw new UnsupportedOperationException();
+        return hashCode();
     }
 
     static int hash(IntStream numbers){
-throw new UnsupportedOperationException();
+        return numbers.reduce(17, (a, b) -> 31*a + b);
     }
 
     static int checksumOf(Collection<? extends Checksumed> collection){
-throw new UnsupportedOperationException();
+        return hash(collection.stream().mapToInt(Checksumed::checksum));
     }
 }

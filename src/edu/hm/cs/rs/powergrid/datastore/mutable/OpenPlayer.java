@@ -6,6 +6,7 @@ import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.Resource;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -31,7 +32,8 @@ public interface OpenPlayer extends Player, Checksumed {
         return getOpenResources().immutable();
     }
 
-    /** Test, ob dieser Spieler das gegebene Geheimis hat.
+    /**
+     * Test, ob dieser Spieler das gegebene Geheimis hat.
      * @param secret Ein String.
      * @return true, wenn der String das Geheimnis ist; false ansonsten.
      */
@@ -41,5 +43,10 @@ public interface OpenPlayer extends Player, Checksumed {
 
     Bag<Resource> getOpenResources();
 
+    @Override default int checksum() {
+        return Objects.hash(getColor(), getElectro(), hasPassed(), getResources(),
+                            Checksumed.checksumOf(getOpenCities()),
+                            Checksumed.checksumOf(getOpenPlants()));
+    }
 
 }

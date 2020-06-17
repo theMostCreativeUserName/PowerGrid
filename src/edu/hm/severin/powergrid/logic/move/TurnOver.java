@@ -3,6 +3,7 @@ package edu.hm.severin.powergrid.logic.move;
 
 import edu.hm.cs.rs.powergrid.Bag;
 import edu.hm.cs.rs.powergrid.datastore.Phase;
+import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.Resource;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  *
  * @author Pietsch
  */
-class TurnOver implements HotMove {
+class TurnOver extends AbstractProperties implements HotMove {
 
     /**
      * Used game.
@@ -60,7 +61,7 @@ class TurnOver implements HotMove {
             game.setRound(currentRound + 1);
             game.setPhase(Phase.PlayerOrdering);
         }
-
+        setProperty("type", getType().toString());
         return Optional.empty();
     }
 
@@ -75,11 +76,10 @@ class TurnOver implements HotMove {
                 .collect(Collectors.toList());
         if (game.getLevel() == 2) {
             final Optional<Integer> smallestNumber = allNumbers.stream().min(Integer::compareTo);
-            if (smallestNumber.isPresent())
-                game.getPlantMarket().removePlant(smallestNumber.get());
+            smallestNumber.ifPresent(integer -> game.getPlantMarket().removePlant(integer));
 
         } else {
-            final Optional<Integer> biggestNumber = game.getPlantMarket().getOpenFuture().stream().map(x -> x.getNumber()).max(Integer::compareTo);
+            final Optional<Integer> biggestNumber = game.getPlantMarket().getOpenFuture().stream().map(Plant::getNumber).max(Integer::compareTo);
             if (biggestNumber.isPresent()) {
                 final OpenPlant plant = game.getPlantMarket().findPlant(biggestNumber.get());
                 game.getPlantMarket().removePlant(biggestNumber.get());
@@ -95,13 +95,13 @@ class TurnOver implements HotMove {
         final Bag<Resource> available = game.getResourceMarket().getOpenAvailable();
         final Bag<Resource> supply = game.getResourceMarket().getOpenSupply();
         final Map<Resource, List<List<Integer>>> resourceSupply = game.getEdition().getResourcePlayersToSupply();
-        for (Resource resource : resourceSupply.keySet()) {
-            final List<List<Integer>> list = resourceSupply.get(resource);
+        for (Map.Entry<Resource, List<List<Integer>>> resource : resourceSupply.entrySet()) {
+            final List<List<Integer>> list = resource.getValue();
             final int amount = list.get(game.getOpenPlayers().size()).get(game.getLevel());
             for (int editAmount = 0; editAmount < amount; editAmount++) {
-                if (supply.count(resource) > 0)
-                    available.add(resource);
-                supply.remove(resource);
+                if (supply.count(resource.getKey()) > 0)
+                    available.add(resource.getKey());
+                supply.remove(resource.getKey());
             }
         }
     }

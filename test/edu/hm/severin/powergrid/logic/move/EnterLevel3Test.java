@@ -120,21 +120,28 @@ public class EnterLevel3Test {
         EnterLevel3 sut = getSut();
         game.setPhase(Phase.PlayerOrdering);
         game.setLevel(1);
-        OpenPlant p1 = factory.newPlant(1, Plant.Type.Coal,2,3);
-        OpenPlant p2 = factory.newPlant(3, Plant.Type.Coal,2,3);
-        OpenPlant p4 = factory.newPlant(4, Plant.Type.Coal,2,3);
-        OpenPlant p3 = factory.newPlant(2, Plant.Type.Level3,1,3);
+        OpenPlant p1 = factory.newPlant(101, Plant.Type.Coal,2,3);
+        OpenPlant p2 = factory.newPlant(1, Plant.Type.Coal,2,3);
+        OpenPlant p4 = factory.newPlant(104, Plant.Type.Coal,2,3);
+        OpenPlant p3 = factory.newPlant(200, Plant.Type.Level3,1,3);
+        OpenPlant p5 = factory.newPlant(100, Plant.Type.Coal,1,3);
 
         game.getPlantMarket().getOpenActual().add(p1);
         game.getPlantMarket().getOpenActual().add(p3);
+        game.getPlantMarket().getOpenActual().add(p5);
         game.getPlantMarket().getOpenHidden().add(p2);
         game.getPlantMarket().getOpenHidden().add(p4);
+
         sut.run(true);
         assertEquals(2,game.getLevel());
-        assertEquals(0,game.getPlantMarket().getOpenActual().size());
-        assertFalse(game.getPlantMarket().getOpenActual().contains(p1));
+        assertEquals(1,game.getPlantMarket().getOpenActual().size());
+        assertTrue(game.getPlantMarket().getOpenActual().contains(p1));
+        assertFalse(game.getPlantMarket().getOpenActual().contains(p5));
         assertFalse(game.getPlantMarket().getOpenActual().contains(p3));
+        assertTrue(game.getPlantMarket().getOpenHidden().contains(p2));
+        assertTrue(game.getPlantMarket().getOpenHidden().contains(p4));
         assertEquals(p2,game.getPlantMarket().getOpenHidden().get(0));
+        assertEquals(null, game.getPlantMarket().findPlant(200));
 
     }
 

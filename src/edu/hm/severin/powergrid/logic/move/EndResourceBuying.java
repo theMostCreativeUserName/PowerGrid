@@ -2,7 +2,6 @@ package edu.hm.severin.powergrid.logic.move;
 
 
 import edu.hm.cs.rs.powergrid.datastore.Phase;
-import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
@@ -19,7 +18,7 @@ import java.util.Set;
  *
  * @author Pietsch
  */
-class EndResourceBuying implements HotMove {
+class EndResourceBuying extends AbstractProperties implements HotMove {
 
     /**
      * Used game.
@@ -48,14 +47,14 @@ class EndResourceBuying implements HotMove {
         if (game.getPhase() != Phase.ResourceBuying)
             return Optional.of(Problem.NotNow);
         final List<OpenPlayer> players = game.getOpenPlayers();
-        if (players.stream().filter(player -> !player.hasPassed()).count() != 0)
+        if (players.stream().anyMatch(player -> !player.hasPassed()))
             return Optional.of(Problem.PlayersRemaining);
 
         if (real) {
             game.setPhase(Phase.Building);
-            for (OpenPlayer player : players)
-                player.setPassed(false);
+            game.getOpenPlayers().forEach(openPlayer -> openPlayer.setPassed(false));
         }
+        setProperty("type", getType().toString());
         return Optional.empty();
     }
 

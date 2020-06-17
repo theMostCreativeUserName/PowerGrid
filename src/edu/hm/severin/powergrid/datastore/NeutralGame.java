@@ -2,22 +2,24 @@ package edu.hm.severin.powergrid.datastore;
 
 import edu.hm.cs.rs.powergrid.Edition;
 import edu.hm.cs.rs.powergrid.datastore.Phase;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenAuction;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenBoard;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlantMarket;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenResourceMarket;
-import edu.hm.cs.rs.powergrid.datastore.mutable.OpenAuction;
-import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * creates a game.
+ * Implements class Game.
  */
 
+// PMD has problems, we noticed it and ignored it - the second time
+// Checkstyle has a problem too, but we need 11 variables instead of 10 or you have an broken code
 public class NeutralGame implements OpenGame {
 
     /**
@@ -41,7 +43,7 @@ public class NeutralGame implements OpenGame {
     private Phase phase;
 
     /**
-     * lsit of all player.
+     * List of all player.
      */
     private final List<OpenPlayer> players;
 
@@ -51,12 +53,12 @@ public class NeutralGame implements OpenGame {
     private int level;
 
     /**
-     * plantmarket object of game.
+     * PlantMarket object of game.
      */
     private final OpenPlantMarket plantMarket;
 
     /**
-     * resourcemarket object of game.
+     * ResourceMarket object of game.
      */
     private final OpenResourceMarket resourceMarket;
 
@@ -76,14 +78,12 @@ public class NeutralGame implements OpenGame {
     private final OpenFactory factory;
 
     /**
-     * creates a NeutralGame.
-     *
-     * @param edition edition of game
-     * @param factory factory of game
+     * Constructor of game.
+     * @param edition used edition
+     * @param factory used factory
      */
     public NeutralGame(final Edition edition, OpenFactory factory) {
         this.edition = edition;
-
         this.factory = factory;
 
         board = factory.newBoard(this.edition);
@@ -114,6 +114,8 @@ public class NeutralGame implements OpenGame {
 
     @Override
     public void setRound(int round) {
+        if (round < 0)
+            throw new IllegalArgumentException();
         this.round = round;
     }
 
@@ -124,6 +126,8 @@ public class NeutralGame implements OpenGame {
 
     @Override
     public void setPhase(Phase phase) {
+        if (phase == null)
+            throw new IllegalArgumentException();
         this.phase = phase;
     }
 
@@ -139,6 +143,8 @@ public class NeutralGame implements OpenGame {
 
     @Override
     public void setLevel(int level) {
+        if (level < 0)
+            throw new IllegalArgumentException();
         this.level = level;
     }
 
@@ -164,12 +170,7 @@ public class NeutralGame implements OpenGame {
 
     @Override
     public OpenPlayer findPlayer(String secret) {
-        OpenPlayer result = null;
-        for (OpenPlayer player : players)
-            if (player.hasSecret(secret))
-                result = player;
-
-        return result;
+        return players.stream().filter(player -> player.hasSecret(secret)).findFirst().orElse(null);
     }
 
     @Override
@@ -179,6 +180,8 @@ public class NeutralGame implements OpenGame {
 
     @Override
     public void setNumMoves(int numMoves) {
+        if (numMoves < 0)
+            throw new IllegalArgumentException();
         this.numMoves = numMoves;
     }
 

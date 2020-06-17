@@ -1,6 +1,7 @@
 package edu.hm.cs.rs.powergrid.datastore.mutable;
 
 import edu.hm.cs.rs.powergrid.datastore.Plant;
+import java.util.Objects;
 
 /**
  * @author R. Schiedermeier, rs@cs.hm.edu
@@ -8,4 +9,8 @@ import edu.hm.cs.rs.powergrid.datastore.Plant;
  */
 public interface OpenPlant extends Plant, Checksumed {
     void setOperated(boolean operated);
+
+    @Override default int checksum() {
+        return Objects.hash(getNumber(), hasOperated());
+    }
 }

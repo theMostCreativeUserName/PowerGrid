@@ -6,6 +6,7 @@ import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenFactory;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
+import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.Move;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
@@ -76,21 +77,23 @@ public class PassAuctionTest {
         OpenFactory factory = opengame.getFactory();
 
         OpenPlayer player = factory.newPlayer("Hihi", "red");
-        OpenPlayer player1 = factory.newPlayer("Hihi", "bulb");
+        OpenPlayer player1 = factory.newPlayer("Nooo", "bulb");
         player1.setPassed(false);
+        player1.setElectro(100);
         player.getOpenCities().add(factory.newCity("Testhausen", 666));
         player.getOpenPlants().add(factory.newPlant(666, Plant.Type.Coal, 3, 3));
         player.setPassed(false);
-        player.setElectro(10);
+        player.setElectro(100);
 
         opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player1);
 
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
         List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
         // assert
         assertTrue(moveTypes.contains(MoveType.PassAuction));
-        assertTrue(moveTypes.size() == 1);
+        assertTrue(moveTypes.size() == 2); // PassAuction + UpdatePlantMarket
     }
 
     @Test
@@ -114,8 +117,7 @@ public class PassAuctionTest {
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
         List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
         // assert
-        System.out.println(moveTypes);
-        assertTrue(moveTypes.size() == 0);
+        assertTrue(moveTypes.size() == 1); // only UpdatePlantMarket
     }
 
     @Test
@@ -147,7 +149,8 @@ public class PassAuctionTest {
         List<MoveType> moveTypes = haveMove.stream().map(Move::getType).collect(Collectors.toList());
 
         // assert
-        assertTrue(moveTypes.size() == 0);
+        assertTrue(moveTypes.contains(MoveType.UpdatePlantMarket));
+        assertTrue(moveTypes.size() == 1); // only UpdatePlantMarket
     }
 
     @Test
@@ -156,6 +159,15 @@ public class PassAuctionTest {
         OpenGame opengame = (OpenGame) sut.getGame();
         opengame.setPhase(Phase.PlantBuying);
         OpenFactory factory = opengame.getFactory();
+
+        OpenPlant p1 = factory.newPlant(101, Plant.Type.Coal, 2,3);
+        OpenPlant p2 = factory.newPlant(102, Plant.Type.Coal, 2,3);
+        OpenPlant p3 = factory.newPlant(103, Plant.Type.Coal, 2,3);
+        OpenPlant p4 = factory.newPlant(104, Plant.Type.Coal, 2,3);
+        opengame.getPlantMarket().getOpenActual().add(p1);
+        opengame.getPlantMarket().getOpenActual().add(p2);
+        opengame.getPlantMarket().getOpenActual().add(p3);
+        opengame.getPlantMarket().getOpenActual().add(p4);
 
         OpenPlayer player = factory.newPlayer("Hihi", "red");
         OpenPlayer player1 = factory.newPlayer("Hihi", "bulb");
@@ -185,32 +197,72 @@ public class PassAuctionTest {
     }
 
     @Test
+    public void testPassAuctionProperties() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.PlantBuying);
+        OpenFactory factory = opengame.getFactory();
+
+
+        //player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        player.getOpenCities().add(factory.newCity("Testhausen", 666));
+        player.getOpenPlants().add(factory.newPlant(666, Plant.Type.Coal, 3, 3));
+        player.setPassed(false);
+        player.setElectro(10);
+
+        //player1
+        OpenPlayer player1 = factory.newPlayer("NOOO", "bulb");
+        player1.setPassed(false);
+        player1.setElectro(1000);
+        player1.getOpenPlants().add(factory.newPlant(333, Plant.Type.Coal, 10, 10));
+
+
+        opengame.getPlantMarket().getOpenActual().add(factory.newPlant(456, Plant.Type.Eco, 10, 10));
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player1);
+
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().sequential().filter(Move -> Move.getType() == MoveType.PassAuction).collect(Collectors.toList());
+        Move move = moves.get(0);
+        assertSame(move.getProperties().getProperty("type"), MoveType.PassAuction.toString());
+        assertSame(move.getProperties().getProperty("player"), player.getColor() );
+    }
+
+    @Test
     public void testPassAuctionFire() {
         // arrange
         OpenGame opengame = (OpenGame) sut.getGame();
         opengame.setPhase(Phase.PlantBuying);
         OpenFactory factory = opengame.getFactory();
 
+
+        //player
         OpenPlayer player = factory.newPlayer("Hihi", "red");
-        OpenPlayer player1 = factory.newPlayer("Hihi", "bulb");
-        //player.getOpenPlants().add(factory.newPlant(6666, Plant.Type.Coal, 3, 3));
-        player1.setPassed(false);
         player.getOpenCities().add(factory.newCity("Testhausen", 666));
         player.getOpenPlants().add(factory.newPlant(666, Plant.Type.Coal, 3, 3));
         player.setPassed(false);
         player.setElectro(10);
 
+        //player1
+        OpenPlayer player1 = factory.newPlayer("NOOO", "bulb");
+        player1.setPassed(false);
+        player1.setElectro(1000);
+        player1.getOpenPlants().add(factory.newPlant(333, Plant.Type.Coal, 10, 10));
 
+
+        opengame.getPlantMarket().getOpenActual().add(factory.newPlant(456, Plant.Type.Eco, 10, 10));
         opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player1);
 
         // act
         final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
-        assertEquals(1 , haveMove.size());
-        assertEquals(MoveType.PassAuction, haveMove.stream().findFirst().get().getType());
+        List<Move> moves = haveMove.stream().sequential().filter(Move -> Move.getType() == MoveType.PassAuction).collect(Collectors.toList());
+        assertEquals(moves.size(), 1);
 
-        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), haveMove.iterator().next());
-        // assert
-        //assertTrue(player.hasPassed());
+        Optional<Problem> problem =  sut.fire(Optional.of("Hihi"), moves.get(0));
+
         assertTrue(problem.isEmpty());
     }
 

@@ -7,7 +7,6 @@ import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlant;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.RandomSource;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class SortingRandom implements RandomSource {
      * @param plants Liste mit Kraftwerken, die diese Methode neu anordnet.
      */
     @Override public void shufflePlants(List<OpenPlant> plants) {
-        Collections.sort(plants, Comparator.comparingInt(Plant::getNumber));
+        plants.sort(Comparator.comparingInt(Plant::getNumber));
     }
 
     /**
@@ -30,7 +29,7 @@ public class SortingRandom implements RandomSource {
      * @param players Liste mit Spielern, die diese Methode neu anordnet.
      */
     @Override public void shufflePlayers(List<OpenPlayer> players) {
-        Collections.sort(players,Comparator.comparing(Player::getColor));
+        players.sort(Comparator.comparing(Player::getColor));
     }
 
     @Override public String babbled(String base) {

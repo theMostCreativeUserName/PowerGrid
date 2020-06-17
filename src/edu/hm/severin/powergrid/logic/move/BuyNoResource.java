@@ -13,7 +13,10 @@ import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
-class BuyNoResource implements HotMove {
+/**
+ * Move: Player bought no Resource.
+ */
+class BuyNoResource extends AbstractProperties implements HotMove {
 
     /**
      * Used game.
@@ -50,8 +53,8 @@ class BuyNoResource implements HotMove {
         Objects.requireNonNull(game);
         if (game.getPhase() != Phase.ResourceBuying)
             return Optional.of(Problem.NotNow);
-        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(OpenPlayer -> !OpenPlayer.hasPassed()).sequential().collect(Collectors.toList());
-        if (allRemainingPlayer.size() == 0)
+        final List<OpenPlayer> allRemainingPlayer = game.getOpenPlayers().stream().filter(openPlayer -> !openPlayer.hasPassed()).sequential().collect(Collectors.toList());
+        if (allRemainingPlayer.isEmpty())
             return Optional.of(Problem.NotYourTurn);
         final OpenPlayer lastPlayerOfList = allRemainingPlayer.get(allRemainingPlayer.size() - 1);
         if (!lastPlayerOfList.equals(player.get()))
@@ -62,6 +65,8 @@ class BuyNoResource implements HotMove {
             player.get().setPassed(true);
 
         }
+        setProperty("type", getType().toString());
+        setProperty("player", player.get().getColor());
         return Optional.empty();
     }
 

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 /**
  * Ein Spielzug.
  * @author R. Schiedermeier, rs@cs.hm.edu
- * @version last modified 2020-05-15
+ * @version last modified 2020-04-30
  */
 public interface Move {
     /**

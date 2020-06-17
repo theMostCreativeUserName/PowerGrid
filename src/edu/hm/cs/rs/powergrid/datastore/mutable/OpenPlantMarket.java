@@ -4,6 +4,7 @@ import edu.hm.cs.rs.powergrid.datastore.Plant;
 import edu.hm.cs.rs.powergrid.datastore.PlantMarket;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -52,5 +53,11 @@ public interface OpenPlantMarket extends PlantMarket, Checksumed {
 
     @Override default Set<Plant> getFuture() {
         return Collections.unmodifiableSet(getOpenFuture());
+    }
+
+    @Override default int checksum() {
+        return Objects.hash(Checksumed.checksumOf(getOpenActual()),
+                            Checksumed.checksumOf(getOpenFuture()),
+                            Checksumed.checksumOf(getOpenHidden()));
     }
 }

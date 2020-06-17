@@ -24,15 +24,17 @@ public interface City extends Comparable<City> {
     /**
      * Verbindungen zu anderen Staedten.
      * Veraenderlich bis zum ersten close-Aufruf, dann unveraenderlich.
-     * @return Verbindungen. Nicht null und nicht leer.
+     * @return Verbindungen. Nicht null.
+     * Nicht leer bei geschlossenen Staeten.
      * Jeder Eintrag bildet eine andere Stadt auf die Verbindungskosten dort hin ab.
      */
     Map<City, Integer> getConnections();
 
     /**
      * Schliesst die Verbindungen dieser Stadt ab.
-     * connect-Aufrufe sind nicht mehr erlaubt, dafuer getConnections.
-     * @throws IllegalStateException wenn die Stadt geschlossen ist.
+     * connect-Aufrufe sind nicht mehr erlaubt.
+     * @throws IllegalStateException wenn die Stadt geschlossen ist
+     * oder keine Verbindungen hat.
      */
     void close();
 }

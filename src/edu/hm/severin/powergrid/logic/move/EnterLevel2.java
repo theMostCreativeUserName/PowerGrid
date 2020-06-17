@@ -2,23 +2,20 @@ package edu.hm.severin.powergrid.logic.move;
 
 import edu.hm.cs.rs.powergrid.datastore.Phase;
 import edu.hm.cs.rs.powergrid.datastore.Plant;
-import edu.hm.cs.rs.powergrid.datastore.Player;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenGame;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenPlayer;
 import edu.hm.cs.rs.powergrid.logic.MoveType;
 import edu.hm.cs.rs.powergrid.logic.Problem;
 import edu.hm.cs.rs.powergrid.logic.move.HotMove;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * enter level 2.
  */
-public class EnterLevel2 implements HotMove {
+public class EnterLevel2 extends AbstractProperties implements HotMove {
     /**
      * the game.
      */
@@ -47,7 +44,7 @@ public class EnterLevel2 implements HotMove {
         if (game.getLevel() != 0)
             return Optional.of(Problem.WrongLevel);
 
-        final Integer highestAmountOfCities = game.getOpenPlayers().stream().map(OpenPlayer -> OpenPlayer.getOpenCities().size()).max(Integer::compare).get();
+        final Integer highestAmountOfCities = game.getOpenPlayers().stream().map(openPlayer -> openPlayer.getOpenCities().size()).max(Integer::compare).get();
         final int neededCities = game.getEdition().getPlayersLevel2Cities().get(game.getOpenPlayers().size());
         if (highestAmountOfCities < neededCities)
             return Optional.of(Problem.NoCities);
@@ -58,6 +55,7 @@ public class EnterLevel2 implements HotMove {
             final int numberOfSmallestPlant = game.getPlantMarket().getOpenActual().stream().map(Plant::getNumber).min(Integer::compareTo).get();
             game.getPlantMarket().removePlant(numberOfSmallestPlant);
         }
+        setProperty("type", getType().toString());
         return Optional.empty();
     }
 

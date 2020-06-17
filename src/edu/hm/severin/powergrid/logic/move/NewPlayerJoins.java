@@ -16,7 +16,7 @@ import java.util.Set;
  * creates a new player for the Game-Session.
  * @author Severin
  */
-class NewPlayerJoins implements HotMove {
+class NewPlayerJoins extends AbstractProperties implements HotMove {
     /**
      * the game.
      */
@@ -29,6 +29,10 @@ class NewPlayerJoins implements HotMove {
         game = null;
     }
 
+    /**
+     * Non-Prototype - CTor.
+     * @param game game of the move
+     */
     private NewPlayerJoins(OpenGame game) {
         this.game = game;
     }
@@ -57,6 +61,7 @@ class NewPlayerJoins implements HotMove {
             game.getOpenPlayers().add(player);
             //game.getPlayers().add(player);
         }
+        setProperty("type", getType().toString());
         return Optional.empty();
     }
 

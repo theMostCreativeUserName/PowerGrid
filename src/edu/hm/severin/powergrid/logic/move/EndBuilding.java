@@ -19,7 +19,7 @@ import java.util.Set;
  * player connects cities and end their turn.
  * @author Pietsch
  */
-class EndBuilding implements HotMove {
+class EndBuilding extends AbstractProperties implements HotMove {
 
     /**
      * Used game.
@@ -52,10 +52,9 @@ class EndBuilding implements HotMove {
 
        if (real) {
            game.setPhase(Phase.PlantOperation);
-           for (OpenPlayer player : players ) {
-               player.setPassed(false);
-           }
+           players.forEach(openPlayer -> openPlayer.setPassed(false));
        }
+       setProperty("type", getType().toString());
        return Optional.empty();
    }
 

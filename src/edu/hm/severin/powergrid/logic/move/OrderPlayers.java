@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author Severin
  */
-public class OrderPlayers implements HotMove {
+public class OrderPlayers extends AbstractProperties implements HotMove {
     /** the game of this session.**/
     private final OpenGame game;
 
@@ -58,8 +58,12 @@ public class OrderPlayers implements HotMove {
 
                 game.getOpenPlayers().clear();
                 game.getOpenPlayers().addAll(list);
+                game.getOpenPlayers().forEach(openPlayer -> openPlayer.setPassed(false));
+
             }
+            game.setPhase(Phase.PlantBuying);
         }
+        setProperty("type", getType().toString());
         return Optional.empty();
     }
 
@@ -70,7 +74,6 @@ public class OrderPlayers implements HotMove {
 
     @Override
     public Set<HotMove> collect(OpenGame openGame, Optional<OpenPlayer> player) {
-        if (player.isPresent()) return Set.of();
         if (this.game != null) throw new IllegalStateException("this is not a prototype!");
         final HotMove move = new OrderPlayers(openGame);
         Set<HotMove> result;

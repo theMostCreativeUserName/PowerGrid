@@ -1,7 +1,6 @@
 
 package edu.hm.severin.powergrid.datastore;
 
-
 import edu.hm.cs.rs.powergrid.datastore.City;
 import edu.hm.cs.rs.powergrid.datastore.mutable.OpenCity;
 
@@ -11,9 +10,9 @@ import java.util.Objects;
 
 /**
  * a city of the game.
+ *
  * @author Severin, pietsch
- * @complexity: 14
- * */
+ */
 public class NeutralCity implements OpenCity {
     /**
      * Name of city.
@@ -35,17 +34,19 @@ public class NeutralCity implements OpenCity {
     /**
      * connections of this city.
      */
-    private final  Map<City, Integer> connections = new HashMap<>();
+    private final Map<City, Integer> connections = new HashMap<>();
 
     /**
      * a new city.
+     *
      * @param name Name of City. Not null; not empty
      * @param area Area of City. Bigger 0
-     * @complexity: 3
      */
     NeutralCity(final String name, final int area) {
         if (name.isEmpty())
             throw new IllegalArgumentException("name of city is invalid");
+        if(!Character.isLetter(name.charAt(0)))
+            throw new IllegalArgumentException("name starts with letter");
         if (area < 1)
             throw new IllegalArgumentException("area of city is invalid");
         this.name = name;
@@ -55,51 +56,59 @@ public class NeutralCity implements OpenCity {
 
     /**
      * Name getter.
+     *
      * @return name
      */
     @Override
     public String getName() {
-        isCityOpen();
         return name;
     }
 
     /**
      * Region getter.
+     *
      * @return region
      */
     @Override
     public int getRegion() {
-        isCityOpen();
         return area;
     }
 
     /**
      * connects two cities.
-     * @complexity: 4
-     * @param cost cost of the connection
+     *
+     * @param cost   cost of the connection
      * @param toCity City to connect to
      */
     @Override
     public void connect(final City toCity, final int cost) {
-        isCityOpen();
+        if (open) {
             Objects.requireNonNull(toCity);
-            if (toCity == this || cost < 0){
-                throw new IllegalArgumentException("city or cost are invalid");
+            if (toCity ==  this) {
+                throw new IllegalArgumentException("city is invalid");
             }
+            if(cost < 0)
+                throw new IllegalArgumentException("cost is invalid");
             if (getOpenConnections().containsKey(toCity))
                 throw new IllegalArgumentException("connection exists already");
             getOpenConnections().put(toCity, cost);
+        } else throw new IllegalStateException("city is closed already");
+
         assert toCity.getConnections() != null;
     }
 
     /**
      * Connection Getter.
+     *
      * @return connections
      */
     @Override
     public Map<City, Integer> getOpenConnections() {
-        isCityOpen();
-        return connections;
+        Map<City, Integer> result = connections;
+        if(!open) {
+            result = Map.copyOf(connections);
+        }
+        return result;
     }
 
     /**
@@ -107,12 +116,16 @@ public class NeutralCity implements OpenCity {
      */
     @Override
     public void close() {
-        isCityOpen();
+        if (this.getConnections().isEmpty()) throw new IllegalStateException("city has no connections");
+        if (!open) {
+            throw new IllegalStateException("Board is closed");
+        }
         open = false;
     }
 
     /**
      * new toString for better testing.
+     *
      * @return city.toString()
      */
     @Override
@@ -120,18 +133,9 @@ public class NeutralCity implements OpenCity {
         return getName() + " " + getRegion();
     }
 
-    /**
-     * new compareTo, sort cities after name in alphabetic order.
-     * @param other Other City to compare with
-     * @return Comparevalue (- this is first, 0 this is same as other, + other is first.)
-     */
-
+    // SpotBugs: Medium Confidence Bad Practise because of not implementing equals, which isn´t needed
     @Override
     public int compareTo(City other) {
-        return this.getName().compareTo(other.getName());
-    }
-
-    private void isCityOpen(){
-        if(!open) throw new UnsupportedOperationException();
+        return this.getName().compareToIgnoreCase(other.getName());
     }
 }

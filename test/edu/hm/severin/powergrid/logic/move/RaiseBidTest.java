@@ -258,6 +258,54 @@ public class RaiseBidTest {
     }
 
     @Test
+    public void testRaiseBidPrototype() {
+        // arrange
+        OpenGame opengame = (OpenGame) sut.getGame();
+        opengame.setPhase(Phase.Building);
+        OpenFactory factory = opengame.getFactory();
+
+        opengame.setPhase(Phase.PlantAuction);
+
+        //Player
+        OpenPlayer player = factory.newPlayer("Hihi", "red");
+        player.setElectro(200);
+        player.setPassed(false);
+
+        OpenPlayer player2 = factory.newPlayer("NOOOOO", "blue");
+        player2.setElectro(200);
+        player.setPassed(false);
+
+        OpenPlayer player3 = factory.newPlayer("Rainbow", "pink");
+        player3.setElectro(200);
+        player.setPassed(false);
+
+        opengame.getOpenPlayers().add(player);
+        opengame.getOpenPlayers().add(player2);
+        opengame.getOpenPlayers().add(player3);
+
+        //Auction
+        List<OpenPlayer> players = new ArrayList<>();
+        players.add(player);
+        players.add(player2);
+        players.add(player3);
+        OpenAuction auction = factory.newAuction(factory.newPlant(30, Plant.Type.Coal, 2, 3), players);
+        opengame.setAuction(auction);
+        auction.setPlayer(player2);
+        auction.setAmount(110);
+
+        List<OpenPlayer> players2 = new ArrayList<>();
+        players2.add(player2);
+        players2.add(player3);
+        players2.add(player);
+        // act
+        final Set<Move> haveMove = sut.getMoves(Optional.of("Hihi"));
+        List<Move> moves = haveMove.stream().filter(Move -> Move.getType() == MoveType.RaiseBid).collect(Collectors.toList());
+        Move move = moves.get(0);
+        assertSame(move.getProperties().getProperty("type"), MoveType.RaiseBid.toString());
+        assertSame(move.getProperties().getProperty("player"), player.getColor() );
+    }
+
+    @Test
     public void testRaiseBidFire() {
         // arrange
         OpenGame opengame = (OpenGame) sut.getGame();
