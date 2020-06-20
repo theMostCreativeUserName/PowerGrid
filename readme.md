@@ -127,11 +127,8 @@ Nun könnt ihr in den Run-cofigurations (Drop-Down neben dem grünen Run-Pfeil) 
 ## 9. Prüfen der Abgaben
 An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen Suchen) keine Möglichkeit gefunden die auftretenden Probleme zu lösen. Diese wurden aber mit einem Kommentar markiert.
 
-### Anmerkungen:
-1. ToString überarbeitungen siehe unten 8.xx
-1. DropPlant und DropResource testen (per Hotseat?)
 
-### Version 1.15 / BER - Abgenommen
+### Version 1.15 / BER - Abgenommen || Bekommt keine Updates mehr.
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
 | JavaDoc                   |    Ja   |   Ja  |  Ja   |  Ja   |
@@ -145,92 +142,92 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | Externe Tests             |    Ja   |  Ja    |  Ja    |  Ja    |
 
 
-### Version2.19 / Nyancat
+### Version2.23 / Nyancat
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja  |  Ja    |      |   Ja    |
-| PMD                       |    Ja   |   Ja   |      |    Ja   |
-| Checkstyle                |    Ja   |   Ja   |      |  Ja     |
-| IntelliJ Line Coverage    |    Ja   |   Ja   |      |   Ja     |
-| JaCoCo Line Coverage      |    Ja   |  Ja    |      |   Ja    |
-| Mutations                 |    Ja   |  Ja    |      |  Ja      |
-| CCN Class                 |    Ja   |  Ja    |      |  Ja      |
-| CCN Methods               |    Ja   |  Ja    |      |   Ja     |
-| Spotbugs               |    Ja   |  Ja    |      |   Ja     |
-| Externe Tests             |    Ja   |   Ja   |      |   Ja     |
+| JavaDoc                   |    Ja  |  Ja    |      |      |
+| PMD                       |    Ja   |   Ja   |      |       |
+| Checkstyle                |    Ja   |   Ja   |      |       |
+| IntelliJ Line Coverage    |    Ja   |   Ja   |      |        |
+| JaCoCo Line Coverage      |    Ja   |  Ja    |      |       |
+| Mutations                 |    Ja   |  Ja    |      |        |
+| CCN Class                 |    Ja   |  Ja    |      |        |
+| CCN Methods               |    Ja   |  Ja    |      |        |
+| Spotbugs               |    Ja   |  Ja    |      |        |
+| Externe Tests             |    Ja   |   Ja   |      |        |
 
 
-### Version3.19 / Berlin - (3.17 Abgenommen)
+### Version3.23 / Berlin - (3.17 Abgenommen) || Wurde schon abgenommen.
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |  Ja    |      |  Ja      |
-| PMD                       |    Ja   |  Ja    |      |   Ja     |
-| Checkstyle                |    Ja   |  Ja    |      |   Ja     |
-| IntelliJ Line Coverage    |    Ja   |  Ja    |      |   Ja     |
-| JaCoCo Line Coverage      |    Ja   |  Ja    |      |   Ja    |
-| Mutations                 |    Ja   |  Ja    |      |   Ja     |
-| CCN Class                 |    Ja   |  Ja    |      |   Ja     |
-| CCN Methods               |    Ja   |  Ja    |      |    Ja    |
-| Spotbugs               |    Ja   |   Ja   |      |   Ja     |
-| Externe Tests             |    Ja   |   Ja   |      |   Ja     |
+| JavaDoc                   |  Ja     | Ja   |    |     |
+| PMD                       |  Ja     | Ja   |    |     |
+| Checkstyle                |  Ja     | Ja   |    |     |
+| IntelliJ Line Coverage    |  Ja     | Ja   |    |     |
+| JaCoCo Line Coverage      |  Ja     | Ja   |    |     |
+| Mutations                 |  Ja     | Ja   |    |     |
+| CCN Class                 |  Ja     | Ja   |    |     |
+| CCN Methods               |  Ja     | Ja   |    |     |
+| Spotbugs               |  Ja     | Ja   |    |     |
+| Externe Tests             |  Ja     | Ja   |    |     |
 
-### Version4.19 / Pikachu
+### Version4.23 / Pikachu
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |  Ja    |      |  Ja      |
-| PMD                       |    Ja   |  Ja    |      |   Ja     |
-| Checkstyle                |    Ja   |  Ja    |      |   Ja     |
-| IntelliJ Line Coverage    |    Ja   |  Ja    |      |   Ja     |
-| JaCoCo Line Coverage      |    Ja   |  Ja    |      |    Ja   |
-| Mutations                 |    Ja   |  Ja    |      |   Ja     |
-| CCN Class                 |    Ja   |  Ja    |      |   Ja     |
-| CCN Methods               |    Ja   |  Ja    |      |   Ja     |
-| Spotbugs               |    Ja   |   Ja   |      |   Ja     |
-| Externe Tests             |    Ja   |   Ja   |      |   Ja     |
+| JavaDoc                   |  Ja     | Ja   |    |     |
+| PMD                       |  Ja     | Ja   |    |     |
+| Checkstyle                |  Ja     | Ja   |    |     |
+| IntelliJ Line Coverage    |  Ja     | Ja   |    |     |
+| JaCoCo Line Coverage      |  Ja     | Ja   |    |     |
+| Mutations                 |  Ja     | Ja   |    |     |
+| CCN Class                 |  Ja     | Ja   |    |     |
+| CCN Methods               |  Ja     | Ja   |    |     |
+| Spotbugs               |  Ja     | Ja   |    |     |
+| Externe Tests             |  Ja     | Ja   |    |     |
 
-### Version5.19 / Lasagne
+### Version5.23 / Lasagne
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |  Ja    |      |   Ja     |
-| PMD                       |    Ja   |  Ja    |      |  Ja      |
-| Checkstyle                |    Ja   |  Ja    |      |   Ja     |
-| IntelliJ Line Coverage    |    Ja   |  Ja    |      |   Ja     |
-| JaCoCo Line Coverage      |    Ja   |  Ja    |      |  Ja     |
-| Mutations                 |    Ja   |  Ja    |      |   Ja     |
-| CCN Class                 |    Ja   |  Ja    |      |    Ja    |
-| CCN Methods               |    Ja   |  Ja    |      |   Ja     |
-| Spotbugs               |    Ja   |   Ja   |      |   Ja     |
-| Externe Tests             |    Ja   |   Ja   |      |  Ja     |
+| JavaDoc                   |  Ja     | Ja   |    |     |
+| PMD                       |  Ja     | Ja   |    |     |
+| Checkstyle                |  Ja     | Ja   |    |     |
+| IntelliJ Line Coverage    |  Ja     | Ja   |    |     |
+| JaCoCo Line Coverage      |  Ja     | Ja   |    |     |
+| Mutations                 |  Ja     | Ja   |    |     |
+| CCN Class                 |  Ja     | Ja   |    |     |
+| CCN Methods               |  Ja     | Ja   |    |     |
+| Spotbugs               |  Ja     | Ja   |    |     |
+| Externe Tests             |  Ja     | Ja   |    |     |
 
-### Version6.19 / Ryuk
+### Version6.23 / Ryuk
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |  Ja    |      |  Ja      |
-| PMD                       |    Ja   |  Ja    |      |  Ja      |
-| Checkstyle                |    Ja   |  Ja    |      |   Ja     |
-| IntelliJ Line Coverage    |    Ja   |  Ja    |      |   Ja     |
-| JaCoCo Line Coverage      |    Ja   |  Ja    |      |   Ja    |
-| Mutations                 |    Ja   |  Ja    |      |   Ja     |
-| CCN Class                 |    Ja   |  Ja    |      |   Ja     |
-| CCN Methods               |    Ja   |  Ja    |      |   Ja     |
-| Spotbugs               |    Ja   |   Ja   |      |    Ja    |
-| Externe Tests             |    Ja   |   Ja   |      |   Ja     |
+| JavaDoc                   |  Ja     | Ja   |    |     |
+| PMD                       |  Ja     | Ja   |    |     |
+| Checkstyle                |  Ja     | Ja   |    |     |
+| IntelliJ Line Coverage    |  Ja     | Ja   |    |     |
+| JaCoCo Line Coverage      |  Ja     | Ja   |    |     |
+| Mutations                 |  Ja     | Ja   |    |     |
+| CCN Class                 |  Ja     | Ja   |    |     |
+| CCN Methods               |  Ja     | Ja   |    |     |
+| Spotbugs               |  Ja     | Ja   |    |     |
+| Externe Tests             |  Ja     | Ja   |    |     |
 
-### Version7.22 / Rainbow
+### Version7.23 / Rainbow
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
 | ---                       | ---       | ---       | ---       | ---       |
-| JavaDoc                   |    Ja   |  Ja    |      |  Ja      |
-| PMD                       |    Ja   |  Ja    |      |   Ja     |
-| Checkstyle                |    Ja   |  Ja    |      |    Ja    |
-| IntelliJ Line Coverage    |    Ja   |  Ja    |      |    Ja    |
-| JaCoCo Line Coverage      |    Ja   |  Ja    |      |   Ja    |
-| Mutations                 |    Ja   |  Ja    |      |   Ja     |
-| CCN Class                 |    Ja   |  Ja    |      |   Ja     |
-| CCN Methods               |    Ja   |  Ja    |      |   Ja     |
-| Spotbugs               |    Ja   |   Ja   |      |    Ja    |
-| Externe Tests             |    Ja   |   Ja   |      |    Ja    |
+| JavaDoc                   |  Ja     | Ja   |    |     |
+| PMD                       |  Ja     | Ja   |    |     |
+| Checkstyle                |  Ja     | Ja   |    |     |
+| IntelliJ Line Coverage   |  Ja     | Ja   |    |     |
+| JaCoCo Line Coverage      |  Ja     | Ja   |    |     |
+| Mutations                 |  Ja     | Ja   |    |     |
+| CCN Class                 |  Ja     | Ja   |    |     |
+| CCN Methods               |  Ja     | Ja   |    |     |
+| Spotbugs               |  Ja     | Ja   |    |     |
+| Externe Tests             |  Ja     | Ja   |    |     |
 
-### Version8.22 / Kaffee
+### Version8.23 / Kaffee
 #### Sonderfall:
 
 | Art der Testung           | Phillip   | Severin   | Teresa   | Tobias    |
@@ -249,10 +246,10 @@ An manchen Stellen in dem Code ist es nicht möglich (oder haben wir nach langen
 | ---                       | ---       | 
 | Bericht KW 24             |  Pietsch      | 
 | Mehr Tests für 6.x        |  Pietsch siehe x.17 Versionen   | 
-| ABC Klassen               |              | 
-| toString / properties     |  Severin, Pietsch  --> funkt, aber resource, resources brauchen andere toStrings   | 
-| Tests für ABC, toString   |              |
-|Logik überprüfen           | | |
+| ABC Klassen               |  Severin, Pietsch, Auerbach, Schachtner --> siehe x.23            | 
+| toString / properties     |  Severin, Pietsch  --> siehe x.23, und vorher   | 
+| Tests für ABC, toString   |  Severin, Pietsch --> siehe x.23            |
+|Logik überprüfen           |  Severin, Pietsch --> x.23 ff |
 | Noch nicht integrierte JD Kommentare finden und ergänzen | |
 
 #Danach folgende Tests
